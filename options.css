@@ -1,0 +1,34 @@
+html {
+    min-width: 700px;
+    min-height: 500px;
+}
+
+body {
+    width: 100%;
+    margin: 0;
+}
+
+div#contents {
+    position: inherit;
+}
+
+div#rule_template {
+    display: none;
+}
+
+input[name='keydown'] {
+    display: none;
+}
+
+div#contents::after {
+    content: '';
+    display: block;
+    height: 50px;
+}
+
+div#footer {
+    background-color: darkgray;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
