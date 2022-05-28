@@ -16,6 +16,14 @@ Mouse gesture extension for Chrome browser
 1. page up/down scroll factor (0 - 1)
     * amount of moving when page up/down action
         * example: `0.9`
+1. drag tracking activation
+    * show lines on the screen while drag the mouse
+1. action preview activation
+    * show which action will be executed on the preview action text field
+1. action preview text x offset from mouse curser
+    * x axis distance from mouse curser to action preview text field (unit: px)
+1. action preview text y offset from mouse curser
+    * y axis distance from mouse curser to action preview text field (unit: px)
 1. rules
     * which action should be executed by the gesture depends on the domain
     * if the domain exists for a gesture then execute the action, else none of the domain is matching then execute action for `*`
