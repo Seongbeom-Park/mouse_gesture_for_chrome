@@ -16,6 +16,14 @@
 1. page up/down scroll factor (>= 0)
     * page up/down 동작 시 페이지가 움직이는 정도
         * 예시: `0.9`
+1. drag tracking activation
+    * 마우스 우클릭 상태로 움직인 경로를 화면에 보여주는 기능 활성화 여부
+1. action preview activation
+    * 실행 될 action을 미리 보여주는 action preview 기능 활성화 여부
+1. action preview text x offset from mouse curser
+    * 마우스 커서로부터 action preview이 x 축 방향으로 떨어져 있는 거리 (단위: px)
+1. action preview text y offset from mouse curser
+    * 마우스 커서로부터 action preview이 y 축 방향으로 떨어져 있는 거리 (단위: px)
 1. rules
     * 도메인 별 제스쳐에 따른 동작을 정의
     * 어떤 제스처에 일치하는 도메인이 있을 경우 해당 동작을 실행하며, 일치하는 도메인이 없는 경우 `*`에 해당하는 동작을 실행함

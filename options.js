@@ -1,6 +1,10 @@
 threshold_angle_form_element = document.getElementById('threshold_angle');
 sampling_period_form_element = document.getElementById('sampling_period');
 scroll_factor_form_element = document.getElementById('scroll_factor');
+use_draw_line_form_element = document.getElementById('use_draw_line');
+use_action_preview_form_element = document.getElementById('use_action_preview');
+action_preview_x_offset_form_element = document.getElementById('action_preview_x_offset');
+action_preview_y_offset_form_element = document.getElementById('action_preview_y_offset');
 gestures_form_element = document.getElementById('gestures');
 rule_template_element = document.getElementById('rule_template');
 keydown_template_element = rule_template_element.querySelector('input[name=keydown]');
@@ -107,6 +111,16 @@ saveOptions = () => {
     if (scroll_factor){
         options['scroll_factor'] = scroll_factor;
     }
+    options['use_draw_line'] = use_draw_line_form_element.checked;
+    options['use_action_preview'] = use_action_preview_form_element.checked;
+    const action_preview_x_offset = Number(action_preview_x_offset_form_element.value);
+    if (action_preview_x_offset) {
+        options['action_preview_x_offset'] = action_preview_x_offset;
+    }
+    const action_preview_y_offset = Number(action_preview_y_offset_form_element.value);
+    if (action_preview_y_offset) {
+        options['action_preview_y_offset'] = action_preview_y_offset;
+    }
 
     chrome.storage.sync.set(options);
 }
@@ -158,6 +172,10 @@ loadOptions().then((options) => {
     threshold_angle_form_element.setAttribute('value', threshold_angle);
     sampling_period_form_element.setAttribute('value', sampling_period);
     scroll_factor_form_element.setAttribute('value', scroll_factor);
+    use_draw_line_form_element.checked = use_draw_line;
+    use_action_preview_form_element.checked = use_action_preview;
+    action_preview_x_offset_form_element.setAttribute('value', action_preview_x_offset);
+    action_preview_y_offset_form_element.setAttribute('value', action_preview_y_offset);
 
     document.getElementById('add_gesture').onclick = addGestureInput();
     document.getElementById('update').onclick = saveOptions;
