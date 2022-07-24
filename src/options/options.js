@@ -1,15 +1,17 @@
-threshold_angle_form_element = document.getElementById('threshold_angle');
-sampling_period_form_element = document.getElementById('sampling_period');
-scroll_factor_form_element = document.getElementById('scroll_factor');
-use_draw_line_form_element = document.getElementById('use_draw_line');
-use_action_preview_form_element = document.getElementById('use_action_preview');
-action_preview_x_offset_form_element = document.getElementById('action_preview_x_offset');
-action_preview_y_offset_form_element = document.getElementById('action_preview_y_offset');
-gestures_form_element = document.getElementById('gestures');
-rule_template_element = document.getElementById('rule_template');
-keydown_template_element = rule_template_element.querySelector('input[name=keydown]');
+import { loadOptions, sampling_period, threshold_angle, scroll_factor, use_draw_line, use_action_preview, action_preview_x_offset, action_preview_y_offset } from '@content_scripts/load_options';
 
-onSelectKeydownOption = (id, value) => {
+const threshold_angle_form_element = document.getElementById('threshold_angle');
+const sampling_period_form_element = document.getElementById('sampling_period');
+const scroll_factor_form_element = document.getElementById('scroll_factor');
+const use_draw_line_form_element = document.getElementById('use_draw_line');
+const use_action_preview_form_element = document.getElementById('use_action_preview');
+const action_preview_x_offset_form_element = document.getElementById('action_preview_x_offset');
+const action_preview_y_offset_form_element = document.getElementById('action_preview_y_offset');
+const gestures_form_element = document.getElementById('gestures');
+const rule_template_element = document.getElementById('rule_template');
+const keydown_template_element = rule_template_element.querySelector('input[name=keydown]');
+
+const onSelectKeydownOption = (id, value) => {
     const rule_element = document.getElementById(id);
     const keydown_input_element = rule_element.querySelector('input[name=keydown]');
     switch (value) {
@@ -22,7 +24,7 @@ onSelectKeydownOption = (id, value) => {
     }
 }
 
-parseKeyboardEvent = ({ctrlKey, altKey, shiftKey, key, code}) => {
+const parseKeyboardEvent = ({ctrlKey, altKey, shiftKey, key, code}) => {
     var value = '';
     if (ctrlKey) value += 'Ctrl + ';
     if (shiftKey) value += 'Shift + ';
@@ -33,7 +35,7 @@ parseKeyboardEvent = ({ctrlKey, altKey, shiftKey, key, code}) => {
     return value;
 }
 
-onKeydownEvent = (keydown_input_element, keyboard_event) => {
+const onKeydownEvent = (keydown_input_element, keyboard_event) => {
     keyboard_event.preventDefault();
 
     const {ctrlKey, altKey, shiftKey, key, code, keyCode} = keyboard_event;
@@ -41,12 +43,12 @@ onKeydownEvent = (keydown_input_element, keyboard_event) => {
     keydown_input_element.action_details = {ctrlKey, altKey, shiftKey, key, code, keyCode};
 }
 
-updateActionDetails = (keydown_input_element, value) => {
+const updateActionDetails = (keydown_input_element, value) => {
     if (!/^(Ctrl \+ )?(Shift \+ )?(Alt \+ )?('[A-Z0-9]')?$/.test(value)) keydown_input_element.value = '';
 }
 
-next_gesture_id = 0;
-createGestureInput = (url = '*', gesture = '', action = 'undefined', action_details) => {
+var next_gesture_id = 0;
+const createGestureInput = (url = '*', gesture = '', action = 'undefined', action_details) => {
     const id = next_gesture_id;
 
     const rule_element = rule_template_element.cloneNode(true);
@@ -80,19 +82,19 @@ createGestureInput = (url = '*', gesture = '', action = 'undefined', action_deta
     next_gesture_id += 1;
 }
 
-addGestureInput = () => {
+const addGestureInput = () => {
     return () => {
         createGestureInput();
     }
 }
 
-removeGestureInput = (id) => {
+const removeGestureInput = (id) => {
     return () => {
         document.getElementById(`rule_${id}`).remove();
     };
 }
 
-saveOptions = () => {
+const saveOptions = () => {
     const options = {}
 
     const rules = getUpdatedRules();
@@ -125,7 +127,7 @@ saveOptions = () => {
     chrome.storage.sync.set(options);
 }
 
-getUpdatedRules = () => {
+const getUpdatedRules = () => {
     const insain_rule_ids = [];
     const domains = {}
     for (var id = 0; id < next_gesture_id; id++) {
@@ -155,13 +157,13 @@ getUpdatedRules = () => {
     return false;
 }
 
-createCommendFormElement = (domain, gestures) => {
+const createCommendFormElement = (domain, gestures) => {
     Object.keys(gestures).forEach((gesture) => {
         createGestureInput(domain, gesture, gestures[gesture].action, gestures[gesture].action_details);
     });
 }
 
-reset = () => {
+const reset = () => {
     return chrome.storage.sync.set(default_options);
 }
 

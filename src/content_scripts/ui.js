@@ -1,6 +1,8 @@
-line_class_name = 'mouse_gesture_for_chrome_line';
+import { action_preview_x_offset, action_preview_y_offset } from '@content_scripts/load_options';
 
-createLineElement = (x, y, length, angle) => {
+const line_class_name = 'mouse_gesture_for_chrome_line';
+
+const createLineElement = (x, y, length, angle) => {
     var line = document.createElement("div");
     var styles = 'border: 1px solid black; '
                + 'width: ' + length + 'px; '
@@ -17,7 +19,7 @@ createLineElement = (x, y, length, angle) => {
     return line;
 }
 
-createLine = (x1, y1, x2, y2) => {
+export const createLine = (x1, y1, x2, y2) => {
     var a = x1 - x2,
         b = y1 - y2,
         c = Math.sqrt(a * a + b * b);
@@ -33,14 +35,14 @@ createLine = (x1, y1, x2, y2) => {
     document.body.appendChild(createLineElement(x, y, c, alpha));
 }
 
-removeLines = () => {
+export const removeLines = () => {
     [...document.getElementsByClassName(line_class_name)].forEach(e => e.remove());
 }
 
 
-let action_preview;
+var action_preview;
 
-setTextActionPreview = (action_text, x, y) => {
+export const setTextActionPreview = (action_text, x, y) => {
     if (action_preview) {
         action_preview.innerHTML = action_text ?? "";
     } else {
@@ -56,13 +58,13 @@ setTextActionPreview = (action_text, x, y) => {
     }
 }
 
-setPositionActionPreview = (x, y) => {
+export const setPositionActionPreview = (x, y) => {
     if (action_preview) {
         action_preview.style.left = x + action_preview_x_offset + 'px';
         action_preview.style.top = y + action_preview_y_offset + 'px';
     }
 }
 
-hideActionPreview = () => {
+export const hideActionPreview = () => {
     action_preview = action_preview?.remove();
 }

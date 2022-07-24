@@ -1,3 +1,7 @@
+import { updateOptions, loadOptions, gestures, use_action_preview, sampling_period, use_draw_line, threshold_angle } from '@content_scripts/load_options';
+import { action_map } from '@content_scripts/actions';
+import { createLine, removeLines, setTextActionPreview, setPositionActionPreview, hideActionPreview } from '@content_scripts/ui';
+
 var prevX, prevY;
 var menu_enabled = true;
 var move_event_count = 0;
@@ -6,7 +10,7 @@ var prev_token;
 
 var action_element = document.createElement('div');
 
-reset = (initX, initY) => {
+const reset = (initX, initY) => {
     prevX = initX;
     prevY = initY;
     menu_enabled = true;
@@ -15,11 +19,11 @@ reset = (initX, initY) => {
     prev_token = undefined;
 }
 
-disableContextMenu = (event) => {
+const disableContextMenu = (event) => {
     event.preventDefault();
 }
 
-onMouseDown = (event) => {
+const onMouseDown = (event) => {
     switch (event.button) {
         case 2: // mouse right button
             reset(event.pageX, event.pageY);
@@ -29,7 +33,7 @@ onMouseDown = (event) => {
     }
 }
 
-onMouseMove = (event) => {
+const onMouseMove = (event) => {
     if (use_action_preview) setPositionActionPreview(event.pageX, event.pageY);
 
     move_event_count += 1;
@@ -45,7 +49,7 @@ onMouseMove = (event) => {
 
     if (use_draw_line) createLine(prevX, prevY, event.pageX, event.pageY);
 
-    token = createToken(event.pageX, event.pageY);
+    const token = createToken(event.pageX, event.pageY);
     if (token !== prev_token) {
         gesture += token;
         if (use_action_preview) setTextActionPreview(gestures[gesture]?.action, event.pageX, event.pageY);
@@ -56,7 +60,7 @@ onMouseMove = (event) => {
     prev_token = token;
 }
 
-onMouseUp = (event) => {
+const onMouseUp = (event) => {
     switch (event.button) {
         case 2: // mouse right button
             removeLines();
@@ -67,8 +71,8 @@ onMouseUp = (event) => {
     }
 }
 
-createToken = (currX, currY) => {
-    angle = Math.atan((prevY - currY)/(prevX - currX)) * 180 / Math.PI;
+const createToken = (currX, currY) => {
+    const angle = Math.atan((prevY - currY)/(prevX - currX)) * 180 / Math.PI;
     if (prevX < currX) {
         if (angle > threshold_angle) {
             return 'D';
@@ -94,20 +98,20 @@ createToken = (currX, currY) => {
     }
 }
 
-executeGesture = (gesture) => {
+const executeGesture = (gesture) => {
     if (!(gesture in gestures)) return;
-    action = gestures[gesture].action;
+    const action = gestures[gesture].action;
     if (!action) return;
-    fn = action_map[action];
+    const fn = action_map[action];
     if (fn) fn(gestures[gesture].action_details);
 }
 
-enableGesture = () => {
+const enableGesture = () => {
     document.addEventListener('mousedown', onMouseDown);
     document.addEventListener('mouseup', onMouseUp);
 }
 
-disableGesture = () => {
+const disableGesture = () => {
     document.removeEventListener('mousedown', onMouseDown);
     document.removeEventListener('mouseup', onMouseUp);
 }

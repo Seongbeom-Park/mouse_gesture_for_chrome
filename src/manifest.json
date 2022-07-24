@@ -18,7 +18,7 @@
     "content_scripts": [
         {
             "matches": ["<all_urls>"],
-            "js": ["load_options.js", "actions.js", "ui.js", "gesture.js"]
+            "js": ["content_scripts.js"]
         }
     ],
     "options_page": "options.html",

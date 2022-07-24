@@ -1,7 +1,7 @@
-var domains, gestures, sampling_period, threshold_angle, scroll_factor;
-var use_draw_line, use_action_preview, action_preview_font_color, action_preview_background_color, action_preview_x_offset, action_preview_y_offset;
+export var domains, gestures, sampling_period, threshold_angle, scroll_factor;
+export var use_draw_line, use_action_preview, action_preview_font_color, action_preview_background_color, action_preview_x_offset, action_preview_y_offset;
 
-updateOptions = (options) => {
+export const updateOptions = (options) => {
     domains = options?.domains ?? domains;
     gestures = {...domains['*'], ...domains[document.domain]}
     threshold_angle = options?.threshold_angle ?? threshold_angle;
@@ -13,7 +13,7 @@ updateOptions = (options) => {
     action_preview_y_offset = options?.action_preview_y_offset ?? action_preview_y_offset;
 }
 
-loadOptions = () => chrome.storage.sync.get().then((options) => {
+export const loadOptions = () => chrome.storage.sync.get().then((options) => {
     updateOptions(options);
     return options;
 });
