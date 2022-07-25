@@ -177,7 +177,7 @@ action_preview_y_offset_form_element.setAttribute('value', store.action_preview_
 
 document.getElementById('add_gesture').onclick = addGestureInput();
 document.getElementById('update').onclick = saveOptions;
-document.getElementById('reset').onclick = store.reset;
+document.getElementById('reset').onclick = () => store.reset();
 document.getElementById('cancle').onclick = () => {
     location.reload();
 };
