@@ -1,7 +1,6 @@
-import { default_options } from '@common/default_config';
+import { default_options } from '@common/default_options';
 
 const getActiveTab = () => chrome.tabs.query({active: true, lastFocusedWindow: true}).then(tabs => tabs[0]);
-
 const restore = () => chrome.sessions.restore();
 const closeTab = () => getActiveTab().then((tab) => chrome.tabs.remove(tab.id));
 const goBack = () => getActiveTab().then((tab) => chrome.tabs.goBack(tab.id)).then(() => true).catch(() => false);
@@ -40,7 +39,7 @@ chrome.runtime.onInstalled.addListener((details) => {
             openOptions();
             break;
         case 'update':
-            chrome.storage.sync.get().then(options => {
+            chrome.storage.sync.get().then((options) => {
                 chrome.storage.sync.set({
                     ...default_options,
                     ...options,

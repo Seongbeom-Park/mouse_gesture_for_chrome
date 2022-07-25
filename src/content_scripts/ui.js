@@ -1,4 +1,4 @@
-import { action_preview_x_offset, action_preview_y_offset } from '@content_scripts/load_options';
+import { store } from '@content_scripts/store';
 
 const line_class_name = 'mouse_gesture_for_chrome_line';
 
@@ -52,16 +52,16 @@ export const setTextActionPreview = (action_text, x, y) => {
         action_preview.style.zIndex = 1000;
         action_preview.style.color = 'black';
         action_preview.style.backgroundColor = 'white';
-        action_preview.style.left = x + action_preview_x_offset + 'px';
-        action_preview.style.top = y + action_preview_y_offset + 'px';
+        action_preview.style.left = x + store.action_preview_x_offset + 'px';
+        action_preview.style.top = y + store.action_preview_y_offset + 'px';
         document.body.appendChild(action_preview);
     }
 }
 
 export const setPositionActionPreview = (x, y) => {
     if (action_preview) {
-        action_preview.style.left = x + action_preview_x_offset + 'px';
-        action_preview.style.top = y + action_preview_y_offset + 'px';
+        action_preview.style.left = x + store.action_preview_x_offset + 'px';
+        action_preview.style.top = y + store.action_preview_y_offset + 'px';
     }
 }
 

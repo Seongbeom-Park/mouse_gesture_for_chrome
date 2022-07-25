@@ -1,4 +1,4 @@
-import { loadOptions, sampling_period, threshold_angle, scroll_factor, use_draw_line, use_action_preview, action_preview_x_offset, action_preview_y_offset } from '@content_scripts/load_options';
+import { store } from '@content_scripts/store';
 
 const threshold_angle_form_element = document.getElementById('threshold_angle');
 const sampling_period_form_element = document.getElementById('sampling_period');
@@ -124,7 +124,7 @@ const saveOptions = () => {
         options['action_preview_y_offset'] = action_preview_y_offset;
     }
 
-    chrome.storage.sync.set(options);
+    store.set(options);
 }
 
 const getUpdatedRules = () => {
@@ -163,30 +163,25 @@ const createCommendFormElement = (domain, gestures) => {
     });
 }
 
-const reset = () => {
-    return chrome.storage.sync.set(default_options);
-}
+Object.keys(store.domains).forEach((domain) => {
+    createCommendFormElement(domain, store.domains[domain]);
+});
 
-loadOptions().then((options) => {
-    Object.keys(options.domains).forEach((domain) => {
-        createCommendFormElement(domain, options.domains[domain]);
-    });
-    threshold_angle_form_element.setAttribute('value', threshold_angle);
-    sampling_period_form_element.setAttribute('value', sampling_period);
-    scroll_factor_form_element.setAttribute('value', scroll_factor);
-    use_draw_line_form_element.checked = use_draw_line;
-    use_action_preview_form_element.checked = use_action_preview;
-    action_preview_x_offset_form_element.setAttribute('value', action_preview_x_offset);
-    action_preview_y_offset_form_element.setAttribute('value', action_preview_y_offset);
+threshold_angle_form_element.setAttribute('value', store.threshold_angle);
+sampling_period_form_element.setAttribute('value', store.sampling_period);
+scroll_factor_form_element.setAttribute('value', store.scroll_factor);
+use_draw_line_form_element.checked = store.use_draw_line;
+use_action_preview_form_element.checked = store.use_action_preview;
+action_preview_x_offset_form_element.setAttribute('value', store.action_preview_x_offset);
+action_preview_y_offset_form_element.setAttribute('value', store.action_preview_y_offset);
 
-    document.getElementById('add_gesture').onclick = addGestureInput();
-    document.getElementById('update').onclick = saveOptions;
-    document.getElementById('reset').onclick = reset;
-    document.getElementById('cancle').onclick = () => {
-        location.reload();
-    };
+document.getElementById('add_gesture').onclick = addGestureInput();
+document.getElementById('update').onclick = saveOptions;
+document.getElementById('reset').onclick = store.reset;
+document.getElementById('cancle').onclick = () => {
+    location.reload();
+};
 
-    chrome.storage.onChanged.addListener(() => {
-        location.reload();
-    });
+store.addOnChangedListener(() => {
+    location.reload();
 });

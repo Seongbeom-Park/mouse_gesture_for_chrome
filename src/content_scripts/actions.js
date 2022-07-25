@@ -1,4 +1,4 @@
-import { scroll_factor } from '@content_scripts/load_options';
+import { store } from '@content_scripts/store';
 
 const closeTab = () => chrome.runtime.sendMessage({gesture: 'closeTab'});
 const goBack = () => chrome.runtime.sendMessage({gesture: 'goBack'});
@@ -6,8 +6,8 @@ const goBackOrCloseTab = () => goBack().then((moved) => moved || closeTab());
 const goForward = () => history.forward();
 const scrollTop = () => window.scrollTo({left: document.documentElement.scrollLeft, top: 0, behavior: 'smooth'});
 const scrollBottom = () => window.scrollTo({left: document.documentElement.scrollLeft, top: document.documentElement.scrollHeight, behavior: 'smooth'});
-const pageDown = () => window.scrollBy({left: document.documentElement.scrollLeft, top: window.innerHeight * scroll_factor, behavior: 'smooth'});
-const pageUp = () => window.scrollBy({left: document.documentElement.scrollLeft, top: -window.innerHeight * scroll_factor, behavior: 'smooth'});
+const pageDown = () => window.scrollBy({left: document.documentElement.scrollLeft, top: window.innerHeight * store.scroll_factor, behavior: 'smooth'});
+const pageUp = () => window.scrollBy({left: document.documentElement.scrollLeft, top: -window.innerHeight * store.scroll_factor, behavior: 'smooth'});
 const restore = () => chrome.runtime.sendMessage({gesture: 'restore'});
 const keydown = (details) => document.dispatchEvent(new KeyboardEvent('keydown', details));
 const reload = () => chrome.runtime.sendMessage({gesture: 'reload'});

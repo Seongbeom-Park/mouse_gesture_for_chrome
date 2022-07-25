@@ -38,5 +38,8 @@ module.exports = {
       template: 'src/options/options.html',
       inject: false
     }),
-  ]
+  ],
+  experiments: {
+    topLevelAwait: true
+  }
 };

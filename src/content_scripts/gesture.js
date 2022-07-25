@@ -1,4 +1,4 @@
-import { updateOptions, loadOptions, gestures, use_action_preview, sampling_period, use_draw_line, threshold_angle } from '@content_scripts/load_options';
+import { store } from '@content_scripts/store';
 import { action_map } from '@content_scripts/actions';
 import { createLine, removeLines, setTextActionPreview, setPositionActionPreview, hideActionPreview } from '@content_scripts/ui';
 
@@ -34,10 +34,10 @@ const onMouseDown = (event) => {
 }
 
 const onMouseMove = (event) => {
-    if (use_action_preview) setPositionActionPreview(event.pageX, event.pageY);
+    if (store.use_action_preview) setPositionActionPreview(event.pageX, event.pageY);
 
     move_event_count += 1;
-    if (move_event_count < sampling_period) {
+    if (move_event_count < store.sampling_period) {
         return;
     }
     move_event_count = 0;
@@ -47,12 +47,12 @@ const onMouseMove = (event) => {
         menu_enabled = false;
     }
 
-    if (use_draw_line) createLine(prevX, prevY, event.pageX, event.pageY);
+    if (store.use_draw_line) createLine(prevX, prevY, event.pageX, event.pageY);
 
     const token = createToken(event.pageX, event.pageY);
     if (token !== prev_token) {
         gesture += token;
-        if (use_action_preview) setTextActionPreview(gestures[gesture]?.action, event.pageX, event.pageY);
+        if (store.use_action_preview) setTextActionPreview(store.gestures[gesture]?.action, event.pageX, event.pageY);
     }
 
     prevX = event.pageX;
@@ -64,7 +64,7 @@ const onMouseUp = (event) => {
     switch (event.button) {
         case 2: // mouse right button
             removeLines();
-            if (use_action_preview) hideActionPreview();
+            if (store.use_action_preview) hideActionPreview();
             executeGesture(gesture);
             document.removeEventListener('mousemove', onMouseMove);
             break;
@@ -74,17 +74,17 @@ const onMouseUp = (event) => {
 const createToken = (currX, currY) => {
     const angle = Math.atan((prevY - currY)/(prevX - currX)) * 180 / Math.PI;
     if (prevX < currX) {
-        if (angle > threshold_angle) {
+        if (angle > store.threshold_angle) {
             return 'D';
-        } else if (angle < -threshold_angle) {
+        } else if (angle < -store.threshold_angle) {
             return 'U';
         } else {
             return 'R';
         }
     } else if (prevX > currX) {
-        if (angle > threshold_angle) {
+        if (angle > store.threshold_angle) {
             return 'U';
-        } else if (angle < -threshold_angle) {
+        } else if (angle < -store.threshold_angle) {
             return 'D';
         } else {
             return 'L';
@@ -99,11 +99,11 @@ const createToken = (currX, currY) => {
 }
 
 const executeGesture = (gesture) => {
-    if (!(gesture in gestures)) return;
-    const action = gestures[gesture].action;
+    if (!(gesture in store.gestures)) return;
+    const action = store.gestures[gesture].action;
     if (!action) return;
     const fn = action_map[action];
-    if (fn) fn(gestures[gesture].action_details);
+    if (fn) fn(store.gestures[gesture].action_details);
 }
 
 const enableGesture = () => {
@@ -116,17 +116,15 @@ const disableGesture = () => {
     document.removeEventListener('mouseup', onMouseUp);
 }
 
-loadOptions().then(() => {
-    enableGesture();
+enableGesture();
 
-    chrome.storage.onChanged.addListener((changes) => {
-        const options = {}
-        if (changes?.domains) options['domains'] = changes?.domains?.newValue;
-        if (changes?.sampling_period) options['sampling_period'] = changes?.sampling_period?.newValue;
-        if (changes?.threshold_angle) options['threshold_angle'] = changes?.threshold_angle?.newValue;
-        if (changes?.scroll_factor) options['scroll_factor'] = changes?.scroll_factor?.newValue;
-        if (changes?.use_draw_line) options['use_draw_line'] = changes?.use_draw_line?.newValue;
-        if (changes?.use_action_preview) options['use_action_preview'] = changes?.use_action_preview?.newValue;
-        updateOptions(options);
-    });
+store.addOnChangedListener((changes) => {
+    const options = {}
+    if (changes?.domains) options['domains'] = changes?.domains?.newValue;
+    if (changes?.sampling_period) options['sampling_period'] = changes?.sampling_period?.newValue;
+    if (changes?.threshold_angle) options['threshold_angle'] = changes?.threshold_angle?.newValue;
+    if (changes?.scroll_factor) options['scroll_factor'] = changes?.scroll_factor?.newValue;
+    if (changes?.use_draw_line) options['use_draw_line'] = changes?.use_draw_line?.newValue;
+    if (changes?.use_action_preview) options['use_action_preview'] = changes?.use_action_preview?.newValue;
+    store.set(options);
 });
