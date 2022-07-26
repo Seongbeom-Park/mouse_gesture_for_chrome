@@ -186,20 +186,16 @@ store.addOnChangedListener(() => {
     location.reload();
 });
 
-
-import {MDCTopAppBar} from '@material/top-app-bar';
+import '@options/options.scss';
+import * as mdc from 'material-components-web';
 
 const topAppBarElement = document.querySelector('.mdc-top-app-bar');
-const topAppBar = new MDCTopAppBar(topAppBarElement);
-
-import {MDCTextField} from '@material/textfield';
+const topAppBar = new mdc.topAppBar.MDCTopAppBar(topAppBarElement);
 
 for (const el of document.querySelectorAll('.mdc-text-field')) {
-    const textField = new MDCTextField(el);
+    const textField = new mdc.textField.MDCTextField(el);
 }
 
-import {MDCSwitch} from '@material/switch';
-
 for (const el of document.querySelectorAll('.mdc-switch')) {
-  const switchControl = new MDCSwitch(el);
+  const switchControl = new mdc.switchControl.MDCSwitch(el);
 }

@@ -2,6 +2,7 @@ const path = require('path');
 
 const CopyPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const autoprefixer = require('autoprefixer');
 
 module.exports = {
   mode: 'production',
@@ -30,7 +31,6 @@ module.exports = {
       patterns: [
         { from: 'src/manifest.json' },
         { from: 'resource' },
-        { from: 'src/options/options.css' },
       ]
     }),
     new HtmlWebpackPlugin({
@@ -41,5 +41,47 @@ module.exports = {
   ],
   experiments: {
     topLevelAwait: true
+  },
+  module: {
+    rules: [
+      {
+        test: /\.s[ac]ss$/i,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: 'options.css'
+            },
+          },
+          { loader: 'extract-loader' },
+          {
+            loader: 'css-loader',
+            options: {
+              esModule: false,
+            }
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [
+                  autoprefixer()
+                ]
+              }
+            }
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              implementation: require('sass'),
+              webpackImporter: true,
+              sassOptions: {
+                includePaths: ['./node_modules']
+              }
+            }
+          }
+        ]
+      }
+    ]
   }
 };
