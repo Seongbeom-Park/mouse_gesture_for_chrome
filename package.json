@@ -16,7 +16,12 @@
     "url": "https://github.com/Seongbeom-Park/mouse_gesture_for_chrome/issues"
   },
   "homepage": "https://github.com/Seongbeom-Park/mouse_gesture_for_chrome#readme",
-  "dependencies": {},
+  "dependencies": {
+    "@material/switch": "^14.0.0",
+    "@material/textfield": "^14.0.0",
+    "@material/top-app-bar": "^14.0.0",
+    "@material/typography": "^14.0.0"
+  },
   "devDependencies": {
     "copy-webpack-plugin": "^11.0.0",
     "html-webpack-plugin": "^5.5.0",

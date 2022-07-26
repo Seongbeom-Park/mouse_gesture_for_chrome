@@ -185,3 +185,21 @@ document.getElementById('cancle').onclick = () => {
 store.addOnChangedListener(() => {
     location.reload();
 });
+
+
+import {MDCTopAppBar} from '@material/top-app-bar';
+
+const topAppBarElement = document.querySelector('.mdc-top-app-bar');
+const topAppBar = new MDCTopAppBar(topAppBarElement);
+
+import {MDCTextField} from '@material/textfield';
+
+for (const el of document.querySelectorAll('.mdc-text-field')) {
+    const textField = new MDCTextField(el);
+}
+
+import {MDCSwitch} from '@material/switch';
+
+for (const el of document.querySelectorAll('.mdc-switch')) {
+  const switchControl = new MDCSwitch(el);
+}
