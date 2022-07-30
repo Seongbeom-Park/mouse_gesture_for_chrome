@@ -17,10 +17,13 @@
   },
   "homepage": "https://github.com/Seongbeom-Park/mouse_gesture_for_chrome#readme",
   "dependencies": {
+    "@material/drawer": "^14.0.0",
+    "@material/list": "^14.0.0",
     "@material/switch": "^14.0.0",
     "@material/textfield": "^14.0.0",
     "@material/top-app-bar": "^14.0.0",
     "@material/typography": "^14.0.0",
+    "lit": "^2.2.8",
     "material-components-web": "^14.0.0"
   },
   "devDependencies": {

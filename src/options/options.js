@@ -1,4 +1,5 @@
 import { store } from '@content_scripts/store';
+import '@options/styles/options.scss';
 
 const threshold_angle_form_element = document.getElementById('threshold_angle');
 const sampling_period_form_element = document.getElementById('sampling_period');
@@ -186,16 +187,19 @@ store.addOnChangedListener(() => {
     location.reload();
 });
 
-import '@options/options.scss';
-import * as mdc from 'material-components-web';
+// import { html, css, LitElement } from 'lit';
 
-const topAppBarElement = document.querySelector('.mdc-top-app-bar');
-const topAppBar = new mdc.topAppBar.MDCTopAppBar(topAppBarElement);
+// class Divider extends LitElement {
+//     static styles = css`
+//         .divider {
+//             border-bottom: 0px;
+//             border: 1px solid rgba(0, 0, 0, 0.12);
+//         }
+//     `;
 
-for (const el of document.querySelectorAll('.mdc-text-field')) {
-    const textField = new mdc.textField.MDCTextField(el);
-}
+//     render () {
+//         return html`<hr class="divider">`;
+//     }
+// }
 
-for (const el of document.querySelectorAll('.mdc-switch')) {
-  const switchControl = new mdc.switchControl.MDCSwitch(el);
-}
+// customElements.define('custom-divider', Divider);
