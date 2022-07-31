@@ -6,116 +6,13 @@
         <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> -->
         <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
         <link href="options.css" rel="stylesheet" />
+        <script src="options.js"></script>
     </head>
     <body>
-        <header class="mdc-top-app-bar">
-            <div class="mdc-top-app-bar__row">
-              <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
-                <span class="mdc-top-app-bar__title">마우스 제스처 크롬 확장 프로그램 옵션</span>
-              </section>
-              <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
-                <!-- <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="Favorite">favorite</button>
-                <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="Search">search</button>
-                <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="Options">more_vert</button> -->
-              </section>
-            </div>
-        </header>
-        <aside class="mdc-drawer mdc-top-app-bar--fixed-adjust">
-            <div class="mdc-drawer__content">
-              <nav class="mdc-list">
-                <a class="mdc-list-item mdc-list-item--activated" href="#" aria-current="page">
-                  <span class="mdc-list-item__ripple"></span>
-                  <span class="mdc-list-item__text">제스처 인식</span>
-                </a>
-                <a class="mdc-list-item" href="#">
-                  <span class="mdc-list-item__ripple"></span>
-                  <span class="mdc-list-item__text">드래그 트래킹</span>
-                </a>
-                <a class="mdc-list-item" href="#">
-                  <span class="mdc-list-item__ripple"></span>
-                  <span class="mdc-list-item__text">액션</span>
-                </a>
-                <a class="mdc-list-item" href="#">
-                  <span class="mdc-list-item__ripple"></span>
-                  <span class="mdc-list-item__text">규칙</span>
-                </a>
-              </nav>
-            </div>
-        </aside>
-        <div class="mdc-drawer-app-content mdc-top-app-bar--fixed-adjust">
-            <main class="main-content">
-                <div>
-                    <form id="gestures">
-                        <label class="number">
-                            <h2>threshold angle</h2>
-                            <input type="number" id="threshold_angle" min="0" max="90" />°
-                        </label><br>
-
-                        <label class="number">
-                            <h2>sampling period</h2>
-                            <input type="number" id="sampling_period" min="1" />
-                        </label><br>
-
-                        <label class="number">
-                            <h2>page up/down scroll factor</h2>
-                            <input type="number" id="scroll_factor" min="0" />
-                        </label><br>
-
-                        <label class="number">
-                            <h2>drag tracking activation</h2>
-                            <input type="checkbox" id="use_draw_line">
-                        </label>
-
-                        <label class="number">
-                            <h2>action preview activation</h2>
-                            <input type="checkbox" id="use_action_preview">
-                        </label>
-
-                        <label class="number">
-                            <h2>action preview text x offset from mouse curser</h2>
-                            <input type="number" id="action_preview_x_offset">
-                        </label>
-
-                        <label class="number">
-                            <h2>action preview text y offset from mouse curser</h2>
-                            <input type="number" id="action_preview_y_offset">
-                        </label>
-
-                        <h2>rules</h2>
-                        <div id="rule_template">
-                            <input name="domain" type="url" value="*" autocomplete="off" >
-                            <input name="gesture" pattern="[UDLR]+" placeholder="[UDLR]+" >
-                            <select name="action" >
-                                <option value="undefined">select action</option>
-                                <option value="closeTab">closeTab</option>
-                                <option value="goBack">goBack</option>
-                                <option value="goBackOrCloseTab">goBackOrCloseTab</option>
-                                <option value="goForward">goForward</option>
-                                <option value="scrollTop">scrollTop</option>
-                                <option value="scrollBottom">scrollBottom</option>
-                                <option value="pageDown">pageDown</option>
-                                <option value="pageUp">pageUp</option>
-                                <option value="restore">restore</option>
-                                <option value="keydown">keydown</option>
-                                <option value="reload">reload</option>
-                                <option value="nothing">nothing</option>
-                            </select>
-                            <input name="keydown" value="" autocomplete="off" />
-                            <button type="button" name="remove" >-</button>
-                            <br>
-                        </div>
-                    </form>
-                    <button id="add_gesture">+</button><br>
-                </div>
-                <hr class="divider">
-                <div id="footer">
-                    <button id="update">변경사항 저장</button>
-                    <button id="cancle">취소</button>
-                    <button id="reset">기본 설정 불러오기</button>
-                </div>
-            </main>
-
-            <script src="options.js"></script>
-        </div>
+        <top-app-bar title="마우스 제스처 크롬 확장 프로그램 옵션"></top-app-bar>
+        <navigation-drawer></navigation-drawer>
+        <main-content></main-content>
+        
+        
     </body>
 </html>

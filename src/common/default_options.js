@@ -33,3 +33,26 @@ export const default_options = {
     'action_preview_y_offset': default_action_preview_y_offset,
     'version': chrome.runtime.getManifest().version,
 };
+
+export const option_categories = [
+    {
+        category: 'gesture',
+        options: ['threshold_angle', 'sampling_period']
+    },
+    {
+        category: 'action',
+        options: ['scroll_factor']
+    },
+    {
+        category: 'drag_tracking',
+        options: ['use_draw_line']
+    },
+    {
+        category: 'action_preview',
+        options: ['use_action_preview', 'action_preview_x_offset', 'action_preview_y_offset']
+    },
+    {
+        category: 'rules',
+        options: ['domains']
+    }
+]
