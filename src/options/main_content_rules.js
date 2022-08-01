@@ -1,9 +1,11 @@
 import { LitElement, html } from 'lit';
 
+import { store } from '@common/store';
+
 import '@options/main_content_footer';
 import '@component/data_table';
-
-import { store } from '@common/store';
+import '@component/dialog';
+import '@component/button';
 
 export class MainContentRules extends LitElement {
     static properties = {
@@ -52,13 +54,9 @@ export class MainContentRules extends LitElement {
 
         return html`
             <header><h1>규칙</h1></header>
+            <lm-button icon="add" value="새 규칙 추가" @click="${() => {document.getElementById('new_rule_dialog').open()}}"></lm-button>
+            <lm-button icon="delete" value="선택 항목 삭제" @click="${() => {}}"></lm-button>
             <lm-data-table id="rules_table" columns="${JSON.stringify(this.columns.map(translate))}" contents="${JSON.stringify(this.flatContents())}" style="width: 100%;" create_checkbox></lm-data-table>
-            <br>
-            <button class="mdc-button mdc-button--outlined mdc-button--icon-leading">
-                <span class="mdc-button__ripple"></span>
-                    <i class="material-icons mdc-button__icon" aria-hidden="true">add</i>
-                <span class="mdc-button__label">새 규칙 추가하기</span>
-            </button>
             <main-content-footer page="${this.page}"></main-content-footer>
             <form id="gestures">
                 <h2>rules</h2>
@@ -87,6 +85,7 @@ export class MainContentRules extends LitElement {
             </form>
             <button id="add_gesture">+</button><br>
             <main-content-footer></main-content-footer>
+            <lm-dialog id="new_rule_dialog"></lm-dialog>
         `;
     }
     firstUpdated () {
@@ -96,7 +95,6 @@ export class MainContentRules extends LitElement {
         super.connectedCallback();
         this.update_contents_callback_id = store.addOnChangedListener(({domains}) => {
             this.contents = domains;
-            document.getElementById('rules_table').contents = this.flatContents();
         });
     }
     disconnectedCallback () {

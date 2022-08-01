@@ -1,4 +1,5 @@
 import { LitElement, html } from 'lit';
+import { MDCDrawer } from '@material/drawer';
 import { option_categories } from '@common/default_options';
 
 class NavigationDrawer extends LitElement {
@@ -31,12 +32,12 @@ class NavigationDrawer extends LitElement {
 class NavigationDrawerItem extends LitElement {
     constructor (drawer, category, activated) {
         super();
-        this.drawer = drawer;
+        this.parent = drawer;
         this.category = category;
         this.activated = activated;
     }
     updateRouter () {
-        this.drawer.page = this.category;
+        this.parent.page = this.category;
         this.activated = true;
     }
     set activated (_activated) {

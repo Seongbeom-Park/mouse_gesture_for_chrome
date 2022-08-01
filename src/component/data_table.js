@@ -1,4 +1,5 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { LitElement, html, unsafeCSS } from 'lit';
+import { MDCDataTable } from '@material/data-table';
 
 import '@component/checkbox';
 
@@ -34,28 +35,33 @@ class DataTable extends LitElement {
         return html`
             <thead>
                 <tr class="mdc-data-table__header-row">
-                    ${createHeaderCheckbox()}
+
+                    <th class="mdc-data-table__header-cell mdc-data-table__header-cell--checkbox" role="columnheader" scope="col">
+                        <div class="mdc-checkbox mdc-data-table__header-row-checkbox mdc-checkbox--selected">
+                            <input type="checkbox" class="mdc-checkbox__native-control" aria-label="Toggle all rows"/>
+                            <div class="mdc-checkbox__background">
+                                <svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
+                                    <path class="mdc-checkbox__checkmark-path" fill="none" d="M1.73,12.91 8.1,19.28 22.79,4.59" />
+                                </svg>
+                                <div class="mdc-checkbox__mixedmark"></div>
+                            </div>
+                            <div class="mdc-checkbox__ripple"></div>
+                        </div>
+                    </th>
+
                     ${createHeaderCell(this.columns)}
                 </tr>
             </thead>
         `;
     }
     createBody () {
-        const createBodyCheckbox = (id, selected) => {
+        const createBodyCheckbox = (id) => {
             if (this.create_checkbox) {
-                if (selected) {
-                    return html`
-                        <td class="mdc-data-table__cell mdc-data-table__cell--checkbox">
-                            <lm-checkbox class="mdc-data-table__row-checkbox" labelledby="${unsafeCSS(id)}" checked ></lm-checkbox>
-                        </td>
-                    `;
-                } else {
-                    return html`
-                        <td class="mdc-data-table__cell mdc-data-table__cell--checkbox">
-                            <lm-checkbox class="mdc-data-table__row-checkbox" labelledby="${unsafeCSS(id)}"></lm-checkbox>
-                        </td>
-                    `;
-                }
+                return html`
+                    <td class="mdc-data-table__cell mdc-data-table__cell--checkbox">
+                        <lm-checkbox aria_labelledby="${unsafeCSS(id)}"></lm-checkbox>
+                    </td>
+                `;
             }
         }
 
@@ -64,10 +70,29 @@ class DataTable extends LitElement {
             else return html`<td class="mdc-data-table__cell">${value}</td>`;
         }
 
-        const createBodyRow = (id, data, selected = false) => {
+        const createBodyRow = (id, data) => {
             return html`
-                <tr data-row-id="${unsafeCSS(id)}" class="mdc-data-table__row ${selected && 'mdc-data-table__row--selected'}" ${selected && 'aria-selected="true"'} >
-                    ${createBodyCheckbox(id, selected)}
+                <tr data-row-id="${unsafeCSS(id)}" class="mdc-data-table__row" >
+
+                    <td class="mdc-data-table__cell mdc-data-table__cell--checkbox">
+                        <div class="mdc-checkbox mdc-data-table__row-checkbox">
+                            <input type="checkbox" class="mdc-checkbox__native-control" aria-labelledby="${unsafeCSS(id)}"/>
+                            <div class="mdc-checkbox__background">
+                                <svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
+                                    <path class="mdc-checkbox__checkmark-path" fill="none" d="M1.73,12.91 8.1,19.28 22.79,4.59" />
+                                </svg>
+                                <div class="mdc-checkbox__mixedmark"></div>
+                            </div>
+                            <div class="mdc-checkbox__ripple"></div>
+                        </div>
+                    </td>
+
+                    ${data.map((value, index) => createBodyCell(index === 0, id, value))}
+                </tr>
+            `;
+            return html`
+                <tr data-row-id="${unsafeCSS(id)}" class="mdc-data-table__row" >
+                    ${createBodyCheckbox(id)}
                     ${data.map((value, index) => createBodyCell(index === 0, id, value))}
                 </tr>
             `;
@@ -89,6 +114,12 @@ class DataTable extends LitElement {
                 </table>
             </div>
         `;
+    }
+    firstUpdated () {
+        this.data_table = new MDCDataTable(this);
+    }
+    updated () {
+        this.data_table.layout();
     }
     createRenderRoot () {
         return this;
