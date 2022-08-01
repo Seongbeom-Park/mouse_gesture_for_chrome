@@ -1,4 +1,4 @@
-import { store } from '@content_scripts/store';
+import { store } from '@common/store';
 
 const closeTab = () => chrome.runtime.sendMessage({gesture: 'closeTab'});
 const goBack = () => chrome.runtime.sendMessage({gesture: 'goBack'});

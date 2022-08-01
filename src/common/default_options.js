@@ -36,23 +36,28 @@ export const default_options = {
 
 export const option_categories = [
     {
-        category: 'gesture',
-        options: ['threshold_angle', 'sampling_period']
-    },
-    {
-        category: 'action',
-        options: ['scroll_factor']
-    },
-    {
-        category: 'drag_tracking',
-        options: ['use_draw_line']
-    },
-    {
-        category: 'action_preview',
-        options: ['use_action_preview', 'action_preview_x_offset', 'action_preview_y_offset']
-    },
-    {
         category: 'rules',
         options: ['domains']
-    }
+    },
+    {
+        category: 'settings',
+        options: [
+            {
+                category: 'gesture',
+                options: ['threshold_angle', 'sampling_period']
+            },
+            {
+                category: 'action',
+                options: ['scroll_factor']
+            },
+            {
+                category: 'drag_tracking',
+                options: ['use_draw_line']
+            },
+            {
+                category: 'action_preview',
+                options: ['use_action_preview', 'action_preview_x_offset', 'action_preview_y_offset']
+            },
+        ]
+    },
 ]

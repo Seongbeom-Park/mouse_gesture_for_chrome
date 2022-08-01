@@ -14,6 +14,7 @@ module.exports = {
         "@common": path.resolve(__dirname, 'src/common'),
         "@content_scripts": path.resolve(__dirname, 'src/content_scripts'),
         "@options": path.resolve(__dirname, 'src/options'),
+        "@component": path.resolve(__dirname, 'src/component'),
     }
   },
   entry: {

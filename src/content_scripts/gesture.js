@@ -1,4 +1,4 @@
-import { store } from '@content_scripts/store';
+import { store } from '@common/store';
 import { action_map } from '@content_scripts/actions';
 import { createLine, removeLines, setTextActionPreview, setPositionActionPreview, hideActionPreview } from '@content_scripts/ui';
 

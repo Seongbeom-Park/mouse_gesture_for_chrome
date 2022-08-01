@@ -3,16 +3,14 @@
     <head>
         <meta charset="utf-8" />
         <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
-        <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
         <link href="options.css" rel="stylesheet" />
         <script src="options.js"></script>
     </head>
     <body>
         <top-app-bar title="마우스 제스처 크롬 확장 프로그램 옵션"></top-app-bar>
-        <navigation-drawer></navigation-drawer>
-        <main-content></main-content>
-        
-        
+        <navigation-drawer id="nav" main_content_id="main" class="mdc-drawer mdc-top-app-bar--fixed-adjust"></navigation-drawer>
+        <main-content id="main" page="rules" class="mdc-drawer-app-content mdc-top-app-bar--fixed-adjust"></main-content>
     </body>
 </html>

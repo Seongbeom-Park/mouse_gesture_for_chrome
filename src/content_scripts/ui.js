@@ -1,4 +1,4 @@
-import { store } from '@content_scripts/store';
+import { store } from '@common/store';
 
 const line_class_name = 'mouse_gesture_for_chrome_line';
 
