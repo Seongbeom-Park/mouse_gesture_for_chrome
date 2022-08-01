@@ -1,4 +1,4 @@
-import { default_options } from '@common/default_options';
+import { default_options, option_categories } from '@common/default_options';
 
 class Store {
     constructor(options) {
@@ -18,8 +18,16 @@ class Store {
         this.listener_functions = {};
     }
 
-    reset () {
-        return this.set(default_options);
+    reset (category) {
+        const new_options = {};
+        for (const { category: c, options } of option_categories) {
+            if (c === category) {
+                for (const option of options) {
+                    new_options[option] = default_options[option];
+                }
+            }
+        }
+        return this.set(new_options);
     }
 
     sync () {

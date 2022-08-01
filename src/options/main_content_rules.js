@@ -13,6 +13,7 @@ export class MainContentRules extends LitElement {
     constructor () {
         super();
         this.id = 'main-content-rules';
+        this.page = 'rules';
         this.columns = ['domain', 'gesture', 'action', 'action_details'];
         this.contents = {};
     }
@@ -58,7 +59,7 @@ export class MainContentRules extends LitElement {
                     <i class="material-icons mdc-button__icon" aria-hidden="true">add</i>
                 <span class="mdc-button__label">새 규칙 추가하기</span>
             </button>
-            <main-content-footer></main-content-footer>
+            <main-content-footer page="${this.page}"></main-content-footer>
             <form id="gestures">
                 <h2>rules</h2>
                 <div id="rule_template">

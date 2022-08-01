@@ -3,8 +3,11 @@ import { LitElement, html } from 'lit';
 import { store } from '@common/store';
 
 export class MainContentFooter extends LitElement {
+    static properties = {
+        page: {type: String}
+    }
     onClickReset () {
-        store.reset();
+        store.reset(this.page);
         store.sync();
     }
     render () {

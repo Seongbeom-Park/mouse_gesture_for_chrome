@@ -39,7 +39,7 @@ export class MainContentSettings extends LitElement {
                 <h2>action preview text y offset from mouse curser</h2>
                 <input type="number" id="action_preview_y_offset">
             </label>
-            <main-content-footer></main-content-footer>
+            <main-content-footer page="${this.page}"></main-content-footer>
         `;
     }
     createRenderRoot () {

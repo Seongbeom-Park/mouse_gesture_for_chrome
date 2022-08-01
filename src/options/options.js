@@ -194,6 +194,4 @@ window.onload = () => {
     // store.addOnChangedListener(() => {
     //     location.reload();
     // });
-
-    // document.getElementById('main-content-rules').contents = store.domains;
 }
