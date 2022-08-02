@@ -1,5 +1,5 @@
 import { LitElement, html } from 'lit';
-import { MDCDrawer } from '@material/drawer';
+
 import { option_categories } from '@common/default_options';
 
 class NavigationDrawer extends LitElement {

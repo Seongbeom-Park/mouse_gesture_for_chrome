@@ -8,9 +8,8 @@ class Button extends LitElement {
     }
     constructor () {
         super();
-        this.classList.add('mdc-button')
-        this.classList.add('mdc-button--outlined')
-        
+        this.classList.add('mdc-button');
+        this.classList.add('mdc-button--outlined');
     }
     createIcon () {
         if (this.icon) {

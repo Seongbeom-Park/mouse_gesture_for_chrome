@@ -1,6 +1,6 @@
 import { LitElement, html } from 'lit';
 
-import { MainContentRules } from '@options/main_content_rules';
+import '@options/main_content_rules';
 import { MainContentSettings } from '@options/main_content_settings';
 
 class MainContentNotFound extends LitElement {

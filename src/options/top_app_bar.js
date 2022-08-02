@@ -1,4 +1,5 @@
 import { LitElement, html } from 'lit';
+import { MDCTopAppBar } from '@material/top-app-bar';
 
 class TopAppBar extends LitElement {
     static properties = {
@@ -14,6 +15,10 @@ class TopAppBar extends LitElement {
                 </div>
             </header>
         `;
+    }
+    firstUpdated () {
+        this.classList.add('mdc-top-app-bar');
+        this.top_app_bar = new MDCTopAppBar(this);
     }
     createRenderRoot () {
         return this;

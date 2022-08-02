@@ -1,7 +1,6 @@
 import { LitElement, html } from 'lit';
 
 import { store } from '@common/store';
-
 import '@component/button';
 
 export class MainContentFooter extends LitElement {
