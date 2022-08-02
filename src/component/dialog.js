@@ -6,10 +6,6 @@ class Dialog extends LitElement {
     static properties = {
         title: {type: String},
     }
-    constructor () {
-        super();
-        this.classList.add('mdc-dialog');
-    }
     open () {
         this.dialog.open();
     }
@@ -42,6 +38,10 @@ class Dialog extends LitElement {
             </div>
             <div class="mdc-dialog__scrim"></div>
         `;
+    }
+    connectedCallback () {
+        super.connectedCallback();
+        this.classList.add('mdc-dialog');
     }
     firstUpdated () {
         this.dialog = new MDCDialog(this);

@@ -11,7 +11,6 @@ class DataTable extends LitElement {
     }
     constructor () {
         super();
-        this.classList.add('mdc-data-table');
         this.columns = [];
         this.contents = [];
     }
@@ -98,6 +97,10 @@ class DataTable extends LitElement {
                 </table>
             </div>
         `;
+    }
+    connectedCallback () {
+        super.connectedCallback();
+        this.classList.add('mdc-data-table');
     }
     firstUpdated () {
         this.data_table = new MDCDataTable(this);

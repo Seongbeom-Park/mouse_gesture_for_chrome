@@ -6,11 +6,6 @@ class Button extends LitElement {
         icon: {type: String},
         value: {type: String},
     }
-    constructor () {
-        super();
-        this.classList.add('mdc-button');
-        this.classList.add('mdc-button--outlined');
-    }
     createIcon () {
         if (this.icon) {
             this.classList.add('mdc-button--icon-leading');
@@ -23,6 +18,11 @@ class Button extends LitElement {
             ${this.createIcon()}
             <span class="mdc-button__label">${this.value}</span>
         `;
+    }
+    connectedCallback () {
+        super.connectedCallback();
+        this.classList.add('mdc-button');
+        this.classList.add('mdc-button--outlined');
     }
     firstUpdated () {
         this.button = new MDCRipple(this)

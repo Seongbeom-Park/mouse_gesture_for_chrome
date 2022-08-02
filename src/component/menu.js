@@ -2,11 +2,6 @@ import { LitElement, html } from 'lit';
 import { MDCMenu } from '@material/menu';
 
 class DropdownMenu extends LitElement {
-    constructor () {
-        super();
-        this.classList.add('mdc-menu');
-        this.classList.add('mdc-menu-surface');
-    }
     open () {
         this.menu.open = true;
     }
@@ -25,6 +20,11 @@ class DropdownMenu extends LitElement {
                 </li>
             </ul>
       `;
+    }
+    connectedCallback () {
+        super.connectedCallback();
+        this.classList.add('mdc-menu');
+        this.classList.add('mdc-menu-surface');
     }
     firstUpdated () {
         this.menu = new MDCMenu(this);

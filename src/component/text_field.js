@@ -11,11 +11,6 @@ export class TextField extends LitElement {
     get value () {
         return this.text_field.value;
     }
-    constructor () {
-        super();
-        this.classList.add('mdc-text-field');
-        this.classList.add('mdc-text-field--outlined');
-    }
     render () {
         return html`
             <span class="mdc-notched-outline">
@@ -28,6 +23,11 @@ export class TextField extends LitElement {
             <input type="text" class="mdc-text-field__input" aria-labelledby="my-label-id"
                 value=${ifDefined(this.default_value)} placeholder=${ifDefined(this.placeholder)}>
         `;
+    }
+    connectedCallback () {
+        super.connectedCallback();
+        this.classList.add('mdc-text-field');
+        this.classList.add('mdc-text-field--outlined');
     }
     firstUpdated () {
         this.text_field = new MDCTextField(this);

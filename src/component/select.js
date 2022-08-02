@@ -9,8 +9,6 @@ class Select extends LitElement {
     }
     constructor () {
         super();
-        this.classList.add('mdc-select');
-        this.classList.add('mdc-select--outlined');
         this.data = [];
     }
     render () {
@@ -47,6 +45,11 @@ class Select extends LitElement {
                 </ul>
             </div>
         `;
+    }
+    connectedCallback () {
+        super.connectedCallback();
+        this.classList.add('mdc-select');
+        this.classList.add('mdc-select--outlined');
     }
     firstUpdated () {
         this.select = new MDCSelect(this);
