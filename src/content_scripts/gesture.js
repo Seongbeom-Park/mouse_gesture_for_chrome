@@ -117,14 +117,3 @@ const disableGesture = () => {
 }
 
 enableGesture();
-
-store.addOnChangedListener((changes) => {
-    const options = {}
-    if (changes?.domains) options['domains'] = changes?.domains?.newValue;
-    if (changes?.sampling_period) options['sampling_period'] = changes?.sampling_period?.newValue;
-    if (changes?.threshold_angle) options['threshold_angle'] = changes?.threshold_angle?.newValue;
-    if (changes?.scroll_factor) options['scroll_factor'] = changes?.scroll_factor?.newValue;
-    if (changes?.use_draw_line) options['use_draw_line'] = changes?.use_draw_line?.newValue;
-    if (changes?.use_action_preview) options['use_action_preview'] = changes?.use_action_preview?.newValue;
-    store.set(options);
-});

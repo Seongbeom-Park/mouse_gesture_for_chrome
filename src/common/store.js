@@ -49,6 +49,7 @@ class Store extends EventTarget {
         for (const k in default_options) {
             if (k in options) {
                 this[k] = options[k];
+                if (k === 'domains') this.gestures = {...this.domains['*'], ...this.domains[document.domain]}
             }
         }
     }
@@ -69,18 +70,6 @@ class Store extends EventTarget {
             action_preview_x_offset: this.action_preview_x_offset,
             action_preview_y_offset: this.action_preview_y_offset,
         });
-    }
-
-    addOnChangedListener (fn) {
-        this.listener_id += 1;
-        this.listener_functions[this.listener_id] = () => fn(this);
-        chrome.storage.onChanged.addListener(this.listener_functions[this.listener_id]);
-        return this.listener_id;
-    }
-
-    removeOnChangedListener (id) {
-        const fn = this.listener_functions[id];
-        chrome.storage.onChanged.removeListener(fn);
     }
 }
 
