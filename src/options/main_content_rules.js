@@ -6,6 +6,8 @@ import '@options/main_content_footer';
 import '@component/data_table';
 import '@component/dialog';
 import '@component/button';
+import '@component/select';
+import { TextField } from '@component/text_field';
 
 export class MainContentRules extends LitElement {
     static properties = {
@@ -51,6 +53,52 @@ export class MainContentRules extends LitElement {
                     return text;
             }
         }
+        const data = [
+            {
+                value: 'closeTab',
+                label: '창 닫기',
+            },
+            {
+                value: 'goBack',
+                label: '이전 페이지로',
+            },
+            {
+                value: 'goBackOrCloseTab',
+                label: '이전 페이지로 가거나 창 닫기',
+            },
+            {
+                value: 'goForward',
+                label: '다음 페이지로',
+            },
+            {
+                value: 'scrollTop',
+                label: '맨 위로',
+            },
+            {
+                value: 'scrollBottom',
+                label: '맨 아래로',
+            },
+            {
+                value: 'pageDown',
+                label: '페이지 업',
+            },
+            {
+                value: 'pageUp',
+                label: '페이지 다운',
+            },
+            {
+                value: 'restore',
+                label: '최근에 닫힌 탭 열기',
+            },
+            {
+                value: 'keydown',
+                label: '키보드 입력',
+            },
+            {
+                value: 'reload',
+                label: '새로고침',
+            },
+        ];
 
         return html`
             <header><h1>규칙</h1></header>
@@ -86,6 +134,11 @@ export class MainContentRules extends LitElement {
             <button id="add_gesture">+</button><br>
             <main-content-footer></main-content-footer>
             <lm-dialog id="new_rule_dialog"></lm-dialog>
+
+            <lm-text-field label="도메인"></lm-text-field>
+            <lm-text-field label="제스쳐"></lm-text-field>
+            <lm-select label="액션" data="${JSON.stringify(data)}" default_value=""></lm-select>
+            <lm-text-field label="키 입력"></lm-text-field>
         `;
     }
     firstUpdated () {

@@ -1,4 +1,5 @@
-import { LitElement, html, unsafeCSS } from 'lit';
+import { LitElement, html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import { MDCDataTable } from '@material/data-table';
 
 class DataTable extends LitElement {
@@ -15,11 +16,9 @@ class DataTable extends LitElement {
     }
     createCheckbox (position, id) {
         const createContents = ({ class_list, aria_label, aria_labelledby }) => {
-            const _aria_label = aria_label ? `aria-label="${aria_label}"` : ``;
-            const _aria_labelledby = aria_labelledby ? `aria-labelledby="${aria_labelledby}"` : ``;
             return html`
-                <div class="mdc-checkbox ${unsafeCSS(class_list.join(' '))}">
-                    <input type="checkbox" class="mdc-checkbox__native-control" ${unsafeCSS(_aria_label)} ${unsafeCSS(_aria_labelledby)}/>
+                <div class="mdc-checkbox ${class_list.join(' ')}">
+                    <input type="checkbox" class="mdc-checkbox__native-control" aria-label=${ifDefined(aria_label)} aria-labelledby=${ifDefined(aria_labelledby)}/>
                     <div class="mdc-checkbox__background">
                         <svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
                             <path class="mdc-checkbox__checkmark-path" fill="none" d="M1.73,12.91 8.1,19.28 22.79,4.59" />
@@ -70,13 +69,13 @@ class DataTable extends LitElement {
     }
     createBody () {
         const createBodyCell = (is_first, id, value) => {
-            if (is_first) return html`<th class="mdc-data-table__cell" scope="row" id="${unsafeCSS(id)}">${value}</th>`;
+            if (is_first) return html`<th class="mdc-data-table__cell" scope="row" .id=${id}>${value}</th>`;
             else return html`<td class="mdc-data-table__cell">${value}</td>`;
         }
 
         const createBodyRow = (id, data) => {
             return html`
-                <tr data-row-id="${unsafeCSS(id)}" class="mdc-data-table__row" >
+                <tr data-row-id=${id} class="mdc-data-table__row" >
                     ${this.createCheckbox('body', id)}
                     ${data.map((value, index) => createBodyCell(index === 0, id, value))}
                 </tr>
