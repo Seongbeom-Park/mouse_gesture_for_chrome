@@ -1,9 +1,12 @@
 import { LitElement, html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import { MDCTextField } from '@material/textfield';
 
 export class TextField extends LitElement {
     static properties = {
         label: {type: String},
+        default_value: {type: String},
+        placeholder: {type: String},
     }
     get value () {
         return this.text_field.value;
@@ -22,7 +25,8 @@ export class TextField extends LitElement {
                 </span>
                 <span class="mdc-notched-outline__trailing"></span>
             </span>
-            <input type="text" class="mdc-text-field__input" aria-labelledby="my-label-id">
+            <input type="text" class="mdc-text-field__input" aria-labelledby="my-label-id"
+                value=${ifDefined(this.default_value)} placeholder=${ifDefined(this.placeholder)}>
         `;
     }
     firstUpdated () {

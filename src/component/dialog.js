@@ -3,6 +3,9 @@ import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { MDCDialog } from '@material/dialog';
 
 class Dialog extends LitElement {
+    static properties = {
+        title: {type: String},
+    }
     constructor () {
         super();
         this.classList.add('mdc-dialog');
@@ -11,7 +14,7 @@ class Dialog extends LitElement {
         this.dialog.open();
     }
     render () {
-        const slot = unsafeHTML(this.innerHTML.trim());
+        const slot = unsafeHTML(this.innerHTML);
         this.innerHTML = "";
 
         return html`
@@ -21,7 +24,7 @@ class Dialog extends LitElement {
                     aria-modal="true"
                     aria-labelledby="my-dialog-title"
                     aria-describedby="my-dialog-content">
-                    <h2 class="mdc-dialog__title" id="my-dialog-title">새 규칙 추가</h2>
+                    ${this.title ? html`<h2 class="mdc-dialog__title" id="my-dialog-title">${this.title}</h2>` : html``}
                     <div class="mdc-dialog__content" id="my-dialog-content">
                         ${slot}
                     </div>

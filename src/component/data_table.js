@@ -1,5 +1,6 @@
 import { LitElement, html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { MDCDataTable } from '@material/data-table';
 
 class DataTable extends LitElement {
@@ -68,16 +69,15 @@ class DataTable extends LitElement {
         `;
     }
     createBody () {
-        const createBodyCell = (is_first, id, value) => {
-            if (is_first) return html`<th class="mdc-data-table__cell" scope="row" .id=${id}>${value}</th>`;
-            else return html`<td class="mdc-data-table__cell">${value}</td>`;
+        const createBodyCell = ({scope, id, value}) => {
+            return html`<th class="mdc-data-table__cell" scope=${ifDefined(scope)} id=${ifDefined(id)}>${unsafeHTML(value)}</th>`;
         }
 
         const createBodyRow = (id, data) => {
             return html`
                 <tr data-row-id=${id} class="mdc-data-table__row" >
                     ${this.createCheckbox('body', id)}
-                    ${data.map((value, index) => createBodyCell(index === 0, id, value))}
+                    ${data.map((value, index) => createBodyCell(index === 0 ? {scope: 'row', id, value} : {value}))}
                 </tr>
             `;
         }

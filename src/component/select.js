@@ -14,9 +14,9 @@ class Select extends LitElement {
         this.data = [];
     }
     render () {
-        const createListItem = (value, label, selected = false) => {
+        const createListItem = (value, label) => {
             return html`
-                <li class="mdc-list-item ${selected ? "mdc-list-item--selected" : ""} unselectable" aria-selected=${selected} data-value=${value} role="option">
+                <li class="mdc-list-item unselectable" data-value=${value} role="option">
                     <span class="mdc-list-item__ripple"></span>
                     ${label && html`<span class="mdc-list-item__text">${label}</span>`}
                 </li>
@@ -41,15 +41,16 @@ class Select extends LitElement {
                 </span>
             </div>
         
-            <div class="mdc-select__menu mdc-menu mdc-menu-surface mdc-menu-surface--fullwidth">
+            <div class="mdc-menu mdc-menu-surface mdc-menu-surface--fullwidth mdc-select__menu">
                 <ul class="mdc-list" role="listbox">
-                    ${this.data.map(({value, label}) => createListItem(value, label, value === this.default_value))}
+                    ${this.data.map(({value, label}) => createListItem(value, label))}
                 </ul>
             </div>
         `;
     }
     firstUpdated () {
         this.select = new MDCSelect(this);
+        this.select.setValue(this.default_value);
     }
     createRenderRoot () {
         return this;

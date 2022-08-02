@@ -1,13 +1,12 @@
 import { LitElement, html } from 'lit';
 
 import { store } from '@common/store';
-
 import '@options/main_content_footer';
 import '@component/data_table';
 import '@component/dialog';
 import '@component/button';
 import '@component/select';
-import { TextField } from '@component/text_field';
+import '@component/text_field';
 
 export class MainContentRules extends LitElement {
     static properties = {
@@ -18,12 +17,12 @@ export class MainContentRules extends LitElement {
         super();
         this.id = 'main-content-rules';
         this.page = 'rules';
-        this.columns = ['domain', 'gesture', 'action', 'action_details'];
+        this.columns = ['domain', 'gesture', 'action', 'action_details', 'edit'];
         this.contents = {};
     }
     flatContents () {
         const parseKeyboardEvent = (keyboard_event) => {
-            if (!keyboard_event) return keyboard_event;
+            if (!keyboard_event) return '';
 
             const {ctrlKey, altKey, shiftKey, key, code} = keyboard_event;
             var value = '';
@@ -36,7 +35,17 @@ export class MainContentRules extends LitElement {
             return value;
         }
 
-        return Object.entries(this.contents).flatMap(([domain, gestures]) => Object.entries(gestures).map(([gesture, {action, action_details}]) => [domain, gesture, action, parseKeyboardEvent(action_details)]));
+        return Object.entries(this.contents).flatMap(([domain, gestures]) => {
+            return Object.entries(gestures).map(([gesture, {action, action_details}]) => {
+                return [
+                    domain,
+                    gesture,
+                    action,
+                    parseKeyboardEvent(action_details),
+                    '<i class="material-icons">edit</i>',
+                ];
+            })
+        });
     }
     render () {
         const translate = (text) => {
@@ -49,11 +58,15 @@ export class MainContentRules extends LitElement {
                     return '액션';
                 case 'action_details':
                     return '세부항목';
+                case 'edit':
+                    return '수정';
+                case 'delete':
+                    return '삭제';
                 default:
                     return text;
             }
         }
-        const data = [
+        this.data = [
             {
                 value: 'closeTab',
                 label: '창 닫기',
@@ -106,41 +119,13 @@ export class MainContentRules extends LitElement {
             <lm-button icon="delete" value="선택 항목 삭제" @click="${() => {}}"></lm-button>
             <lm-data-table id="rules_table" columns="${JSON.stringify(this.columns.map(translate))}" contents="${JSON.stringify(this.flatContents())}" style="width: 100%;" create_checkbox></lm-data-table>
             <main-content-footer page="${this.page}"></main-content-footer>
-            <form id="gestures">
-                <h2>rules</h2>
-                <div id="rule_template">
-                    <input name="domain" type="url" value="*" autocomplete="off" >
-                    <input name="gesture" pattern="[UDLR]+" placeholder="[UDLR]+" >
-                    <select name="action" >
-                        <option value="undefined">select action</option>
-                        <option value="closeTab">closeTab</option>
-                        <option value="goBack">goBack</option>
-                        <option value="goBackOrCloseTab">goBackOrCloseTab</option>
-                        <option value="goForward">goForward</option>
-                        <option value="scrollTop">scrollTop</option>
-                        <option value="scrollBottom">scrollBottom</option>
-                        <option value="pageDown">pageDown</option>
-                        <option value="pageUp">pageUp</option>
-                        <option value="restore">restore</option>
-                        <option value="keydown">keydown</option>
-                        <option value="reload">reload</option>
-                        <option value="nothing">nothing</option>
-                    </select>
-                    <input name="keydown" value="" autocomplete="off" />
-                    <button type="button" name="remove" >-</button>
-                    <br>
-                </div>
-            </form>
-            <button id="add_gesture">+</button><br>
-            <main-content-footer></main-content-footer>
 
-            <lm-dialog id="new_rule_dialog">
-                <lm-text-field label="도메인"></lm-text-field><br>
-                <lm-text-field label="제스쳐"></lm-text-field><br>
-                <lm-select label="액션" data="${JSON.stringify(data)}" default_value=""></lm-select><br>
-                <lm-text-field label="키 입력"></lm-text-field><br>
+            <lm-dialog id="new_rule_dialog" class="unselectable" title="새 규칙 추가하기">
+                <lm-text-field label="도메인" default_value="*"></lm-text-field><br>
+                <lm-text-field label="제스쳐" placeholder="[UDLR]+"></lm-text-field><br>
+                <lm-select label="액션" data="${JSON.stringify(this.data)}" default_value=""></lm-select><br>
+                <lm-text-field label="키 입력" placeholder="키 조합을 누르세요"></lm-text-field><br>
             </lm-dialog>
-
         `;
     }
     firstUpdated () {
