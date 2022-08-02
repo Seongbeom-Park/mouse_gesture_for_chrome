@@ -133,13 +133,12 @@ export class MainContentRules extends LitElement {
     }
     connectedCallback () {
         super.connectedCallback();
-        this.update_contents_callback_id = store.addOnChangedListener(({domains}) => {
-            this.contents = domains;
-        });
+        this.update_contents_callback = ({target}) => { this.contents = target.domains; };
+        store.addEventListener('Store:set', this.update_contents_callback);
     }
     disconnectedCallback () {
         super.disconnectedCallback();
-        store.removeOnChangedListener(this.update_contents_callback_id);
+        store.removeEventListener('Store:set', this.update_contents_callback);
     }
     createRenderRoot () {
         return this;

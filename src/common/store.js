@@ -1,33 +1,61 @@
 import { default_options, option_categories } from '@common/default_options';
 
-class Store {
+class Store extends EventTarget {
     constructor(options) {
-        this.set(options);
-        chrome.storage.onChanged.addListener((changed) => this.set({
-            domains: changed?.domains?.newValue,
-            threshold_angle: changed?.threshold_angle?.newValue,
-            sampling_period: changed?.sampling_period?.newValue,
-            scroll_factor: changed?.scroll_factor?.newValue,
-            use_draw_line: changed?.use_draw_line?.newValue,
-            use_action_preview: changed?.use_action_preview?.newValue,
-            action_preview_x_offset: changed?.action_preview_x_offset?.newValue,
-            action_preview_y_offset: changed?.action_preview_y_offset?.newValue,
-            version: changed?.version?.newValue,
-        }));
+        super();
+        this.domains = {};
+        this._setNoEvent(options);
+        
         this.listener_id = 0;
         this.listener_functions = {};
+
+        chrome.storage.onChanged.addListener((changed) => {
+            const new_options = {};
+            for (const k in changed) {
+                const { newValue } = changed[k];
+                new_options[k] = newValue;
+            }
+            this.set(new_options);
+        });
     }
 
     reset (category) {
         const new_options = {};
-        for (const { category: c, options } of option_categories) {
+        for (const { category: c, groups } of option_categories) {
             if (c === category) {
-                for (const option of options) {
-                    new_options[option] = default_options[option];
+                for (const { options } of groups) {
+                    for (const option of options) {
+                        new_options[option] = default_options[option];
+                    }
                 }
             }
         }
         return this.set(new_options);
+    }
+
+    revert (category) {
+        const keys = [];
+        for (const { category: c, groups } of option_categories) {
+            if (c === category) {
+                for (const { options } of groups) {
+                        keys.push(...options);
+                }
+            }
+        }
+        chrome.storage.sync.get(keys).then((options) => this.set(options));
+    }
+
+    _setNoEvent (options) {
+        for (const k in default_options) {
+            if (k in options) {
+                this[k] = options[k];
+            }
+        }
+    }
+
+    set (options) {
+        this._setNoEvent(options);
+        this.dispatchEvent(new Event('Store:set'));
     }
 
     sync () {
@@ -40,20 +68,7 @@ class Store {
             use_action_preview: this.use_action_preview,
             action_preview_x_offset: this.action_preview_x_offset,
             action_preview_y_offset: this.action_preview_y_offset,
-            version: this.version,
         });
-    }
-
-    set (options) {
-        this.domains = options?.domains ?? this.domains ?? {};
-        this.gestures = {...this.domains['*'], ...this.domains[document.domain]}
-        this.threshold_angle = options?.threshold_angle ?? this.threshold_angle;
-        this.sampling_period = options?.sampling_period ?? this.sampling_period;
-        this.scroll_factor = options?.scroll_factor ?? this.scroll_factor;
-        this.use_draw_line = options?.use_draw_line ?? this.use_draw_line;
-        this.use_action_preview = options?.use_action_preview ?? this.use_action_preview;
-        this.action_preview_x_offset = options?.action_preview_x_offset ?? this.action_preview_x_offset;
-        this.action_preview_y_offset = options?.action_preview_y_offset ?? this.action_preview_y_offset;
     }
 
     addOnChangedListener (fn) {
