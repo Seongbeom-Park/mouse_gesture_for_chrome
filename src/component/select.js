@@ -41,7 +41,7 @@ class Select extends LitElement {
                 </span>
             </div>
         
-            <div class="mdc-menu mdc-menu-surface mdc-menu-surface--fullwidth mdc-select__menu">
+            <div class="mdc-menu mdc-menu-surface mdc-menu-surface--fixed mdc-select__menu">
                 <ul class="mdc-list" role="listbox">
                     ${this.data.map(({value, label}) => createListItem(value, label))}
                 </ul>
