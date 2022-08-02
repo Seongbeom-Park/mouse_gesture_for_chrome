@@ -133,12 +133,14 @@ export class MainContentRules extends LitElement {
             </form>
             <button id="add_gesture">+</button><br>
             <main-content-footer></main-content-footer>
-            <lm-dialog id="new_rule_dialog"></lm-dialog>
 
-            <lm-text-field label="도메인"></lm-text-field>
-            <lm-text-field label="제스쳐"></lm-text-field>
-            <lm-select label="액션" data="${JSON.stringify(data)}" default_value=""></lm-select>
-            <lm-text-field label="키 입력"></lm-text-field>
+            <lm-dialog id="new_rule_dialog">
+                <lm-text-field label="도메인"></lm-text-field><br>
+                <lm-text-field label="제스쳐"></lm-text-field><br>
+                <lm-select label="액션" data="${JSON.stringify(data)}" default_value=""></lm-select><br>
+                <lm-text-field label="키 입력"></lm-text-field><br>
+            </lm-dialog>
+
         `;
     }
     firstUpdated () {

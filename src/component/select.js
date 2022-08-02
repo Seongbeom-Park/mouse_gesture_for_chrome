@@ -15,21 +15,12 @@ class Select extends LitElement {
     }
     render () {
         const createListItem = (value, label, selected = false) => {
-            if (selected) {
-                return html`
-                    <li class="mdc-list-item mdc-list-item--selected" aria-selected="true" data-value=${value} role="option">
-                        <span class="mdc-list-item__ripple"></span>
-                        ${label && html`<span class="mdc-list-item__text">${label}</span>`}
-                    </li>
-                `;
-            } else {
-                return html`
-                    <li class="mdc-list-item" aria-selected="false" data-value=${value} role="option">
-                        <span class="mdc-list-item__ripple"></span>
-                        ${label && html`<span class="mdc-list-item__text">${label}</span>`}
-                    </li>
-                `;
-            }
+            return html`
+                <li class="mdc-list-item ${selected ? "mdc-list-item--selected" : ""} unselectable" aria-selected=${selected} data-value=${value} role="option">
+                    <span class="mdc-list-item__ripple"></span>
+                    ${label && html`<span class="mdc-list-item__text">${label}</span>`}
+                </li>
+            `;
         }
 
         return html`
