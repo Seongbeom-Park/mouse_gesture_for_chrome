@@ -3,16 +3,16 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { MDCDataTable } from '@material/data-table';
 
-class DataTable extends LitElement {
+export class DataTable extends LitElement {
     static properties = {
         columns: {type: Object},
         contents: {type: Object},
-        create_checkbox: {type:Boolean},
     }
-    constructor () {
+    constructor (columns = [], contents = []) {
         super();
-        this.columns = [];
-        this.contents = [];
+        this.columns = columns;
+        this.contents = contents;
+        this.rows = {};
     }
     createCheckbox (position, id) {
         const createContents = ({ class_list, aria_label, aria_labelledby }) => {
@@ -73,6 +73,7 @@ class DataTable extends LitElement {
         }
 
         const createBodyRow = (id, data) => {
+            this.rows[id] = data;
             return html`
                 <tr data-row-id=${id} class="mdc-data-table__row" >
                     ${this.createCheckbox('body', id)}
@@ -83,7 +84,7 @@ class DataTable extends LitElement {
 
         return html`
             <tbody class="mdc-data-table__content">
-                ${this.contents.map((content, index) => createBodyRow('u' + index, content))}
+                ${this.contents.map((content, index) => createBodyRow(`${this.id}_row_${index}`, content))}
             </tbody>
         `;
     }

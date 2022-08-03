@@ -3,7 +3,7 @@ import { default_options, option_categories } from '@common/default_options';
 class Store extends EventTarget {
     constructor(options) {
         super();
-        this.domains = {};
+        this._domains = {};
         this._setNoEvent(options);
         
         this.listener_id = 0;
@@ -17,6 +17,10 @@ class Store extends EventTarget {
             }
             this.set(new_options);
         });
+    }
+
+    get domains () {
+        return this._domains;
     }
 
     reset (category) {
@@ -48,8 +52,10 @@ class Store extends EventTarget {
     _setNoEvent (options) {
         for (const k in default_options) {
             if (k in options) {
-                this[k] = options[k];
-                if (k === 'domains') this.gestures = {...this.domains['*'], ...this.domains[document.domain]}
+                if (k === 'domains') {
+                    this._domains = options[k];
+                    this.gestures = {...this._domains['*'], ...this._domains[document.domain]}
+                } else this[k] = options[k];
             }
         }
     }
@@ -61,7 +67,7 @@ class Store extends EventTarget {
 
     sync () {
         return chrome.storage.sync.set({
-            domains: this.domains,
+            domains: this._domains,
             threshold_angle: this.threshold_angle,
             sampling_period: this.sampling_period,
             scroll_factor: this.scroll_factor,
@@ -70,6 +76,21 @@ class Store extends EventTarget {
             action_preview_x_offset: this.action_preview_x_offset,
             action_preview_y_offset: this.action_preview_y_offset,
         });
+    }
+
+    // addRule (domain, gesture, action, details) {}
+    removeRule (domain, gesture) {
+        if (domain in this._domains) {
+            // remove gesture
+            if (gesture in this._domains[domain]) {
+                delete this._domains[domain][gesture];
+            }
+            // remove domain if empty
+            if (Object.keys(this._domains[domain]).length === 0) {
+                delete this._domains[domain];
+            }
+        }
+        this.dispatchEvent(new Event('Store:set'));
     }
 }
 
