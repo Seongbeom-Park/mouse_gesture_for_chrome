@@ -65,4 +65,4 @@ export const option_categories = [
             },
         ]
     },
-]
+];

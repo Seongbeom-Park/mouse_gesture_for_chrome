@@ -23,6 +23,11 @@ class Store extends EventTarget {
         return this._domains;
     }
 
+    set domains (_domains) {
+        this._domains = _domains;
+        this.gestures = { ...this._domains['*'], ...this._domains[document.domain] };
+    }
+
     reset (category) {
         const new_options = {};
         for (const { category: c, groups } of option_categories) {
@@ -52,10 +57,7 @@ class Store extends EventTarget {
     _setNoEvent (options) {
         for (const k in default_options) {
             if (k in options) {
-                if (k === 'domains') {
-                    this._domains = options[k];
-                    this.gestures = {...this._domains['*'], ...this._domains[document.domain]}
-                } else this[k] = options[k];
+                this[k] = options[k];
             }
         }
     }
@@ -78,16 +80,21 @@ class Store extends EventTarget {
         });
     }
 
-    // addRule (domain, gesture, action, details) {}
+    addRule (domain, gesture, action, action_details) {
+        if (!(domain in this.domains)) this._domains[domain] = {};
+        this._domains[domain][gesture] = { action, action_details };
+        this.dispatchEvent(new Event('Store:set'));
+    }
+
     removeRule (domain, gesture) {
-        if (domain in this._domains) {
+        if (domain in this.domains) {
             // remove gesture
-            if (gesture in this._domains[domain]) {
-                delete this._domains[domain][gesture];
+            if (gesture in this.domains[domain]) {
+                delete this.domains[domain][gesture];
             }
             // remove domain if empty
-            if (Object.keys(this._domains[domain]).length === 0) {
-                delete this._domains[domain];
+            if (Object.keys(this.domains[domain]).length === 0) {
+                delete this.domains[domain];
             }
         }
         this.dispatchEvent(new Event('Store:set'));
