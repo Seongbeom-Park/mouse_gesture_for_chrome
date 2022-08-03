@@ -1,5 +1,6 @@
 import { LitElement, html } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import { when } from 'lit/directives/when.js';
 import { MDCDialog } from '@material/dialog';
 
 class Dialog extends LitElement {
@@ -20,7 +21,7 @@ class Dialog extends LitElement {
                     aria-modal="true"
                     aria-labelledby="my-dialog-title"
                     aria-describedby="my-dialog-content">
-                    ${this.title ? html`<h2 class="mdc-dialog__title" id="my-dialog-title">${this.title}</h2>` : html``}
+                    ${when(this.title, () => html`<h2 class="mdc-dialog__title" id="my-dialog-title">${this.title}</h2>`)}
                     <div class="mdc-dialog__content" id="my-dialog-content">
                         ${slot}
                     </div>
