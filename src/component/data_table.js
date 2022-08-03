@@ -1,6 +1,8 @@
 import { LitElement, html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import { choose } from 'lit/directives/choose.js';
+import { map } from 'lit/directives/map.js';
 import { MDCDataTable } from '@material/data-table';
 
 export class DataTable extends LitElement {
@@ -30,39 +32,35 @@ export class DataTable extends LitElement {
             `;
         }
 
-        switch (position) {
-            case 'header':
-                return html`
+        return html`
+            ${choose(position, [
+                ['header', () => html`
                     <th class="mdc-data-table__header-cell mdc-data-table__header-cell--checkbox" role="columnheader" scope="col">
                         ${createContents({
                             class_list: ["mdc-data-table__header-row-checkbox", "mdc-checkbox--selected"],
                             aria_label: "Toggle all rows",
                         })}
                     </th>
-                `;
-            case 'body':
-                return html`
+                `],
+                ['body', () => html`
                     <td class="mdc-data-table__cell mdc-data-table__cell--checkbox">
                         ${createContents({
                             class_list: ["mdc-data-table__row-checkbox"],
                             aria_labelledby: id
                         })}
                     </td>
-                `;
-        }
+                `],
+            ])}
+        `;
     }
     createHeader () {
-        const createHeaderCell = (columns) => {
-            return columns.map((column) => html`
-                <th class="mdc-data-table__header-cell" role="columnheader" scope="col">${column}</th>
-            `);
-        }
+        const createHeaderCell = (column) => html`<th class="mdc-data-table__header-cell" role="columnheader" scope="col">${column}</th>`;
 
         return html`
             <thead>
                 <tr class="mdc-data-table__header-row">
                     ${this.createCheckbox('header')}
-                    ${createHeaderCell(this.columns)}
+                    ${map(this.columns, createHeaderCell)}
                 </tr>
             </thead>
         `;
@@ -77,14 +75,14 @@ export class DataTable extends LitElement {
             return html`
                 <tr data-row-id=${id} class="mdc-data-table__row" >
                     ${this.createCheckbox('body', id)}
-                    ${data.map((value, index) => createBodyCell(index === 0 ? {scope: 'row', id, value} : {value}))}
+                    ${map(data, (value, index) => createBodyCell(index === 0 ? {scope: 'row', id, value} : {value}))}
                 </tr>
             `;
         }
 
         return html`
             <tbody class="mdc-data-table__content">
-                ${this.contents.map((content, index) => createBodyRow(`${this.id}_row_${index}`, content))}
+                ${map(this.contents, (content, index) => createBodyRow(`${this.id}_row_${index}`, content))}
             </tbody>
         `;
     }
