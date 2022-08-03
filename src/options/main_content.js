@@ -1,7 +1,8 @@
 import { LitElement, html } from 'lit';
+import {choose} from 'lit/directives/choose.js';
 
 import '@options/main_content_rules';
-import { MainContentSettings } from '@options/main_content_settings';
+import '@options/main_content_settings';
 
 class MainContentNotFound extends LitElement {
     render () {
@@ -18,19 +19,15 @@ class MainContentRouter extends LitElement {
     static properties = {
         page: {type: String},
     }
-    route () {
-        switch (this.page) {
-            case 'rules':
-                return html`<main-content-rules></main-content-rules>`;
-            case 'settings':
-                return new MainContentSettings();
-            default:
-                return new MainContentNotFound();
-        }
-    }
     render () {
         return html`
-            <main class="main-content">${this.route()}</main><my-element></my-element>
+            <main class="main-content">
+                ${choose(this.page, [
+                    ['rules', () => html`<main-content-rules></main-content-rules>`],
+                    ['settings', () => html`<main-content-settings></main-content-settings>`],
+                ],
+                () => html`<main-content-not-found></main-content-not-found>`)}
+            </main>
         `;
     }
     createRenderRoot () {
