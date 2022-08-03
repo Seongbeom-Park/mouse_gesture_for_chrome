@@ -1,5 +1,6 @@
 import { LitElement, html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import { when } from 'lit/directives/when.js';
 import { MDCTextField } from '@material/textfield';
 
 export class TextField extends LitElement {
@@ -16,7 +17,7 @@ export class TextField extends LitElement {
             <span class="mdc-notched-outline">
                 <span class="mdc-notched-outline__leading"></span>
                 <span class="mdc-notched-outline__notch">
-                    ${this.label && html`<span class="mdc-floating-label" id="my-label-id">${this.label}</span>`}
+                    ${when(this.label, () => html`<span class="mdc-floating-label" id="my-label-id">${this.label}</span>`)}
                 </span>
                 <span class="mdc-notched-outline__trailing"></span>
             </span>
