@@ -5,6 +5,7 @@ class Button extends LitElement {
     static properties = {
         icon: {type: String},
         value: {type: String},
+        emphasis: {type: String}, // 'low', 'medium', 'high'
     }
     createIcon () {
         if (this.icon) {
@@ -22,7 +23,17 @@ class Button extends LitElement {
     connectedCallback () {
         super.connectedCallback();
         this.classList.add('mdc-button');
-        this.classList.add('mdc-button--outlined');
+        switch (this.emphasis){
+            case 'low':
+                break;
+            default:
+            case 'medium':
+                this.classList.add('mdc-button--outlined');
+                break;
+            case 'high':
+                this.classList.add('mdc-button--raised');
+                break;
+        }
     }
     firstUpdated () {
         this.button = new MDCRipple(this)

@@ -1,6 +1,7 @@
 import { LitElement, html } from 'lit';
 
 import { option_categories } from '@common/default_options';
+import { translate } from '@common/translate';
 
 class NavigationDrawer extends LitElement {
     static properties = {
@@ -45,14 +46,6 @@ class NavigationDrawerItem extends LitElement {
         else this.classList.remove('mdc-list-item--activated');
     }
     render () {
-        const translate = (text) => {
-            switch (text) {
-                case 'settings':
-                    return '설정';
-                case 'rules':
-                    return '규칙';
-            }
-        }
         return html`
             <a class="mdc-list-item" @click="${this.updateRouter}" aria-current="page">
                 <span class="mdc-list-item__ripple"></span>
