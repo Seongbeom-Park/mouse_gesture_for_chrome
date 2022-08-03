@@ -1,4 +1,6 @@
 import { LitElement, html } from 'lit';
+import { when } from 'lit/directives/when.js';
+import { map } from 'lit/directives/map.js';
 import { MDCSelect } from '@material/select';
 
 class Select extends LitElement {
@@ -26,7 +28,7 @@ class Select extends LitElement {
                 <span class="mdc-notched-outline">
                     <span class="mdc-notched-outline__leading"></span>
                     <span class="mdc-notched-outline__notch">
-                        ${this.label && html`<span class="mdc-floating-label">${this.label}</span>`}
+                        ${when(this.label, () => html`<span class="mdc-floating-label">${this.label}</span>`)}
                     </span>
                     <span class="mdc-notched-outline__trailing"></span>
                 </span>
@@ -41,7 +43,7 @@ class Select extends LitElement {
         
             <div class="mdc-menu mdc-menu-surface mdc-menu-surface--fixed mdc-select__menu">
                 <ul class="mdc-list" role="listbox">
-                    ${this.data.map(({value, label}) => createListItem(value, label))}
+                    ${map(this.data, ({value, label}) => createListItem(value, label))}
                 </ul>
             </div>
         `;
