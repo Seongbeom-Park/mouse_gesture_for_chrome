@@ -1,4 +1,5 @@
 import { LitElement, html } from 'lit';
+import { ref, createRef } from 'lit/directives/ref.js';
 
 import { store } from '@common/store';
 import { translate } from '@common/translate';
@@ -66,9 +67,6 @@ export class MainContentRules extends LitElement {
         this.rule_table = new DataTable(this.columns.map(translate), this.flatContents(store.domains));
         this.rule_table.id = 'rule_table';
 
-        const openNewRuleDialog = () => {
-            document.getElementById('new_rule_dialog').open();
-        }
 
         const addNewRule = (domain, gesture, action, action_details) => {
             store.addRule(domain, gesture, action, action_details);
@@ -83,6 +81,12 @@ export class MainContentRules extends LitElement {
             this.rule_table.data_table.setSelectedRowIds([]);
         }
 
+        const rule_dialog_ref = createRef();
+
+        const openNewRuleDialog = () => {
+            rule_dialog_ref?.value?.open();
+        }
+
         return html`
             <header><h1>규칙</h1></header>
             <lm-button icon="add" value="새 규칙 추가" @click="${openNewRuleDialog}"></lm-button>
@@ -90,8 +94,8 @@ export class MainContentRules extends LitElement {
             <br>
             ${this.rule_table}
             <main-content-footer page="${this.page}"></main-content-footer>
-            
-            <lm-dialog id="new_rule_dialog" class="unselectable" title="새 규칙 추가하기">
+
+            <lm-dialog ${ref(rule_dialog_ref)} class="unselectable" title="새 규칙 추가하기">
                 <lm-text-field label="도메인" default_value="*"></lm-text-field><br>
                 <lm-text-field label="제스쳐" placeholder="[UDLR]+"></lm-text-field><br>
                 <lm-select label="액션" data="${JSON.stringify(this.actions.map((a) => {return {value: a, label: translate(a)}}))}" default_value=""></lm-select><br>
