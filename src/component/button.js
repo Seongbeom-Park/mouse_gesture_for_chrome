@@ -1,4 +1,5 @@
 import { LitElement, html } from 'lit';
+import { when } from 'lit/directives/when.js';
 import { MDCRipple } from '@material/ripple';
 
 class Button extends LitElement {
@@ -7,16 +8,12 @@ class Button extends LitElement {
         value: {type: String},
         emphasis: {type: String}, // 'low', 'medium', 'high'
     }
-    createIcon () {
-        if (this.icon) {
-            this.classList.add('mdc-button--icon-leading');
-            return html`<i class="material-icons mdc-button__icon" aria-hidden="true">${this.icon}</i>`;
-        }
-    }
     render () {
+        if (this.icon)  this.classList.add('mdc-button--icon-leading');
+
         return html`
             <span class="mdc-button__ripple"></span>
-            ${this.createIcon()}
+            ${when(this.icon, () => html`<i class="material-icons mdc-button__icon" aria-hidden="true">${this.icon}</i>`)}
             <span class="mdc-button__label">${this.value}</span>
         `;
     }
