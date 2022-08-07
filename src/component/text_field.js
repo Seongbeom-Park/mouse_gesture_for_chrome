@@ -12,6 +12,9 @@ export class TextField extends LitElement {
     get value () {
         return this.text_field.value;
     }
+    set value (_value) {
+        this.text_field.value = _value;
+    }
     render () {
         return html`
             <span class="mdc-notched-outline">

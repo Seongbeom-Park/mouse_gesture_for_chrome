@@ -13,6 +13,12 @@ class Select extends LitElement {
         super();
         this.data = [];
     }
+    get value () {
+        return this.select.value;
+    }
+    set value (_value) {
+        this.select.value = _value;
+    }
     render () {
         const createListItem = (value, label) => {
             return html`
@@ -55,7 +61,7 @@ class Select extends LitElement {
     }
     firstUpdated () {
         this.select = new MDCSelect(this);
-        this.select.setValue(this.default_value);
+        this.select.value = this.default_value;
     }
     createRenderRoot () {
         return this;

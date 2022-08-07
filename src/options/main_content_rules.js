@@ -1,14 +1,13 @@
 import { LitElement, html } from 'lit';
-import { ref, createRef } from 'lit/directives/ref.js';
 
 import { store } from '@common/store';
 import { translate } from '@common/translate';
 import '@options/main_content_footer';
 import { DataTable } from '@component/data_table';
-import '@component/dialog';
 import '@component/button';
 import '@component/select';
 import '@component/text_field';
+import { RuleDialog } from './rule_dialog';
 
 export class MainContentRules extends LitElement {
     static properties = {
@@ -20,19 +19,6 @@ export class MainContentRules extends LitElement {
         this.id = 'main-content-rules';
         this.page = 'rules';
         this.columns = ['domain', 'gesture', 'action', 'action_details', 'edit'];
-        this.actions = [
-            'closeTab',
-            'goBack',
-            'goBackOrCloseTab',
-            'goForward',
-            'scrollTop',
-            'scrollBottom',
-            'pageDown',
-            'pageUp',
-            'restore',
-            'keydown',
-            'reload',
-        ];
     }
     
     flatContents (contents) {
@@ -67,11 +53,6 @@ export class MainContentRules extends LitElement {
         this.rule_table = new DataTable(this.columns.map(translate), this.flatContents(store.domains));
         this.rule_table.id = 'rule_table';
 
-
-        const addNewRule = (domain, gesture, action, action_details) => {
-            store.addRule(domain, gesture, action, action_details);
-        }
-
         const removeSelectedRules = () => {
             const ids = this.rule_table.data_table.getSelectedRowIds();
             for (const id of ids) {
@@ -81,26 +62,43 @@ export class MainContentRules extends LitElement {
             this.rule_table.data_table.setSelectedRowIds([]);
         }
 
-        const rule_dialog_ref = createRef();
+        const rule_dialog = new RuleDialog();
+        rule_dialog.title = '새 규칙 추가';
+        rule_dialog.actions = [
+            'closeTab',
+            'goBack',
+            'goBackOrCloseTab',
+            'goForward',
+            'scrollTop',
+            'scrollBottom',
+            'pageDown',
+            'pageUp',
+            'restore',
+            'keydown',
+            'reload',
+        ];
+        rule_dialog.default_values = {
+            domain: '*',
+            gesture: '',
+            action: '',
+            keydown: '',
+        }
+        rule_dialog.onaccept = ({domain, gesture, action, action_details}) => {
+            store.addRule(domain, gesture, action, action_details);
+        }
 
         const openNewRuleDialog = () => {
-            rule_dialog_ref?.value?.open();
+            rule_dialog.open();
         }
 
         return html`
             <header><h1>규칙</h1></header>
             <lm-button icon="add" value="새 규칙 추가" @click="${openNewRuleDialog}"></lm-button>
+            ${rule_dialog}
             <lm-button icon="delete" value="선택 항목 삭제" @click="${removeSelectedRules}"></lm-button>
             <br>
             ${this.rule_table}
             <main-content-footer page="${this.page}"></main-content-footer>
-
-            <lm-dialog ${ref(rule_dialog_ref)} class="unselectable" title="새 규칙 추가하기">
-                <lm-text-field label="도메인" default_value="*"></lm-text-field><br>
-                <lm-text-field label="제스쳐" placeholder="[UDLR]+"></lm-text-field><br>
-                <lm-select label="액션" data="${JSON.stringify(this.actions.map((a) => {return {value: a, label: translate(a)}}))}" default_value=""></lm-select><br>
-                <lm-text-field label="키 입력" placeholder="키 조합을 누르세요"></lm-text-field><br>
-            </lm-dialog>
         `;
     }
     connectedCallback () {
