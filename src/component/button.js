@@ -8,20 +8,7 @@ class Button extends LitElement {
         value: {type: String},
         emphasis: {type: String, status: true}, // 'low', 'medium', 'high'
     }
-    render () {
-        if (this.icon)  this.classList.add('mdc-button--icon-leading');
-
-        return html`
-            <span class="mdc-button__ripple"></span>
-            ${when(this.icon, () => html`<i class="material-icons mdc-button__icon" aria-hidden="true">${this.icon}</i>`)}
-            <span class="mdc-button__label">${this.value}</span>
-        `;
-    }
-    firstUpdated () {
-        this.button = new MDCRipple(this);
-        this.classList.add('mdc-button');
-    }
-    updated () {
+    changeEmphasis () {
         switch (this.emphasis){
             case 'low':
                 this.classList.remove('mdc-button--outlined');
@@ -37,6 +24,24 @@ class Button extends LitElement {
                 this.classList.add('mdc-button--raised');
                 break;
         }
+    }
+    render () {
+        if (this.icon)  this.classList.add('mdc-button--icon-leading');
+
+        return html`
+            <span class="mdc-button__ripple"></span>
+            ${when(this.icon, () => html`<i class="material-icons mdc-button__icon" aria-hidden="true">${this.icon}</i>`)}
+            <span class="mdc-button__label">${this.value}</span>
+        `;
+    }
+    connectedCallback () {
+        super.connectedCallback();
+        this.button = new MDCRipple(this);
+        this.classList.add('mdc-button');
+        this.changeEmphasis();
+    }
+    updated () {
+        this.changeEmphasis();
     }
     createRenderRoot () {
         return this;
