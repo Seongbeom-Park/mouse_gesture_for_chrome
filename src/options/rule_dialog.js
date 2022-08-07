@@ -22,7 +22,9 @@ export class RuleDialog extends LitElement {
     }
     open () {
         const getValidity = (valid, value, default_value) => valid ? valid : value === default_value;
+        this.gesture_input.value.valid = getValidity(this.gesture_input.value.valid, this.gesture_input.value.value, this.default_values.gesture);
         this.action_input.value.select.valid = getValidity(this.action_input.value.select.valid, this.action_input.value.value, this.default_values.action);
+        this.keydown_input.value.valid = getValidity(this.keydown_input.value.valid, this.keydown_input.value.value, this.default_values.action_details);
         this.dialog.open();
     }
     render () {
