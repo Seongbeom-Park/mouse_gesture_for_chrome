@@ -8,6 +8,7 @@ class Store extends EventTarget {
         
         this.listener_id = 0;
         this.listener_functions = {};
+        this.changed = false;
 
         chrome.storage.onChanged.addListener((changed) => {
             const new_options = {};
@@ -15,7 +16,7 @@ class Store extends EventTarget {
                 const { newValue } = changed[k];
                 new_options[k] = newValue;
             }
-            this.set(new_options);
+            this.set(new_options, false);
         });
     }
 
@@ -51,7 +52,8 @@ class Store extends EventTarget {
                 }
             }
         }
-        chrome.storage.sync.get(keys).then((options) => this.set(options));
+        chrome.storage.sync.get(keys).then((options) => this.set(options, false));
+        this.changed = false;
     }
 
     _setNoEvent (options) {
@@ -62,13 +64,15 @@ class Store extends EventTarget {
         }
     }
 
-    set (options) {
+    set (options, changed = true) {
         this._setNoEvent(options);
         this.dispatchEvent(new Event('Store:set'));
+        this.changed = changed;
+        this.dispatchEvent(new Event('Store:changed'));
     }
 
-    sync () {
-        return chrome.storage.sync.set({
+    async sync () {
+        await chrome.storage.sync.set({
             domains: this._domains,
             threshold_angle: this.threshold_angle,
             sampling_period: this.sampling_period,
@@ -78,26 +82,30 @@ class Store extends EventTarget {
             action_preview_x_offset: this.action_preview_x_offset,
             action_preview_y_offset: this.action_preview_y_offset,
         });
+        this.changed = false;
+        this.dispatchEvent(new Event('Store:changed'));
     }
 
     addRule (domain, gesture, action, action_details) {
-        if (!(domain in this.domains)) this._domains[domain] = {};
-        this._domains[domain][gesture] = { action, action_details };
-        this.dispatchEvent(new Event('Store:set'));
+        const domains = { ...this.domains };
+        if (!(domain in domains)) domains[domain] = {};
+        domains[domain][gesture] = { action, action_details };
+        this.set({...this, domains });
     }
 
     removeRule (domain, gesture) {
-        if (domain in this.domains) {
+        const domains = { ...this.domains }
+        if (domain in domains) {
             // remove gesture
-            if (gesture in this.domains[domain]) {
-                delete this.domains[domain][gesture];
+            if (gesture in domains[domain]) {
+                delete domains[domain][gesture];
             }
             // remove domain if empty
-            if (Object.keys(this.domains[domain]).length === 0) {
-                delete this.domains[domain];
+            if (Object.keys(domains[domain]).length === 0) {
+                delete domains[domain];
             }
         }
-        this.dispatchEvent(new Event('Store:set'));
+        this.set({...this, domains });
     }
 }
 
