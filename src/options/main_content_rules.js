@@ -83,9 +83,7 @@ export class MainContentRules extends LitElement {
             action: '',
             keydown: '',
         }
-        rule_dialog.onaccept = ({domain, gesture, action, action_details}) => {
-            store.addRule(domain, gesture, action, action_details);
-        }
+        rule_dialog.onaccept = ({domain, gesture, action, action_details}) => store.addRule(domain, gesture, action, action_details);
 
         const openNewRuleDialog = () => {
             rule_dialog.open();

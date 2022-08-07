@@ -1,6 +1,7 @@
 import { LitElement, html } from 'lit';
 import { when } from 'lit/directives/when.js';
 import { map } from 'lit/directives/map.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import { MDCSelect } from '@material/select';
 
 class Select extends LitElement {
@@ -8,6 +9,8 @@ class Select extends LitElement {
         label: {type: String},
         data: {type: Object},
         default_value: {type: String},
+        required: {type: Boolean},
+        onchange: {type: Object},
     }
     constructor () {
         super();
@@ -18,6 +21,12 @@ class Select extends LitElement {
     }
     set value (_value) {
         this.select.value = _value;
+    }
+    get valid () {
+        return this.select.valid;
+    }
+    set valid (_valid) {
+        this.select.valid = _valid;
     }
     render () {
         const createListItem = (value, label) => {
@@ -30,7 +39,7 @@ class Select extends LitElement {
         }
 
         return html`
-            <div class="mdc-select__anchor" aria-labelledby="outlined-select-label">
+            <div class="mdc-select__anchor" aria-labelledby="outlined-select-label" aria-required="${ifDefined(this.required)}">
                 <span class="mdc-notched-outline">
                     <span class="mdc-notched-outline__leading"></span>
                     <span class="mdc-notched-outline__notch">
@@ -58,9 +67,14 @@ class Select extends LitElement {
         super.connectedCallback();
         this.classList.add('mdc-select');
         this.classList.add('mdc-select--outlined');
+        if (this.required) this.classList.add('mdc-select--required');
     }
     firstUpdated () {
         this.select = new MDCSelect(this);
+        this.select.value = this.default_value;
+        if (this.onchange) this.select.listen('MDCSelect:change', (e) => this.onchange(e));
+    }
+    updated () {
         this.select.value = this.default_value;
     }
     createRenderRoot () {
