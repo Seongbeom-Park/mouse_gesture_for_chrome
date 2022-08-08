@@ -2,6 +2,7 @@ import { LitElement, html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { choose } from 'lit/directives/choose.js';
+import { when } from 'lit/directives/when.js';
 import { map } from 'lit/directives/map.js';
 import { MDCDataTable } from '@material/data-table';
 
@@ -70,7 +71,11 @@ export class DataTable extends LitElement {
         
         const createBody = () => {
             const createBodyCell = ({scope, id, value}) => {
-                return html`<th class="mdc-data-table__cell" scope=${ifDefined(scope)} id=${ifDefined(id)}>${unsafeHTML(value)}</th>`;
+                return html`
+                    <th class="mdc-data-table__cell" scope=${ifDefined(scope)} id=${ifDefined(id)}>
+                        ${when(typeof(value) === 'string', () => unsafeHTML(value), () => value)}
+                    </th>
+                `;
             }
 
             const createBodyRow = (id, data) => {

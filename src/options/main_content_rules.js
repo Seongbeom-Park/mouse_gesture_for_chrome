@@ -8,6 +8,7 @@ import '@component/button';
 import '@component/select';
 import '@component/text_field';
 import { RuleDialog } from './rule_dialog';
+import '@component/icon_button';
 
 export class MainContentRules extends LitElement {
     static properties = {
@@ -18,7 +19,7 @@ export class MainContentRules extends LitElement {
         super();
         this.id = 'main-content-rules';
         this.page = 'rules';
-        this.columns = ['domain', 'gesture', 'action', 'action_details', 'edit'];
+        this.columns = ['domain', 'gesture', 'action', 'action_details'];
     }
     
     flatContents (contents) {
@@ -43,7 +44,6 @@ export class MainContentRules extends LitElement {
                     gesture,
                     translate(action),
                     parseKeyboardEvent(action_details),
-                    '<i class="material-icons">edit</i>',
                 ];
             })
         });
@@ -62,9 +62,9 @@ export class MainContentRules extends LitElement {
             this.rule_table.data_table.setSelectedRowIds([]);
         }
 
-        const rule_dialog = new RuleDialog();
-        rule_dialog.title = '새 규칙 추가';
-        rule_dialog.actions = [
+        this.rule_dialog = new RuleDialog();
+        this.rule_dialog.title = '새 규칙 추가';
+        this.rule_dialog.actions = [
             'closeTab',
             'goBack',
             'goBackOrCloseTab',
@@ -77,22 +77,22 @@ export class MainContentRules extends LitElement {
             'keydown',
             'reload',
         ];
-        rule_dialog.default_values = {
+        this.rule_dialog.default_values = {
             domain: '*',
             gesture: '',
             action: '',
             keydown: '',
         }
-        rule_dialog.onaccept = ({domain, gesture, action, action_details}) => store.addRule(domain, gesture, action, action_details);
+        this.rule_dialog.onaccept = ({domain, gesture, action, action_details}) => store.addRule(domain, gesture, action, action_details);
 
         const openNewRuleDialog = () => {
-            rule_dialog.open();
+            this.rule_dialog.open();
         }
 
         return html`
             <header><h1>규칙</h1></header>
             <lm-button icon="add" value="새 규칙 추가" @click="${openNewRuleDialog}"></lm-button>
-            ${rule_dialog}
+            ${this.rule_dialog}
             <lm-button icon="delete" value="선택 항목 삭제" @click="${removeSelectedRules}"></lm-button>
             <br>
             ${this.rule_table}
