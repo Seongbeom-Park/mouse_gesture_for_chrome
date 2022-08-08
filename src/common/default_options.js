@@ -40,7 +40,9 @@ export const option_categories = [
         groups: [
             {
                 group: 'rules',
-                options: ['domains']
+                options: [
+                    { option: 'domains' }
+                ]
             }
         ]
     },
@@ -49,19 +51,30 @@ export const option_categories = [
         groups: [
             {
                 group: 'gesture',
-                options: ['threshold_angle', 'sampling_period']
+                options: [
+                    { option: 'threshold_angle', type: 'number', spec: { min: 0, max: 90, step: 1, unit: '°' } },
+                    { option: 'sampling_period', type: 'number', spec: { min: 1, max: 20, step: 1, unit: '/tick' } }
+                ]
             },
             {
                 group: 'action',
-                options: ['scroll_factor']
+                options: [
+                    { option: 'scroll_factor', type: 'number', spec: { min: 0, max: 5, step: 0.1, unit: 'page' } }
+                ]
             },
             {
                 group: 'drag_tracking',
-                options: ['use_draw_line']
+                options: [
+                    { option: 'use_draw_line', type: 'boolean' }
+                ]
             },
             {
                 group: 'action_preview',
-                options: ['use_action_preview', 'action_preview_x_offset', 'action_preview_y_offset']
+                options: [
+                    { option: 'use_action_preview', type: 'boolean', spec: {} },
+                    { option: 'action_preview_x_offset', type: 'number', spec: { min: -100, max: 100, step: 1, unit: 'px' } },
+                    { option: 'action_preview_y_offset', type: 'number', spec: { min: -100, max: 100, step: 1, unit: 'px' } }
+                ]
             },
         ]
     },

@@ -34,7 +34,7 @@ class Store extends EventTarget {
         for (const { category: c, groups } of option_categories) {
             if (c === category) {
                 for (const { options } of groups) {
-                    for (const option of options) {
+                    for (const { option } of options) {
                         new_options[option] = default_options[option];
                     }
                 }
@@ -48,7 +48,7 @@ class Store extends EventTarget {
         for (const { category: c, groups } of option_categories) {
             if (c === category) {
                 for (const { options } of groups) {
-                        keys.push(...options);
+                    keys.push(...(options.map(({option}) => option)));
                 }
             }
         }

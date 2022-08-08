@@ -63,7 +63,7 @@ export class MainContentRules extends LitElement {
         }
 
         this.rule_dialog = new RuleDialog();
-        this.rule_dialog.title = '새 규칙 추가';
+        this.rule_dialog.title = '규칙 추가하기/수정하기';
         this.rule_dialog.actions = [
             'closeTab',
             'goBack',
@@ -90,8 +90,8 @@ export class MainContentRules extends LitElement {
         }
 
         return html`
-            <header><h1>규칙</h1></header>
-            <lm-button icon="add" value="새 규칙 추가" @click="${openNewRuleDialog}"></lm-button>
+            <header><h1>${translate(this.page)}</h1></header>
+            <lm-button icon="add" value="규칙 추가/수정" @click="${openNewRuleDialog}"></lm-button>
             ${this.rule_dialog}
             <lm-button icon="delete" value="선택 항목 삭제" @click="${removeSelectedRules}"></lm-button>
             <br>
