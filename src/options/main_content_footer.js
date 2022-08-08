@@ -28,11 +28,17 @@ export class MainContentFooter extends LitElement {
             </div>
         `;
     }
-    firstUpdated () {
-        store.addEventListener('Store:changed', ({target}) => {
-            if (target.changed) this.save_button.value.emphasis = 'high';
-            else this.save_button.value.emphasis = 'medium';
-        })
+    highlightSaveButton = ({target}) => {
+        if (target.changed) this.save_button.value.emphasis = 'high';
+        else this.save_button.value.emphasis = 'medium';
+    }
+    connectedCallback () {
+        super.connectedCallback();
+        store.addEventListener('Store:changed', this.highlightSaveButton);
+    }
+    disconnectedCallback () {
+        super.disconnectedCallback();
+        store.removeEventListener('Store:changed', this.highlightSaveButton);
     }
     createRenderRoot () {
         return this;
