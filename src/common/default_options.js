@@ -52,28 +52,55 @@ export const option_categories = [
             {
                 group: 'gesture',
                 options: [
-                    { option: 'threshold_angle', type: 'number', spec: { min: 0, max: 90, step: 1, unit: '°' } },
-                    { option: 'sampling_period', type: 'number', spec: { min: 1, max: 20, step: 1, unit: '/tick' } }
+                    {
+                        option: 'threshold_angle',
+                        type: 'number',
+                        spec: { min: 0, max: 90, step: 1, unit: '°' }
+                    },
+                    {
+                        option: 'sampling_period',
+                        type: 'number',
+                        spec: { min: 1, max: 20, step: 1, unit: '/tick' }
+                    }
                 ]
             },
             {
                 group: 'action',
                 options: [
-                    { option: 'scroll_factor', type: 'number', spec: { min: 0, max: 5, step: 0.1, unit: 'page' } }
+                    {
+                        option: 'scroll_factor',
+                        type: 'number',
+                        spec: { min: 0, max: 5, step: 0.1, unit: 'page' }
+                    }
                 ]
             },
             {
                 group: 'drag_tracking',
                 options: [
-                    { option: 'use_draw_line', type: 'boolean' }
+                    {
+                        option: 'use_draw_line',
+                        type: 'boolean'
+                    }
                 ]
             },
             {
                 group: 'action_preview',
                 options: [
-                    { option: 'use_action_preview', type: 'boolean', spec: {} },
-                    { option: 'action_preview_x_offset', type: 'number', spec: { min: -100, max: 100, step: 1, unit: 'px' } },
-                    { option: 'action_preview_y_offset', type: 'number', spec: { min: -100, max: 100, step: 1, unit: 'px' } }
+                    {
+                        option: 'use_action_preview',
+                        type: 'boolean',
+                        spec: { children: ['action_preview_x_offset', 'action_preview_y_offset'] }
+                    },
+                    {
+                        option: 'action_preview_x_offset',
+                        type: 'number',
+                        spec: { min: -100, max: 100, step: 1, unit: 'px', dependency: 'use_action_preview' }
+                    },
+                    {
+                        option: 'action_preview_y_offset',
+                        type: 'number',
+                        spec: { min: -100, max: 100, step: 1, unit: 'px', dependency: 'use_action_preview' }
+                    }
                 ]
             },
         ]

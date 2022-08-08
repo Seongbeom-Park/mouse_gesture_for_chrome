@@ -10,12 +10,14 @@ import { translate } from '@common/translate';
 import { option_categories } from '@common/default_options';
 import '@options/main_content_footer';
 import { Slider } from '@component/slider';
+import { Switch } from '@component/switch';
 
 export class MainContentSettings extends LitElement {
     constructor () {
         super();
         this.page = 'settings';
-        this.sliders = [];
+        this.options = [];
+        this.options_map = {};
     }
     render () {
         const createSection = ({ group, options }) => {
@@ -31,20 +33,35 @@ export class MainContentSettings extends LitElement {
                                 ${when(spec?.unit, () => html`<span>(단위: ${spec.unit})</span>`)}
                                 ${choose(type, [
                                     ['number', () => {
-                                            const slider = new Slider();
-                                            this.sliders.push(slider)
-                                            slider.min = spec.min;
-                                            slider.max = spec.max;
-                                            slider.step = spec?.step;
-                                            slider.value = store[option];
-                                            slider.onchange = (e) => store.set({[option]: e.detail.value});
-                                            store.addEventListener('Store:set', ({target}) => {
-                                                slider.setValue(target[option]);
-                                            });
-                                            return html`${slider}`
+                                        const slider = new Slider();
+                                        slider.id = option;
+                                        slider.min = spec.min;
+                                        slider.max = spec.max;
+                                        slider.step = spec?.step;
+                                        slider.value = store[option];
+                                        slider.onchange = (e) => store.set({[option]: e.detail.value});
+                                        if (spec?.dependency) {
+                                            this.options_map[spec.dependency].addChild(slider);
                                         }
-                                    ],
-                                    ['boolean', () => html`switch placeholder`],
+                                        store.addEventListener('Store:set', ({target}) => {
+                                            slider.setValue(target[option]);
+                                        });
+                                        this.options.push(slider);
+                                        this.options_map[option] = slider;
+                                        return html`${slider}`;
+                                    }],
+                                    ['boolean', () => {
+                                        const toggle = new Switch();
+                                        toggle.id = option;
+                                        toggle.value = store[option];
+                                        toggle.onclick = () => store.set({[option]: toggle.selected});
+                                        store.addEventListener('Store:set', ({target}) => {
+                                            toggle.selected = target[option];
+                                        });
+                                        this.options.push(toggle);
+                                        this.options_map[option] = toggle;
+                                        return html`${toggle}`;
+                                    }],
                                 ])}
                             </label><br>
                         `)}
@@ -57,41 +74,6 @@ export class MainContentSettings extends LitElement {
         return html`
             <header><h1>${translate(this.page)}</h1></header>
             ${map(option_categories[1].groups, (group) => createSection(group))}
-
-            <label class="number">
-                <h2>threshold angle</h2>
-                <input type="number" id="threshold_angle" min="0" max="90" />°
-            </label><br>
-
-            <label class="number">
-                <h2>sampling period</h2>
-                <input type="number" id="sampling_period" min="1" />
-            </label><br>
-
-            <label class="number">
-                <h2>page up/down scroll factor</h2>
-                <input type="number" id="scroll_factor" min="0" />
-            </label><br>
-
-            <label class="number">
-                <h2>drag tracking activation</h2>
-                <input type="checkbox" id="use_draw_line">
-            </label>
-
-            <label class="number">
-                <h2>action preview activation</h2>
-                <input type="checkbox" id="use_action_preview">
-            </label>
-
-            <label class="number">
-                <h2>action preview text x offset from mouse curser</h2>
-                <input type="number" id="action_preview_x_offset">
-            </label>
-
-            <label class="number">
-                <h2>action preview text y offset from mouse curser</h2>
-                <input type="number" id="action_preview_y_offset">
-            </label>
             <main-content-footer page="settings"></main-content-footer>
         `;
     }

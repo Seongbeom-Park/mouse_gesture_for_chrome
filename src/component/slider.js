@@ -11,6 +11,12 @@ export class Slider extends LitElement {
         step: {type: Number},
         onchange: {type: Object},
     }
+    get disabled () {
+        return this.slider.getDisabled();
+    }
+    set disabled (value) {
+        this.slider.setDisabled(value);
+    }
     setValue (value) {
         this.slider.setValue(value);
     }
