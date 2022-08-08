@@ -15,6 +15,7 @@ export class MainContentSettings extends LitElement {
     constructor () {
         super();
         this.page = 'settings';
+        this.sliders = [];
     }
     render () {
         const createSection = ({ group, options }) => {
@@ -30,14 +31,17 @@ export class MainContentSettings extends LitElement {
                                 ${when(spec?.unit, () => html`<span>(단위: ${spec.unit})</span>`)}
                                 ${choose(type, [
                                     ['number', () => {
-                                        const slider = new Slider();
-                                        slider.min = spec.min;
-                                        slider.max = spec.max;
-                                        slider.step = spec?.step;
-                                        slider.value = store[option];
-                                        slider.onchange = (e) => store.set({[option]: e.detail.value});
-                                        store.addEventListener('Store:set', ({target}) => slider.setValue(target[option]));
-                                        return html`${slider}`
+                                            const slider = new Slider();
+                                            this.sliders.push(slider)
+                                            slider.min = spec.min;
+                                            slider.max = spec.max;
+                                            slider.step = spec?.step;
+                                            slider.value = store[option];
+                                            slider.onchange = (e) => store.set({[option]: e.detail.value});
+                                            store.addEventListener('Store:set', ({target}) => {
+                                                slider.setValue(target[option]);
+                                            });
+                                            return html`${slider}`
                                         }
                                     ],
                                     ['boolean', () => html`switch placeholder`],

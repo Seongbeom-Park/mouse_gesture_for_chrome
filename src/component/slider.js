@@ -39,6 +39,13 @@ export class Slider extends LitElement {
             </div>
         `;
     }
+    connectedCallback () {
+        super.connectedCallback();
+        (async () => {
+            await this.updateComplete;
+            this.slider.layout();
+        })();
+    }
     firstUpdated () {
         this.slider = new MDCSlider(this.slider.value);
         if (this.onchange) this.slider.listen('MDCSlider:change', (e) => this.onchange(e));
