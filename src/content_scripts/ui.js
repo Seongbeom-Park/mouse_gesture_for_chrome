@@ -1,4 +1,5 @@
 import { store } from '@common/store';
+import { translate } from '@common/translate';
 
 const line_class_name = 'mouse_gesture_for_chrome_line';
 
@@ -44,10 +45,10 @@ var action_preview;
 
 export const setTextActionPreview = (action_text, x, y) => {
     if (action_preview) {
-        action_preview.innerHTML = action_text ?? "";
+        action_preview.innerHTML = translate(action_text) ?? "";
     } else {
         action_preview = document.createElement('p');
-        action_preview.innerHTML = action_text ?? "";
+        action_preview.innerHTML = translate(action_text) ?? "";
         action_preview.style.position = 'absolute';
         action_preview.style.zIndex = 1000;
         action_preview.style.color = 'black';
