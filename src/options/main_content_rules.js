@@ -90,12 +90,24 @@ export class MainContentRules extends LitElement {
         }
 
         return html`
-            <header><h1>${translate(this.page)}</h1></header>
-            <lm-button icon="add" value="규칙 추가/수정" @click="${openNewRuleDialog}"></lm-button>
-            ${this.rule_dialog}
-            <lm-button icon="delete" value="선택 항목 삭제" @click="${removeSelectedRules}"></lm-button>
-            <br>
-            ${this.rule_table}
+            <div class="mdc-layout-grid">
+                <div class="mdc-layout-grid__inner">
+                    <div class="mdc-layout-grid__cell">
+                    <h1>${translate(this.page)}</h1></div>
+                </div>
+                <div class="mdc-layout-grid__inner">
+                    <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12">
+                        <lm-button icon="add" value="규칙 추가/수정" @click="${openNewRuleDialog}"></lm-button>
+                        ${this.rule_dialog}
+                        <lm-button icon="delete" value="선택 항목 삭제" @click="${removeSelectedRules}"></lm-button>
+                    </div>
+                </div>
+                <div class="mdc-layout-grid__inner">
+                    <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12">
+                        ${this.rule_table}
+                    </div>
+                </div>
+            </div>
             <main-content-footer page="${this.page}"></main-content-footer>
         `;
     }

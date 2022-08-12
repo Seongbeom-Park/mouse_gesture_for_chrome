@@ -22,58 +22,66 @@ export class MainContentSettings extends LitElement {
     render () {
         const createSection = ({ group, options }) => {
             return html`
-                <section>
-                    <div>
+                <hr class="divider">
+                <div class="mdc-layout-grid__inner">
+                    <div class="mdc-layout-grid__cell">
                         <h2>${translate(group)}</h2>
                     </div>
-                    <div>
-                        ${map(options, ({ option, type, spec }) => html`
-                            <label class="number">
-                                <span>${translate(option)}</span>
-                                ${when(spec?.unit, () => html`<span>(단위: ${spec.unit})</span>`)}
-                                ${choose(type, [
-                                    ['number', () => {
-                                        const slider = new Slider();
-                                        slider.id = option;
-                                        slider.min = spec.min;
-                                        slider.max = spec.max;
-                                        slider.step = spec?.step;
-                                        slider.value = store[option];
-                                        slider.onchange = (e) => store.set({[option]: e.detail.value});
-                                        if (spec?.dependency) {
-                                            this.options_map[spec.dependency].addChild(slider);
-                                        }
-                                        store.addEventListener('Store:set', ({target}) => {
-                                            slider.setValue(target[option]);
-                                        });
-                                        this.options.push(slider);
-                                        this.options_map[option] = slider;
-                                        return html`${slider}`;
-                                    }],
-                                    ['boolean', () => {
-                                        const toggle = new Switch();
-                                        toggle.id = option;
-                                        toggle.value = store[option];
-                                        toggle.onclick = () => store.set({[option]: toggle.selected});
-                                        store.addEventListener('Store:set', ({target}) => {
-                                            toggle.selected = target[option];
-                                        });
-                                        this.options.push(toggle);
-                                        this.options_map[option] = toggle;
-                                        return html`${toggle}`;
-                                    }],
-                                ])}
-                            </label><br>
-                        `)}
-                    </div>
-                </section>
-                <br>
+                </div>
+                ${map(options, ({ option, type, spec }) => html`
+                    <label class="number mdc-layout-grid__inner">
+                        <div class="mdc-layout-grid__cell">
+                            <span>${translate(option)}</span>
+                            ${when(spec?.unit, () => html`<span>(단위: ${spec.unit})</span>`)}
+                        </div>
+                        ${choose(type, [
+                            ['number', () => {
+                                const slider = new Slider();
+                                slider.classList.add('mdc-layout-grid__cell');
+                                slider.id = option;
+                                slider.min = spec.min;
+                                slider.max = spec.max;
+                                slider.step = spec?.step;
+                                slider.value = store[option];
+                                slider.onchange = (e) => store.set({[option]: e.detail.value});
+                                if (spec?.dependency) {
+                                    this.options_map[spec.dependency].addChild(slider);
+                                }
+                                store.addEventListener('Store:set', ({target}) => {
+                                    slider.setValue(target[option]);
+                                });
+                                this.options.push(slider);
+                                this.options_map[option] = slider;
+                                return html`${slider}`;
+                            }],
+                            ['boolean', () => {
+                                const toggle = new Switch();
+                                toggle.classList.add('mdc-layout-grid__cell');
+                                toggle.id = option;
+                                toggle.value = store[option];
+                                toggle.onclick = () => store.set({[option]: toggle.selected});
+                                store.addEventListener('Store:set', ({target}) => {
+                                    toggle.selected = target[option];
+                                });
+                                this.options.push(toggle);
+                                this.options_map[option] = toggle;
+                                return html`${toggle}`;
+                            }],
+                        ])}
+                    </label>
+                `)}
             `;
         }
 
         return html`
-            <header><h1>${translate(this.page)}</h1></header>
-            ${map(option_categories[1].groups, (group) => createSection(group))}
+            <div class="mdc-layout-grid">
+                <div class="mdc-layout-grid__inner">
+                    <div class="mdc-layout-grid__cell">
+                        <h1>${translate(this.page)}</h1>
+                    </div>
+                </div>
+                ${map(option_categories[1].groups, (group) => createSection(group))}
+            </div>
             <main-content-footer page="settings"></main-content-footer>
         `;
     }

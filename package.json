@@ -21,6 +21,7 @@
     "@material/data-table": "^14.0.0",
     "@material/dialog": "^14.0.0",
     "@material/drawer": "^14.0.0",
+    "@material/layout-grid": "^14.0.0",
     "@material/list": "^14.0.0",
     "@material/menu": "^14.0.0",
     "@material/ripple": "^14.0.0",
