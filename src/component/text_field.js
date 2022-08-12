@@ -32,7 +32,7 @@ export class TextField extends LitElement {
     render () {
         this.text_field_ref = createRef();
         return html`
-            <label ${ref(this.text_field_ref)} class="mdc-text-field mdc-text-field--outlined ${when(this.default_value, () => 'mdc-text-field--label-floating')}">
+            <label ${ref(this.text_field_ref)} class="mdc-text-field mdc-text-field--outlined ${when(this.default_value, () => 'mdc-text-field--label-floating')} ${this.classList.value}">
                 <span class="mdc-notched-outline">
                     <span class="mdc-notched-outline__leading"></span>
                     <span class="mdc-notched-outline__notch">

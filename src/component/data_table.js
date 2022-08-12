@@ -57,7 +57,7 @@ export class DataTable extends LitElement {
         }
 
         const createHeader = () => {
-            const createHeaderCell = (column) => html`<th class="mdc-data-table__header-cell" role="columnheader" scope="col">${column}</th>`;
+            const createHeaderCell = (column) => html`<th class="mdc-data-table__header-cell mdc-typography mdc-typography--headline6" role="columnheader" scope="col">${column}</th>`;
     
             return html`
                 <thead>

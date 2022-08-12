@@ -21,7 +21,7 @@ class MainContentRouter extends LitElement {
     }
     render () {
         return html`
-            <main class="main-content">
+            <main class="main-content mdc-typography mdc-typography--body1">
                 ${choose(this.page, [
                     ['rules', () => html`<main-content-rules></main-content-rules>`],
                     ['settings', () => html`<main-content-settings></main-content-settings>`],

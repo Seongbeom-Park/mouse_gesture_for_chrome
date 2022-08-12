@@ -72,34 +72,52 @@ export class RuleDialog extends LitElement {
                     aria-modal="true"
                     aria-labelledby="my-dialog-title"
                     aria-describedby="my-dialog-content">
-                    ${when(this.title, () => html`<h2 class="mdc-dialog__title" id="my-dialog-title">${this.title}</h2>`)}
-                    <div class="mdc-dialog__content" id="my-dialog-content">
-                        <lm-text-field ${ref(this.domain_input)}
-                            label="도메인"
-                            default_value="${this.default_values.domain}"
-                            required
-                            pattern="((?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9])|[*]"
-                            ></lm-text-field><br>
-                        <lm-text-field ${ref(this.gesture_input)}
-                            label="제스쳐"
-                            placeholder="[UDLR]+"
-                            required
-                            pattern="(([UDLR])(?!\\2))+"
-                            ></lm-text-field><br>
-                        <lm-select ${ref(this.action_input)}
-                            label="액션"
-                            data="${JSON.stringify(this.actions.map((a) => {return {value: a, label: translate(a)}}))}"
-                            required
-                            .onchange="${() => { this.keydown_input.value.hidden = this.action_input.value.value !== 'keydown'; }}"
-                            ></lm-select><br>
-                        <lm-text-field ${ref(this.keydown_input)}
-                            label="키 입력"
-                            placeholder="키 조합을 누르세요"
-                            .onkeydown="${(e) => onKeydownEvent(e)}"
-                            pattern="(Ctrl + )?(Shift + )?(Alt + )?'[A-Z]'"
-                            required
-                            hidden
-                            ></lm-text-field><br>
+                    <div class="mdc-dialog__header">
+                        ${when(this.title, () => html`<h2 class="mdc-dialog__title">${this.title}</h2>`)}
+                    </div>
+                    <div class="mdc-dialog__content" id="rule-dialog-content">
+                        <div class="mdc-layout-grid">
+                            <div class="mdc-layout-grid__inner">
+                                <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12">
+                                    <lm-text-field ${ref(this.domain_input)}
+                                        class="dialog_input"
+                                        label="도메인"
+                                        default_value="${this.default_values.domain}"
+                                        required
+                                        pattern="((?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9])|[*]"
+                                        ></lm-text-field>
+                                </div>
+                                <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12">
+                                    <lm-text-field ${ref(this.gesture_input)}
+                                        class="dialog_input"
+                                        label="제스쳐"
+                                        placeholder="[UDLR]+"
+                                        required
+                                        pattern="(([UDLR])(?!\\2))+"
+                                        ></lm-text-field>
+                                </div>
+                                <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12">
+                                    <lm-select ${ref(this.action_input)}
+                                        class="dialog_input"
+                                        label="액션"
+                                        data="${JSON.stringify(this.actions.map((a) => {return {value: a, label: translate(a)}}))}"
+                                        required
+                                        .onchange="${() => { this.keydown_input.value.hidden = this.action_input.value.value !== 'keydown'; }}"
+                                        ></lm-select>
+                                </div>
+                                <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12">
+                                    <lm-text-field ${ref(this.keydown_input)}
+                                        class="dialog_input"
+                                        label="키 입력"
+                                        placeholder="키 조합을 누르세요"
+                                        .onkeydown="${(e) => onKeydownEvent(e)}"
+                                        pattern="(Ctrl + )?(Shift + )?(Alt + )?'[A-Z]'"
+                                        required
+                                        hidden
+                                        ></lm-text-field>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="mdc-dialog__actions">
                         <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="close"
@@ -137,6 +155,7 @@ export class RuleDialog extends LitElement {
     connectedCallback () {
         super.connectedCallback();
         this.classList.add('mdc-dialog');
+        this.classList.add('mdc-dialog--no-content-padding');
     }
     firstUpdated () {
         this.dialog = new MDCDialog(this);

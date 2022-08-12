@@ -93,7 +93,8 @@ export class MainContentRules extends LitElement {
             <div class="mdc-layout-grid">
                 <div class="mdc-layout-grid__inner">
                     <div class="mdc-layout-grid__cell">
-                    <h1>${translate(this.page)}</h1></div>
+                        <h1 class="mdc-typography mdc-typography--headline5">${translate(this.page)}</h1>
+                    </div>
                 </div>
                 <div class="mdc-layout-grid__inner">
                     <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12">

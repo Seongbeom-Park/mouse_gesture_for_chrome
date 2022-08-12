@@ -18,11 +18,11 @@ const word_map = {
     action_preview: '액션 미리보기',
 
     //gestures
-    threshold_angle: '상하좌우(UDLR) 판정 기준',
+    threshold_angle: '상하좌우(UDLR) 판정 기준 각도',
     sampling_period: '마우스 이동 방향 판정 주기',
     scroll_factor: '페이지 이동 비율',
-    use_draw_line: '마우스 이동 경로 표시',
-    use_action_preview: '액션 미리보기 표시',
+    use_draw_line: '마우스 이동 경로 표시 여부',
+    use_action_preview: '액션 미리보기 표시 여부',
     action_preview_x_offset: '액션 미리보기 가로 위치',
     action_preview_y_offset: '액션 미리보기 세로 위치',
 

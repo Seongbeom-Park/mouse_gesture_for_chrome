@@ -1,8 +1,6 @@
 import { LitElement, html } from 'lit';
 import { map } from 'lit/directives/map.js';
 import { choose } from 'lit/directives/choose.js';
-import { ifDefined } from 'lit/directives/if-defined.js';
-import { ref, createRef } from 'lit/directives/ref.js';
 import { when } from 'lit/directives/when.js';
 
 import { store } from '@common/store';
@@ -25,14 +23,14 @@ export class MainContentSettings extends LitElement {
                 <hr class="divider">
                 <div class="mdc-layout-grid__inner">
                     <div class="mdc-layout-grid__cell">
-                        <h2>${translate(group)}</h2>
+                        <h2 class="mdc-typography mdc-typography--headline6">${translate(group)}</h2>
                     </div>
                 </div>
                 ${map(options, ({ option, type, spec }) => html`
                     <label class="number mdc-layout-grid__inner">
                         <div class="mdc-layout-grid__cell">
                             <span>${translate(option)}</span>
-                            ${when(spec?.unit, () => html`<span>(단위: ${spec.unit})</span>`)}
+                            ${when(spec?.unit, () => html`<span class="mdc-typography mdc-typography--body2">(단위: ${spec.unit})</span>`)}
                         </div>
                         ${choose(type, [
                             ['number', () => {
@@ -77,7 +75,7 @@ export class MainContentSettings extends LitElement {
             <div class="mdc-layout-grid">
                 <div class="mdc-layout-grid__inner">
                     <div class="mdc-layout-grid__cell">
-                        <h1>${translate(this.page)}</h1>
+                        <h1 class="mdc-typography mdc-typography--headline5">${translate(this.page)}</h1>
                     </div>
                 </div>
                 ${map(option_categories[1].groups, (group) => createSection(group))}

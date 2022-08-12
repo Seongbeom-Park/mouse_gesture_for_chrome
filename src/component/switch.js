@@ -58,7 +58,6 @@ export class Switch extends LitElement {
                     </div>
                 </div>
             </button>
-            <label for="basic-switch">off/on</label>
         `;
     }
     connectedCallback () {
