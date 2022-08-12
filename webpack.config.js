@@ -7,7 +7,7 @@ const autoprefixer = require('autoprefixer');
 module.exports = {
   mode: 'production',
   optimization: {
-    minimize: false
+    minimize: true
   },
   resolve: {
     alias: {
