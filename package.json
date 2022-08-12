@@ -4,7 +4,9 @@
   "description": "[한국어 페이지](README.md)",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --config webpack.config.js"
+    "build": "webpack --config webpack.config.js",
+    "clean": "rm mouse_gesture_for_chrome-*.zip; rm -rf dist",
+    "zip": "npm run build; cd dist; zip -r ../mouse_gesture_for_chrome-${npm_package_version}.zip ."
   },
   "repository": {
     "type": "git",
@@ -44,6 +46,7 @@
     "postcss-loader": "^7.0.1",
     "sass": "^1.54.0",
     "sass-loader": "^13.0.2",
+    "terser-webpack-plugin": "^5.3.3",
     "webpack": "^5.74.0",
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.9.3"
