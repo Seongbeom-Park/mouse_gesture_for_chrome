@@ -1,6 +1,9 @@
-line_class_name = 'mouse_gesture_for_chrome_line';
+import { store } from '@common/store';
+import { translate } from '@common/translate';
 
-createLineElement = (x, y, length, angle) => {
+const line_class_name = 'mouse_gesture_for_chrome_line';
+
+const createLineElement = (x, y, length, angle) => {
     var line = document.createElement("div");
     var styles = 'border: 1px solid black; '
                + 'width: ' + length + 'px; '
@@ -17,7 +20,7 @@ createLineElement = (x, y, length, angle) => {
     return line;
 }
 
-createLine = (x1, y1, x2, y2) => {
+export const createLine = (x1, y1, x2, y2) => {
     var a = x1 - x2,
         b = y1 - y2,
         c = Math.sqrt(a * a + b * b);
@@ -33,36 +36,36 @@ createLine = (x1, y1, x2, y2) => {
     document.body.appendChild(createLineElement(x, y, c, alpha));
 }
 
-removeLines = () => {
+export const removeLines = () => {
     [...document.getElementsByClassName(line_class_name)].forEach(e => e.remove());
 }
 
 
-let action_preview;
+var action_preview;
 
-setTextActionPreview = (action_text, x, y) => {
+export const setTextActionPreview = (action_text, x, y) => {
     if (action_preview) {
-        action_preview.innerHTML = action_text ?? "";
+        action_preview.innerHTML = translate(action_text) ?? "";
     } else {
         action_preview = document.createElement('p');
-        action_preview.innerHTML = action_text ?? "";
+        action_preview.innerHTML = translate(action_text) ?? "";
         action_preview.style.position = 'absolute';
         action_preview.style.zIndex = 1000;
         action_preview.style.color = 'black';
         action_preview.style.backgroundColor = 'white';
-        action_preview.style.left = x + action_preview_x_offset + 'px';
-        action_preview.style.top = y + action_preview_y_offset + 'px';
+        action_preview.style.left = x + store.action_preview_x_offset + 'px';
+        action_preview.style.top = y + store.action_preview_y_offset + 'px';
         document.body.appendChild(action_preview);
     }
 }
 
-setPositionActionPreview = (x, y) => {
+export const setPositionActionPreview = (x, y) => {
     if (action_preview) {
-        action_preview.style.left = x + action_preview_x_offset + 'px';
-        action_preview.style.top = y + action_preview_y_offset + 'px';
+        action_preview.style.left = x + store.action_preview_x_offset + 'px';
+        action_preview.style.top = y + store.action_preview_y_offset + 'px';
     }
 }
 
-hideActionPreview = () => {
+export const hideActionPreview = () => {
     action_preview = action_preview?.remove();
 }
