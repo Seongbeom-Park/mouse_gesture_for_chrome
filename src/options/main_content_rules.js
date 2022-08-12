@@ -76,6 +76,7 @@ export class MainContentRules extends LitElement {
             'restore',
             'keydown',
             'reload',
+            'nothing',
         ];
         this.rule_dialog.default_values = {
             domain: '*',
