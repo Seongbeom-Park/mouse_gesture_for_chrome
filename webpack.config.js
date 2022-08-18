@@ -26,12 +26,14 @@ module.exports = {
         "@content_scripts": path.resolve(__dirname, 'src/content_scripts'),
         "@options": path.resolve(__dirname, 'src/options'),
         "@component": path.resolve(__dirname, 'src/component'),
+        "@popup": path.resolve(__dirname, 'src/popup'),
     }
   },
   entry: {
     background: "./src/background/background.js",
     content_scripts: "./src/content_scripts/gesture.js",
     options: "./src/options/options.js",
+    popup: "./src/popup/popup.js",
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -48,6 +50,11 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: 'options.html',
       template: 'src/options/options.html',
+      inject: false
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'popup.html',
+      template: 'src/popup/popup.html',
       inject: false
     }),
   ],
