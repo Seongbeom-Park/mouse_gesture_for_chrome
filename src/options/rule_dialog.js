@@ -11,12 +11,16 @@ import '@component/button';
 
 export class RuleDialog extends LitElement {
     static properties = {
+        fullscreen: {type: Boolean},
+
         title: {type: String},
-        oncancle: {type: Object},
         onaccept: {type: Object},
         actions: {type: Object},
         default_values: {type: Object},
+
         disable_domain: {type: Boolean},
+        onClose: {type: Object},
+        onOpenOptions: {type: Object},
     }
     get valid () {
         if (!this.domain_input.value.valid) return false;
@@ -79,6 +83,12 @@ export class RuleDialog extends LitElement {
                     aria-describedby="my-dialog-content">
                     <div class="mdc-dialog__header">
                         ${when(this.title, () => html`<h2 class="mdc-dialog__title">${this.title}</h2>`)}
+                        ${when(this.fullscreen, () => html`
+                            <button class="mdc-icon-button material-icons mdc-dialog__close" data-mdc-dialog-action="close"
+                                @click=${() => this.onClose()}>
+                                close
+                            </button>
+                        `)}
                     </div>
                     <div class="mdc-dialog__content" id="rule-dialog-content">
                         <div class="mdc-layout-grid">
@@ -126,11 +136,13 @@ export class RuleDialog extends LitElement {
                         </div>
                     </div>
                     <div class="mdc-dialog__actions">
-                        <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="close"
-                            @click="${init_values}">
-                            <div class="mdc-button__ripple"></div>
-                            <span class="mdc-button__label">취소</span>
-                        </button>
+                        ${when(!this.fullscreen, () => html`
+                            <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="close"
+                                @click="${init_values}">
+                                <div class="mdc-button__ripple"></div>
+                                <span class="mdc-button__label">취소</span>
+                            </button>
+                        `)}
                         <button type="button" class="mdc-button mdc-dialog__button"
                             @click="${() => {
                                 if (this.valid) {
@@ -152,6 +164,13 @@ export class RuleDialog extends LitElement {
                             <div class="mdc-button__ripple"></div>
                             <span class="mdc-button__label">추가하기</span>
                         </button>
+                        ${when(this.onOpenOptions, () => html`
+                            <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="close"
+                                @click="${() => this.onOpenOptions()}">
+                                <div class="mdc-button__ripple"></div>
+                                <span class="mdc-button__label">${translate('open_options')}</span>
+                            </button>
+                        `)}
                     </div>
                 </div>
             </div>
@@ -162,6 +181,8 @@ export class RuleDialog extends LitElement {
         super.connectedCallback();
         this.classList.add('mdc-dialog');
         this.classList.add('mdc-dialog--no-content-padding');
+        if (this.fullscreen) this.classList.add('mdc-dialog--fullscreen');
+        else this.classList.remove('mdc-dialog--fullscreen');
     }
     firstUpdated () {
         this.dialog = new MDCDialog(this);

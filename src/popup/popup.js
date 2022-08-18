@@ -3,14 +3,13 @@ import '@options/styles/options.scss';
 import { LitElement, html } from 'lit';
 
 import { store } from '@common/store';
-import { translate } from '@common/translate';
 import { RuleDialog } from '@options/rule_dialog';
 
 class Popup extends LitElement {
     render () {
         this.rule_dialog = new RuleDialog();
+        this.rule_dialog.fullscreen = true;
         this.rule_dialog.classList.add('mdc-dialog--open');
-        this.rule_dialog.classList.add('mdc-dialog--fullscreen');
         this.rule_dialog.title = '현재 도메인 이름으로 규칙 추가하기';
         this.rule_dialog.actions = [
             'closeTab',
@@ -39,7 +38,8 @@ class Popup extends LitElement {
             window.close();
         }
 
-        const openOptions = () => chrome.runtime.openOptionsPage();
+        this.rule_dialog.onClose = () => window.close();
+        this.rule_dialog.onOpenOptions = () => chrome.runtime.openOptionsPage();
 
         return html`
             ${this.rule_dialog}
