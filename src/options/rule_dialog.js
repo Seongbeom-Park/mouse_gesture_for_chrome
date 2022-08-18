@@ -111,7 +111,7 @@ export class RuleDialog extends LitElement {
                                         label="키 입력"
                                         placeholder="키 조합을 누르세요"
                                         .onkeydown="${(e) => onKeydownEvent(e)}"
-                                        pattern="(Ctrl + )?(Shift + )?(Alt + )?'[A-Z]'"
+                                        pattern="(Ctrl \\+ )?(Shift \\+ )?(Alt \\+ )?'[A-Z]'"
                                         required
                                         hidden
                                         ></lm-text-field>
