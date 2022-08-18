@@ -4,6 +4,9 @@ import { when } from 'lit/directives/when.js';
 import { MDCDialog } from '@material/dialog';
 
 import { translate } from '@common/translate';
+import '@component/text_field';
+import '@component/select';
+import '@component/button';
 
 export class RuleDialog extends LitElement {
     static properties = {
