@@ -41,7 +41,6 @@ const word_map = {
     nothing: '아무 작업하지 않음',
 
     // rules
-    add_edit_rule: '규칙 추가/수정 하기',
     open_options: '옵션 열기'
 }
 
