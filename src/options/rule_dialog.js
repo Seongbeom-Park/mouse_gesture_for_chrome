@@ -1,6 +1,7 @@
 import { LitElement, html } from 'lit';
 import { ref, createRef } from 'lit/directives/ref.js';
 import { when } from 'lit/directives/when.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import { MDCDialog } from '@material/dialog';
 
 import { translate } from '@common/translate';
@@ -14,7 +15,8 @@ export class RuleDialog extends LitElement {
         oncancle: {type: Object},
         onaccept: {type: Object},
         actions: {type: Object},
-        default_values: {type: Object}
+        default_values: {type: Object},
+        disable_domain: {type: Boolean},
     }
     get valid () {
         if (!this.domain_input.value.valid) return false;
@@ -88,6 +90,7 @@ export class RuleDialog extends LitElement {
                                         default_value="${this.default_values.domain}"
                                         required
                                         pattern="((?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9])|[*]"
+                                        disabled=${ifDefined(this.disable_domain)}
                                         ></lm-text-field>
                                 </div>
                                 <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12">

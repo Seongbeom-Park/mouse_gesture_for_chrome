@@ -32,6 +32,7 @@ class Popup extends LitElement {
             action: '',
             keydown: '',
         }
+        this.rule_dialog.disable_domain = true;
         this.rule_dialog.onaccept = ({domain, gesture, action, action_details}) => {
             store.addRule(domain, gesture, action, action_details);
             store.sync();
