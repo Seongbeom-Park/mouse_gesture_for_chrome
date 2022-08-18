@@ -83,7 +83,7 @@ export class RuleDialog extends LitElement {
                     aria-describedby="my-dialog-content">
                     <div class="mdc-dialog__header">
                         ${when(this.title, () => html`<h2 class="mdc-dialog__title">${this.title}</h2>`)}
-                        ${when(this.fullscreen, () => html`
+                        ${when(this.fullscreen && this.onClose, () => html`
                             <button class="mdc-icon-button material-icons mdc-dialog__close" data-mdc-dialog-action="close"
                                 @click=${() => this.onClose()}>
                                 close
