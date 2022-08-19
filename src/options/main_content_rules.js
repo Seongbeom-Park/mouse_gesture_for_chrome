@@ -2,13 +2,14 @@ import { LitElement, html } from 'lit';
 
 import { store } from '@common/store';
 import { translate } from '@common/translate';
-import '@options/main_content_footer';
-import { DataTable } from '@component/data_table';
 import '@component/button';
+import { DataTable } from '@component/data_table';
+import '@component/icon_button';
 import '@component/select';
 import '@component/text_field';
-import { RuleDialog } from './rule_dialog';
-import '@component/icon_button';
+import { action_list } from '@content_scripts/actions';
+import '@options/main_content_footer';
+import { RuleDialog } from '@options/rule_dialog';
 
 export class MainContentRules extends LitElement {
     static properties = {
@@ -64,20 +65,7 @@ export class MainContentRules extends LitElement {
 
         this.rule_dialog = new RuleDialog();
         this.rule_dialog.title = '규칙 추가하기/수정하기';
-        this.rule_dialog.actions = [
-            'closeTab',
-            'goBack',
-            'goBackOrCloseTab',
-            'goForward',
-            'scrollTop',
-            'scrollBottom',
-            'pageDown',
-            'pageUp',
-            'restore',
-            'keydown',
-            'reload',
-            'nothing',
-        ];
+        this.rule_dialog.actions = action_list;
         this.rule_dialog.default_values = {
             domain: '*',
             gesture: '',

@@ -27,3 +27,18 @@ export const action_map = {
     'reload': reload,
     'nothing': nothing,
 };
+
+export const action_list = [
+    'closeTab',
+    'goBack',
+    'goBackOrCloseTab',
+    'goForward',
+    'scrollTop',
+    'scrollBottom',
+    'pageDown',
+    'pageUp',
+    'restore',
+    'keydown',
+    'reload',
+    'nothing',
+];

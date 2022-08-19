@@ -17,7 +17,7 @@ const word_map = {
     drag_tracking: '마우스 이동 경로',
     action_preview: '액션 미리보기',
 
-    //gestures
+    // gestures
     threshold_angle: '상하좌우(UDLR) 판정 기준 각도',
     sampling_period: '마우스 이동 방향 판정 주기',
     scroll_factor: '페이지 이동 비율',
@@ -39,6 +39,9 @@ const word_map = {
     keydown: '키보드 입력',
     reload: '새로고침',
     nothing: '아무 작업하지 않음',
+
+    // rules
+    open_options: '옵션 열기'
 }
 
 export const translate = (text) => {

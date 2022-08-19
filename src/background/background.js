@@ -51,5 +51,3 @@ chrome.runtime.onInstalled.addListener((details) => {
             break;
     }
 });
-
-chrome.action.onClicked.addListener(openOptions);
