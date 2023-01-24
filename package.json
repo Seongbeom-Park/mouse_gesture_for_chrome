@@ -1,6 +1,6 @@
 {
   "name": "mouse_gesture_for_chrome",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "[한국어 페이지](README.md)",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
