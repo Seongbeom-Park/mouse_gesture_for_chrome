@@ -20,17 +20,35 @@ const reset = (initX, initY) => {
     prev_token = undefined;
 }
 
-const disableContextMenu = (event) => {
+const disablePointerEvents = () => {
+    prev_pointer_events = document.body.style.pointerEvents;
+    document.body.style.pointerEvents = 'none';
+}
+
+const enablePointerEvents = () => {
+    document.body.style.pointerEvents = prev_pointer_events;
+}
+
+const preventDefault = (event) => {
     event.preventDefault();
+}
+
+const disableContextMenu = () => {
+    document.addEventListener('contextmenu', preventDefault);
+    menu_enabled = false;
+}
+
+const enableContextMenu = () => {
+    document.removeEventListener('contextmenu', preventDefault);
+    menu_enabled = true;
 }
 
 const onMouseDown = (event) => {
     switch (event.button) {
         case 2: // mouse right button
             reset(event.pageX, event.pageY);
-            prev_pointer_events = document.body.style.pointerEvents;
-            document.body.style.pointerEvents = 'none';
-            document.removeEventListener('contextmenu', disableContextMenu);
+            disablePointerEvents();
+            enableContextMenu();
             document.addEventListener('mousemove', onMouseMove);
             break;
     }
@@ -45,10 +63,7 @@ const onMouseMove = (event) => {
     }
     move_event_count = 0;
 
-    if (menu_enabled) {
-        document.addEventListener('contextmenu', disableContextMenu);
-        menu_enabled = false;
-    }
+    if (menu_enabled) disableContextMenu();
 
     if (store.use_draw_line) createLine(prevX, prevY, event.pageX, event.pageY);
 
@@ -70,7 +85,7 @@ const onMouseUp = (event) => {
             if (store.use_action_preview) hideActionPreview();
             executeGesture(gesture);
             document.removeEventListener('mousemove', onMouseMove);
-            document.body.style.pointerEvents = prev_pointer_events;
+            enablePointerEvents();
             break;
     }
 }
@@ -113,11 +128,13 @@ const executeGesture = (gesture) => {
 const enableGesture = () => {
     document.addEventListener('mousedown', onMouseDown);
     document.addEventListener('mouseup', onMouseUp);
+    disableContextMenu();
 }
 
 const disableGesture = () => {
     document.removeEventListener('mousedown', onMouseDown);
     document.removeEventListener('mouseup', onMouseUp);
+    enableContextMenu();
 }
 
 enableGesture();
