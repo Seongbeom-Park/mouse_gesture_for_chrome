@@ -10,7 +10,7 @@ const scrollBottom = () => chrome.runtime.sendMessage({gesture: 'scrollBottom'})
 const pageDown = () => chrome.runtime.sendMessage({gesture: 'pageDown'});
 const pageUp = () => chrome.runtime.sendMessage({gesture: 'pageUp'});
 const restore = () => chrome.runtime.sendMessage({gesture: 'restore'});
-const keydown = (details) => document.dispatchEvent(new KeyboardEvent('keydown', details));
+const keydown = (details) => chrome.runtime.sendMessage({gesture: 'keydown', details: details});
 const reload = () => chrome.runtime.sendMessage({gesture: 'reload'});
 const nothing = () => {};
 
@@ -29,6 +29,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                 break;
             case 'pageUp':
                 window.scrollBy({left: document.documentElement.scrollLeft, top: -window.innerHeight * store.scroll_factor, behavior: 'smooth'});
+                break;
+            case 'keydown':
+                document.dispatchEvent(new KeyboardEvent('keydown', request.details));
                 break;
             default:
                 result = `unknown action: ${request.action}`

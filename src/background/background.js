@@ -10,6 +10,7 @@ const scrollTop = () => getActiveTab().then((tab) => chrome.tabs.sendMessage(tab
 const scrollBottom = () => getActiveTab().then((tab) => chrome.tabs.sendMessage(tab.id, {action: 'scrollBottom'}, (response) => {}));
 const pageDown = () => getActiveTab().then((tab) => chrome.tabs.sendMessage(tab.id, {action: 'pageDown'}, (response) => {}));
 const pageUp = () => getActiveTab().then((tab) => chrome.tabs.sendMessage(tab.id, {action: 'pageUp'}, (response) => {}));
+const keydown = (details) => getActiveTab().then((tab) => chrome.tabs.sendMessage(tab.id, {action: 'keydown', details: details}, (response) => {}));
 
 chrome.runtime.onMessage.addListener(
     (request, sender, sendResponse) => {
@@ -38,6 +39,9 @@ chrome.runtime.onMessage.addListener(
                 break;
             case 'pageUp':
                 result_promise = pageUp();
+                break;
+            case 'keydown':
+                result_promise = keydown(request.details);
                 break;
             default:
                 console.error('unknown gesture:', request.gesture);
