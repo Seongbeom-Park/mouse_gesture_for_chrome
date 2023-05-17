@@ -6,6 +6,10 @@ const closeTab = () => getActiveTab().then((tab) => chrome.tabs.remove(tab.id));
 const goBack = () => getActiveTab().then((tab) => chrome.tabs.goBack(tab.id)).then(() => true).catch(() => false);
 const openOptions = () => chrome.runtime.openOptionsPage();
 const reload = () => chrome.tabs.reload().then(() => true).catch(() => false);
+const scrollTop = () => getActiveTab().then((tab) => chrome.tabs.sendMessage(tab.id, {action: 'scrollTop'}, (response) => {}));
+const scrollBottom = () => getActiveTab().then((tab) => chrome.tabs.sendMessage(tab.id, {action: 'scrollBottom'}, (response) => {}));
+const pageDown = () => getActiveTab().then((tab) => chrome.tabs.sendMessage(tab.id, {action: 'pageDown'}, (response) => {}));
+const pageUp = () => getActiveTab().then((tab) => chrome.tabs.sendMessage(tab.id, {action: 'pageUp'}, (response) => {}));
 
 chrome.runtime.onMessage.addListener(
     (request, sender, sendResponse) => {
@@ -23,8 +27,20 @@ chrome.runtime.onMessage.addListener(
             case 'reload':
                 result_promise = reload();
                 break;
+            case 'scrollTop':
+                result_promise = scrollTop();
+                break;
+            case 'scrollBottom':
+                result_promise = scrollBottom();
+                break;
+            case 'pageDown':
+                result_promise = pageDown();
+                break;
+            case 'pageUp':
+                result_promise = pageUp();
+                break;
             default:
-                console.error('unknown gesture');
+                console.error('unknown gesture:', request.gesture);
                 return false;
         }
         result_promise.then(sendResponse);
