@@ -29,8 +29,8 @@ class Popup extends LitElement {
         rule_dialog.onClose = () => window.close();
         rule_dialog.onOpenOptions = () => chrome.runtime.openOptionsPage();
 
-        const getActiveTab = () => chrome.tabs.query({active: true, lastFocusedWindow: true}).then(tabs => tabs[0]);
-        getActiveTab().then((tab) => {
+        const getCurrentTab = () => chrome.tabs.query({active: true, lastFocusedWindow: true}).then(tabs => tabs[0]);
+        getCurrentTab().then((tab) => {
             const url = new URL(tab.url)
             
             rule_dialog.default_values = {
