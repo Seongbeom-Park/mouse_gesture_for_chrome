@@ -6,6 +6,8 @@ const default_gestures = {
     'RD': {action: 'scrollBottom'},
     'RU': {action: 'scrollTop'},
     'U': {action: 'pageUp'},
+    'UL': {action: 'moveTabLeft'},
+    'UR': {action: 'moveTabRight'},
 };
 const default_domains = {
     '*': default_gestures,

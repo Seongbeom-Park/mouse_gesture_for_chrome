@@ -1,16 +1,20 @@
 import { default_options } from '@common/default_options';
 
-const getActiveTab = () => chrome.tabs.query({active: true, lastFocusedWindow: true}).then(tabs => tabs[0]);
+const getCurrentTab = () => chrome.tabs.query({active: true, lastFocusedWindow: true}).then(tabs => tabs[0]);
+const getCurrentWindowTabs = () => chrome.tabs.query({lastFocusedWindow: true});
 const restore = () => chrome.sessions.restore();
-const closeTab = () => getActiveTab().then((tab) => chrome.tabs.remove(tab.id));
-const goBack = () => getActiveTab().then((tab) => chrome.tabs.goBack(tab.id)).then(() => true).catch(() => false);
+const closeTab = () => getCurrentTab().then((tab) => chrome.tabs.remove(tab.id));
+const goBack = () => getCurrentTab().then((tab) => chrome.tabs.goBack(tab.id)).then(() => true).catch(() => false);
 const openOptions = () => chrome.runtime.openOptionsPage();
 const reload = () => chrome.tabs.reload().then(() => true).catch(() => false);
-const scrollTop = () => getActiveTab().then((tab) => chrome.tabs.sendMessage(tab.id, {action: 'scrollTop'}, (response) => {}));
-const scrollBottom = () => getActiveTab().then((tab) => chrome.tabs.sendMessage(tab.id, {action: 'scrollBottom'}, (response) => {}));
-const pageDown = () => getActiveTab().then((tab) => chrome.tabs.sendMessage(tab.id, {action: 'pageDown'}, (response) => {}));
-const pageUp = () => getActiveTab().then((tab) => chrome.tabs.sendMessage(tab.id, {action: 'pageUp'}, (response) => {}));
-const keydown = (details) => getActiveTab().then((tab) => chrome.tabs.sendMessage(tab.id, {action: 'keydown', details: details}, (response) => {}));
+const scrollTop = () => getCurrentTab().then((tab) => chrome.tabs.sendMessage(tab.id, {action: 'scrollTop'}, (response) => {}));
+const scrollBottom = () => getCurrentTab().then((tab) => chrome.tabs.sendMessage(tab.id, {action: 'scrollBottom'}, (response) => {}));
+const pageDown = () => getCurrentTab().then((tab) => chrome.tabs.sendMessage(tab.id, {action: 'pageDown'}, (response) => {}));
+const pageUp = () => getCurrentTab().then((tab) => chrome.tabs.sendMessage(tab.id, {action: 'pageUp'}, (response) => {}));
+const keydown = (details) => getCurrentTab().then((tab) => chrome.tabs.sendMessage(tab.id, {action: 'keydown', details: details}, (response) => {}));
+const moveTab = (index, wid) => getCurrentWindowTabs().then((tabs) => chrome.tabs.highlight({tabs: (tabs.length + index) % tabs.length, windowId: wid}));
+const moveTabRelative = (index) => getCurrentTab().then((tab) => moveTab(tab.index + index, tab.windowId));
+const moveTabAbsolute = (index) => getCurrentTab().then((tab) => moveTab(index, tab.windowId));
 
 chrome.runtime.onMessage.addListener(
     (request, sender, sendResponse) => {
@@ -42,6 +46,12 @@ chrome.runtime.onMessage.addListener(
                 break;
             case 'keydown':
                 result_promise = keydown(request.details);
+                break;
+            case 'moveTabRelative':
+                result_promise = moveTabRelative(request.details.index);
+                break;
+            case 'moveTabAbsolute':
+                result_promise = moveTabAbsolute(request.details.index);
                 break;
             default:
                 console.error('unknown gesture:', request.gesture);
