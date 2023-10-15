@@ -38,6 +38,10 @@ const word_map = {
     restore: '최근에 닫힌 탭 열기',
     keydown: '키보드 입력',
     reload: '새로고침',
+    moveTabLeft: '왼쪽 탭으로 이동',
+    moveTabRight: '오른쪽 탭으로 이동',
+    moveTabFirst: '가장 왼쪽 탭으로 이동',
+    moveTabLast: '가장 오른쪽 탭으로 이동',
     nothing: '아무 작업하지 않음',
 
     // rules

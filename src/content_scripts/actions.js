@@ -12,6 +12,12 @@ const pageUp = () => chrome.runtime.sendMessage({gesture: 'pageUp'});
 const restore = () => chrome.runtime.sendMessage({gesture: 'restore'});
 const keydown = (details) => chrome.runtime.sendMessage({gesture: 'keydown', details: details});
 const reload = () => chrome.runtime.sendMessage({gesture: 'reload'});
+const moveTabRelative = (details) => chrome.runtime.sendMessage({gesture: 'moveTabRelative', details: details});
+const moveTabLeft = () => moveTabRelative({index: -1});
+const moveTabRight = () => moveTabRelative({index: +1});
+const moveTabAbsolute = (details) => chrome.runtime.sendMessage({gesture: 'moveTabAbsolute', details: details});
+const moveTabFirst = () => moveTabAbsolute({index: 0});
+const moveTabLast = () => moveTabAbsolute({index: -1});
 const nothing = () => {};
 
 // receive a message from background service
@@ -55,6 +61,10 @@ export const action_map = {
     'restore': restore,
     'keydown': keydown,
     'reload': reload,
+    'moveTabLeft': moveTabLeft,
+    'moveTabRight': moveTabRight,
+    'moveTabFirst': moveTabFirst,
+    'moveTabLast': moveTabLast,
     'nothing': nothing,
 };
 
@@ -70,5 +80,9 @@ export const action_list = [
     'restore',
     'keydown',
     'reload',
+    'moveTabLeft',
+    'moveTabRight',
+    'moveTabFirst',
+    'moveTabLast',
     'nothing',
 ];

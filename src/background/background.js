@@ -11,6 +11,9 @@ const scrollBottom = () => getActiveTab().then((tab) => chrome.tabs.sendMessage(
 const pageDown = () => getActiveTab().then((tab) => chrome.tabs.sendMessage(tab.id, {action: 'pageDown'}, (response) => {}));
 const pageUp = () => getActiveTab().then((tab) => chrome.tabs.sendMessage(tab.id, {action: 'pageUp'}, (response) => {}));
 const keydown = (details) => getActiveTab().then((tab) => chrome.tabs.sendMessage(tab.id, {action: 'keydown', details: details}, (response) => {}));
+const moveTab = (index, wid) => chrome.tabs.query({lastFocusedWindow: true}).then(tabs => chrome.tabs.highlight({tabs: (tabs.length + index) % tabs.length, windowId: wid}));
+const moveTabRelative = (details) => getActiveTab().then((tab) => moveTab(tab.index + details.index, tab.windowId));
+const moveTabAbsolute = (details) => getActiveTab().then((tab) => moveTab(details.index, tab.windowId));
 
 chrome.runtime.onMessage.addListener(
     (request, sender, sendResponse) => {
@@ -42,6 +45,12 @@ chrome.runtime.onMessage.addListener(
                 break;
             case 'keydown':
                 result_promise = keydown(request.details);
+                break;
+            case 'moveTabRelative':
+                result_promise = moveTabRelative(request.details);
+                break;
+            case 'moveTabAbsolute':
+                result_promise = moveTabAbsolute(request.details);
                 break;
             default:
                 console.error('unknown gesture:', request.gesture);
