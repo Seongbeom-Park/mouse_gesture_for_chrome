@@ -18,6 +18,8 @@ const moveTabRight = () => moveTabRelative({index: +1});
 const moveTabAbsolute = (details) => chrome.runtime.sendMessage({gesture: 'moveTabAbsolute', details: details});
 const moveTabFirst = () => moveTabAbsolute({index: 0});
 const moveTabLast = () => moveTabAbsolute({index: -1});
+const openTab = (details) => chrome.runtime.sendMessage({gesture: 'openTab', details: details});
+const openWindow = (details) => chrome.runtime.sendMessage({gesture: 'openWindow', details: details});
 const nothing = () => {};
 
 // receive a message from background service
@@ -65,6 +67,8 @@ export const action_map = {
     'moveTabRight': moveTabRight,
     'moveTabFirst': moveTabFirst,
     'moveTabLast': moveTabLast,
+    'openTab': openTab,
+    'openWindow': openWindow,
     'nothing': nothing,
 };
 
@@ -84,5 +88,7 @@ export const action_list = [
     'moveTabRight',
     'moveTabFirst',
     'moveTabLast',
+    'openTab',
+    'openWindow',
     'nothing',
 ];

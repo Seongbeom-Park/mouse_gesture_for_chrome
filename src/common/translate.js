@@ -42,6 +42,8 @@ const word_map = {
     moveTabRight: '오른쪽 탭으로 이동',
     moveTabFirst: '가장 왼쪽 탭으로 이동',
     moveTabLast: '가장 오른쪽 탭으로 이동',
+    openTab: '새탭 열기',
+    openWindow: '새창 열기',
     nothing: '아무 작업하지 않음',
 
     // rules
