@@ -1,6 +1,7 @@
 import { default_options } from '@common/default_options';
 
 const getActiveTab = () => chrome.tabs.query({active: true, lastFocusedWindow: true}).then(tabs => tabs[0]);
+const getTabsWithActiveTab = () => chrome.tabs.query({lastFocusedWindow: true});
 const restore = () => chrome.sessions.restore();
 const closeTab = () => getActiveTab().then((tab) => chrome.tabs.remove(tab.id));
 const goBack = () => getActiveTab().then((tab) => chrome.tabs.goBack(tab.id)).then(() => true).catch(() => false);
@@ -11,9 +12,9 @@ const scrollBottom = () => getActiveTab().then((tab) => chrome.tabs.sendMessage(
 const pageDown = () => getActiveTab().then((tab) => chrome.tabs.sendMessage(tab.id, {action: 'pageDown'}, (response) => {}));
 const pageUp = () => getActiveTab().then((tab) => chrome.tabs.sendMessage(tab.id, {action: 'pageUp'}, (response) => {}));
 const keydown = (details) => getActiveTab().then((tab) => chrome.tabs.sendMessage(tab.id, {action: 'keydown', details: details}, (response) => {}));
-const moveTab = (index, wid) => chrome.tabs.query({lastFocusedWindow: true}).then(tabs => chrome.tabs.highlight({tabs: (tabs.length + index) % tabs.length, windowId: wid}));
-const moveTabRelative = (details) => getActiveTab().then((tab) => moveTab(tab.index + details.index, tab.windowId));
-const moveTabAbsolute = (details) => getActiveTab().then((tab) => moveTab(details.index, tab.windowId));
+const moveTab = (index, wid) => getTabsWithActiveTab().then((tabs) => chrome.tabs.highlight({tabs: (tabs.length + index) % tabs.length, windowId: wid}));
+const moveTabRelative = (index) => getActiveTab().then((tab) => moveTab(tab.index + index, tab.windowId));
+const moveTabAbsolute = (index) => getActiveTab().then((tab) => moveTab(index, tab.windowId));
 
 chrome.runtime.onMessage.addListener(
     (request, sender, sendResponse) => {
@@ -47,10 +48,10 @@ chrome.runtime.onMessage.addListener(
                 result_promise = keydown(request.details);
                 break;
             case 'moveTabRelative':
-                result_promise = moveTabRelative(request.details);
+                result_promise = moveTabRelative(request.details.index);
                 break;
             case 'moveTabAbsolute':
-                result_promise = moveTabAbsolute(request.details);
+                result_promise = moveTabAbsolute(request.details.index);
                 break;
             default:
                 console.error('unknown gesture:', request.gesture);
