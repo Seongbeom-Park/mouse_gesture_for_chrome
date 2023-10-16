@@ -22,8 +22,20 @@ export class MainContentRules extends LitElement {
         this.page = 'rules';
         this.columns = ['domain', 'gesture', 'action', 'action_details'];
     }
-    
+
     flatContents (contents) {
+        const parseDetails = (action, details) => {
+            switch (action) {
+                case 'keydown':
+                    return parseKeyboardEvent(details);
+                case 'openTab':
+                case 'openWindow':
+                    return parseUrl(details);
+                default:
+                    return '';
+            }
+        }
+
         const parseKeyboardEvent = (keyboard_event) => {
             if (!keyboard_event) return '';
 
@@ -38,13 +50,19 @@ export class MainContentRules extends LitElement {
             return value;
         }
 
+        const parseUrl = (url) => {
+            if (!url) return '';
+
+            return url.url;
+        }
+
         return Object.entries(contents).flatMap(([domain, gestures]) => {
             return Object.entries(gestures).map(([gesture, {action, action_details}]) => {
                 return [
                     domain,
                     gesture,
                     translate(action),
-                    parseKeyboardEvent(action_details),
+                    parseDetails(action, action_details),
                 ];
             })
         });
@@ -71,6 +89,7 @@ export class MainContentRules extends LitElement {
             gesture: '',
             action: '',
             keydown: '',
+            url: '',
         }
         this.rule_dialog.onaccept = ({domain, gesture, action, action_details}) => store.addRule(domain, gesture, action, action_details);
 

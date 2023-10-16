@@ -15,6 +15,8 @@ const keydown = (details) => getCurrentTab().then((tab) => chrome.tabs.sendMessa
 const moveTab = (index, wid) => getCurrentWindowTabs().then((tabs) => chrome.tabs.highlight({tabs: (tabs.length + index) % tabs.length, windowId: wid}));
 const moveTabRelative = (index) => getCurrentTab().then((tab) => moveTab(tab.index + index, tab.windowId));
 const moveTabAbsolute = (index) => getCurrentTab().then((tab) => moveTab(index, tab.windowId));
+const openTab = (details) => getCurrentTab().then((tab) => chrome.tabs.create({...details, index: tab.index + 1, openerTabId: tab.id}));
+const openWindow = (details) => chrome.windows.create({...details});
 
 chrome.runtime.onMessage.addListener(
     (request, sender, sendResponse) => {
@@ -52,6 +54,12 @@ chrome.runtime.onMessage.addListener(
                 break;
             case 'moveTabAbsolute':
                 result_promise = moveTabAbsolute(request.details.index);
+                break;
+            case 'openTab':
+                result_promise = openTab(request.details);
+                break;
+            case 'openWindow':
+                result_promise = openWindow(request.details);
                 break;
             default:
                 console.error('unknown gesture:', request.gesture);

@@ -27,6 +27,7 @@ export class RuleDialog extends LitElement {
         if (!this.gesture_input.value.valid) return false;
         if (!this.action_input.value.valid) return false;
         if (this.action_input.value.value === 'keydown' && this.keydown_input.value.value === '') return false;
+        if (!this.link_input.value.valid) return false;
         return true;
     }
     open () {
@@ -34,6 +35,7 @@ export class RuleDialog extends LitElement {
         this.gesture_input.value.valid = getValidity(this.gesture_input.value.valid, this.gesture_input.value.value, this.default_values.gesture);
         this.action_input.value.select.valid = getValidity(this.action_input.value.select.valid, this.action_input.value.value, this.default_values.action);
         this.keydown_input.value.valid = getValidity(this.keydown_input.value.valid, this.keydown_input.value.value, this.default_values.action_details);
+        this.link_input.value.valid = true;
         this.dialog.open();
     }
     render () {
@@ -41,6 +43,7 @@ export class RuleDialog extends LitElement {
         this.gesture_input = createRef();
         this.action_input = createRef();
         this.keydown_input = createRef();
+        this.link_input = createRef();
         
         const onKeydownEvent = (keyboard_event) => {
             const parseKeyboardEvent = ({ctrlKey, altKey, shiftKey, key, code}) => {
@@ -60,15 +63,21 @@ export class RuleDialog extends LitElement {
             this.keydown_input.value.action_details = {ctrlKey, altKey, shiftKey, key, code, keyCode};
         }
 
+        const onUrl = (onchange_event) => {
+            this.link_input.value.action_details = {url: onchange_event.target.value}
+        }
+
         const init_values = () => {
             this.domain_input.value.value = this.default_values.domain;
             this.gesture_input.value.value = this.default_values.gesture;
             this.action_input.value.value = this.default_values.action;
             this.keydown_input.value.value = this.default_values.keydown;
+            this.link_input.value.value = this.default_values.url;
             this.domain_input.value.valid = true;
             this.gesture_input.value.valid = true;
             this.action_input.value.select.valid = true;
             this.keydown_input.value.valid = true;
+            this.link_input.value.valid = true;
         }
 
         // regex references
@@ -118,7 +127,8 @@ export class RuleDialog extends LitElement {
                                         label="액션"
                                         data="${JSON.stringify(this.actions.map((a) => {return {value: a, label: translate(a)}}))}"
                                         required
-                                        .onchange="${() => { this.keydown_input.value.hidden = this.action_input.value.value !== 'keydown'; }}"
+                                        .onchange="${() => { this.keydown_input.value.hidden = this.action_input.value.value !== 'keydown';
+                                                             this.link_input.value.hidden = (this.action_input.value.value !== 'openTab' && this.action_input.value.value !== 'openWindow'); }}"
                                         ></lm-select>
                                 </div>
                                 <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12">
@@ -131,6 +141,14 @@ export class RuleDialog extends LitElement {
                                         required
                                         hidden
                                         ></lm-text-field>
+                                    <lm-text-field ${ref(this.link_input)}
+                                        class="dialog_input"
+                                        label="링크 주소"
+                                        placeholder="예시) https://www.google.com"
+                                        .onchange="${(e) => onUrl(e)}"
+                                        hidden
+                                        >
+                                        </lm-text-field>
                                 </div>
                             </div>
                         </div>
@@ -150,14 +168,14 @@ export class RuleDialog extends LitElement {
                                         domain: this.domain_input.value.value,
                                         gesture: this.gesture_input.value.value,
                                         action: this.action_input.value.value,
-                                        action_details: this.keydown_input.value.action_details,
+                                        action_details: {...this.keydown_input.value.action_details, ...this.link_input.value.action_details},
                                     });
                                     this.dialog.close('accept');
                                     init_values();
                                 } else {
                                     this.domain_input.value.value = this.domain_input.value.value;
                                     this.gesture_input.value.value = this.gesture_input.value.value;
-                                    this.action_input.value.valid = this.action_input.value.value;
+                                    this.action_input.value.value = this.action_input.value.value;
                                     this.keydown_input.value.value = this.keydown_input.value.value;
                                 }
                             }}">
