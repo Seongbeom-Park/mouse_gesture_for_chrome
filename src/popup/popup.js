@@ -18,6 +18,7 @@ class Popup extends LitElement {
             gesture: '',
             action: '',
             keydown: '',
+            url: '',
         }
         rule_dialog.disable_domain = true;
         rule_dialog.onaccept = ({domain, gesture, action, action_details}) => {
@@ -38,6 +39,7 @@ class Popup extends LitElement {
                 gesture: '',
                 action: '',
                 keydown: '',
+                url: '',
             }
         });
 
