@@ -108,7 +108,7 @@ export class RuleDialog extends LitElement {
                                         label="도메인"
                                         default_value="${this.default_values.domain}"
                                         required
-                                        pattern="((?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9])|[*]"
+                                        pattern=".+|\\*"
                                         disabled=${ifDefined(this.disable_domain)}
                                         ></lm-text-field>
                                 </div>
