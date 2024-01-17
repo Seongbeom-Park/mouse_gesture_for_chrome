@@ -53,6 +53,7 @@ export class RuleDialog extends LitElement {
                 if (altKey) value += 'Alt + ';
                 if (/^[a-zA-Z]$/.test(key)) value += `'${key.toUpperCase()}'`;
                 if (/^Digit[0-9]$/.test(code)) value += `'${code.slice(-1)}'`;
+                if (/^F1?[0-9]$/.test(code)) value += `'${code}'`;
 
                 return value;
             }
@@ -137,7 +138,7 @@ export class RuleDialog extends LitElement {
                                         label="키 입력"
                                         placeholder="키 조합을 누르세요"
                                         .onkeydown="${(e) => onKeydownEvent(e)}"
-                                        pattern="(Ctrl \\+ )?(Shift \\+ )?(Alt \\+ )?'[A-Z]'"
+                                        pattern="(Ctrl \\+ )?(Shift \\+ )?(Alt \\+ )?'([0-9A-Z]|F1?[0-9])'"
                                         required
                                         hidden
                                         ></lm-text-field>

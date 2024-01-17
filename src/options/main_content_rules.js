@@ -46,6 +46,7 @@ export class MainContentRules extends LitElement {
             if (altKey) value += 'Alt + ';
             if (/^[a-zA-Z]$/.test(key)) value += `'${key.toUpperCase()}'`;
             if (/^Digit[0-9]$/.test(code)) value += `'${code.slice(-1)}'`;
+            if (/^F1?[0-9]$/.test(code)) value += `'${code}'`;
 
             return value;
         }
