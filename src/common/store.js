@@ -77,6 +77,7 @@ class Store extends EventTarget {
             threshold_angle: this.threshold_angle,
             sampling_period: this.sampling_period,
             scroll_factor: this.scroll_factor,
+            scroll_smooth: this.scroll_smooth,
             use_draw_line: this.use_draw_line,
             use_action_preview: this.use_action_preview,
             action_preview_x_offset: this.action_preview_x_offset,
