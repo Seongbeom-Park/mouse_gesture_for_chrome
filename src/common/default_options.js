@@ -18,6 +18,7 @@ const default_domains = {
 const default_sampling_period = 5;
 const default_threshold_angle = 45;
 const default_scroll_factor = 0.9;
+const default_scroll_smooth = true;
 
 const default_use_draw_line = true;
 const default_use_action_preview = true;
@@ -29,6 +30,7 @@ export const default_options = {
     'threshold_angle': default_threshold_angle,
     'sampling_period': default_sampling_period,
     'scroll_factor': default_scroll_factor,
+    'scroll_smooth': default_scroll_smooth,
     'use_draw_line': default_use_draw_line,
     'use_action_preview': default_use_action_preview,
     'action_preview_x_offset': default_action_preview_x_offset,
@@ -73,7 +75,11 @@ export const option_categories = [
                         option: 'scroll_factor',
                         type: 'number',
                         spec: { min: 0, max: 5, step: 0.1, unit: 'page' }
-                    }
+                    },
+                    {
+                        option: 'scroll_smooth',
+                        type: 'boolean',
+                    },
                 ]
             },
             {

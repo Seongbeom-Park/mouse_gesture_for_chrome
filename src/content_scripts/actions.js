@@ -27,16 +27,28 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (!sender.tab) { // from background service
         switch(request.action) {
             case 'scrollTop':
-                window.scrollTo({left: document.documentElement.scrollLeft, top: 0, behavior: 'smooth'});
+                window.scrollTo({
+                    left: document.documentElement.scrollLeft,
+                    top: 0,
+                    behavior: store.scroll_smooth ? 'smooth' : 'instant'});
                 break;
             case 'scrollBottom':
-                window.scrollTo({left: document.documentElement.scrollLeft, top: document.documentElement.scrollHeight, behavior: 'smooth'});
+                window.scrollTo({
+                    left: document.documentElement.scrollLeft,
+                    top: document.documentElement.scrollHeight,
+                    behavior: store.scroll_smooth ? 'smooth' : 'instant'});
                 break;
             case 'pageDown':
-                window.scrollBy({left: document.documentElement.scrollLeft, top: window.innerHeight * store.scroll_factor, behavior: 'smooth'});
+                window.scrollBy({
+                    left: document.documentElement.scrollLeft,
+                    top: window.innerHeight * store.scroll_factor,
+                    behavior: store.scroll_smooth ? 'smooth' : 'instant'});
                 break;
             case 'pageUp':
-                window.scrollBy({left: document.documentElement.scrollLeft, top: -window.innerHeight * store.scroll_factor, behavior: 'smooth'});
+                window.scrollBy({
+                    left: document.documentElement.scrollLeft,
+                    top: -window.innerHeight * store.scroll_factor,
+                    behavior: store.scroll_smooth ? 'smooth' : 'instant'});
                 break;
             case 'keydown':
                 document.dispatchEvent(new KeyboardEvent('keydown', request.details));
