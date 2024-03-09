@@ -45,10 +45,10 @@ const word_map = {
     moveTabLast: '가장 오른쪽 탭으로 이동',
     openTab: '새탭 열기',
     openWindow: '새창 열기',
-    normalizeWindow: '이전 크기로',
+    normalizeWindow: '창 보통크기',
     minimizeWindow: '창 최소화',
     maximizeWindow: '창 최대화',
-    fullscreenWindow: '전체화면',
+    fullscreenWindow: '창 전체화면',
     nothing: '아무 작업하지 않음',
 
     // rules
