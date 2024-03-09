@@ -6,11 +6,7 @@ const sendMessage = (tabId, message) => chrome.tabs.sendMessage(tabId, message);
 const moveTab = (index, wid) => getCurrentWindowTabs().then((tabs) => chrome.tabs.highlight({tabs: (tabs.length + index) % tabs.length, windowId: wid}));
 const getWindow = (wid) => chrome.windows.get(wid);
 const updateWindow = (wid, updateInfo) => chrome.windows.update(wid, updateInfo);
-const updateWindowSize = (wid, next_state) => getWindow(wid)
-            .then(({state}) => {
-                if (state === next_state) updateWindow(wid, {state: 'normal'});
-                else updateWindow(wid, {state: next_state});
-            })
+const updateWindowSize = (wid, next_state) => getWindow(wid).then(({state}) => updateWindow(wid, {state: (state === next_state) ? 'normal' : next_state}));
 
 chrome.runtime.onMessage.addListener(
     (request, sender, sendResponse) => {
