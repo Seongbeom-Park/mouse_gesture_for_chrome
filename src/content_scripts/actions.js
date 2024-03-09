@@ -1,25 +1,30 @@
 import { store } from '@common/store';
 
 // send a message from frame to background service
-const closeTab = () => chrome.runtime.sendMessage({gesture: 'closeTab'});
-const goBack = () => chrome.runtime.sendMessage({gesture: 'goBack'});
+const sendMessage = (message) => chrome.runtime.sendMessage(message);
+const closeTab = () => sendMessage({gesture: 'closeTab'});
+const goBack = () => sendMessage({gesture: 'goBack'});
 const goBackOrCloseTab = () => goBack().then((moved) => moved || closeTab());
 const goForward = () => history.forward();
-const scrollTop = () => chrome.runtime.sendMessage({gesture: 'scrollTop'});
-const scrollBottom = () => chrome.runtime.sendMessage({gesture: 'scrollBottom'});
-const pageDown = () => chrome.runtime.sendMessage({gesture: 'pageDown'});
-const pageUp = () => chrome.runtime.sendMessage({gesture: 'pageUp'});
-const restore = () => chrome.runtime.sendMessage({gesture: 'restore'});
-const keydown = (details) => chrome.runtime.sendMessage({gesture: 'keydown', details: details});
-const reload = () => chrome.runtime.sendMessage({gesture: 'reload'});
-const moveTabRelative = (details) => chrome.runtime.sendMessage({gesture: 'moveTabRelative', details: details});
+const scrollTop = () => sendMessage({gesture: 'scrollTop'});
+const scrollBottom = () => sendMessage({gesture: 'scrollBottom'});
+const pageDown = () => sendMessage({gesture: 'pageDown'});
+const pageUp = () => sendMessage({gesture: 'pageUp'});
+const restore = () => sendMessage({gesture: 'restore'});
+const keydown = (details) => sendMessage({gesture: 'keydown', details: details});
+const reload = () => sendMessage({gesture: 'reload'});
+const moveTabRelative = (details) => sendMessage({gesture: 'moveTabRelative', details: details});
 const moveTabLeft = () => moveTabRelative({index: -1});
 const moveTabRight = () => moveTabRelative({index: +1});
-const moveTabAbsolute = (details) => chrome.runtime.sendMessage({gesture: 'moveTabAbsolute', details: details});
+const moveTabAbsolute = (details) => sendMessage({gesture: 'moveTabAbsolute', details: details});
 const moveTabFirst = () => moveTabAbsolute({index: 0});
 const moveTabLast = () => moveTabAbsolute({index: -1});
-const openTab = (details) => chrome.runtime.sendMessage({gesture: 'openTab', details: details});
-const openWindow = (details) => chrome.runtime.sendMessage({gesture: 'openWindow', details: details});
+const openTab = (details) => sendMessage({gesture: 'openTab', details: details});
+const openWindow = (details) => sendMessage({gesture: 'openWindow', details: details});
+const normalizeWindow = () => sendMessage({gesture: 'normalizeWindow'});
+const minimizeWindow = () => sendMessage({gesture: 'minimizeWindow'});
+const maximizeWindow = () => sendMessage({gesture: 'maximizeWindow'});
+const fullscreenWindow = () => sendMessage({gesture: 'fullscreenWindow'});
 const nothing = () => {};
 
 // receive a message from background service
@@ -81,6 +86,10 @@ export const action_map = {
     'moveTabLast': moveTabLast,
     'openTab': openTab,
     'openWindow': openWindow,
+    'normalizeWindow': normalizeWindow,
+    'minimizeWindow': minimizeWindow,
+    'maximizeWindow': maximizeWindow,
+    'fullscreenWindow': fullscreenWindow,
     'nothing': nothing,
 };
 
@@ -102,5 +111,9 @@ export const action_list = [
     'moveTabLast',
     'openTab',
     'openWindow',
+    'normalizeWindow',
+    'minimizeWindow',
+    'maximizeWindow',
+    'fullscreenWindow',
     'nothing',
 ];
