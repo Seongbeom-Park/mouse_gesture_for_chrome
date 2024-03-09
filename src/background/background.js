@@ -1,68 +1,75 @@
 import { default_options } from '@common/default_options';
 
-const getCurrentTab = () => chrome.tabs.query({active: true, lastFocusedWindow: true}).then(tabs => tabs[0]);
 const getCurrentWindowTabs = () => chrome.tabs.query({lastFocusedWindow: true});
-const restore = () => chrome.sessions.restore();
-const closeTab = () => getCurrentTab().then((tab) => chrome.tabs.remove(tab.id));
-const goBack = () => getCurrentTab().then((tab) => chrome.tabs.goBack(tab.id)).then(() => true).catch(() => false);
 const openOptions = () => chrome.runtime.openOptionsPage();
-const reload = () => chrome.tabs.reload().then(() => true).catch(() => false);
-const scrollTop = () => getCurrentTab().then((tab) => chrome.tabs.sendMessage(tab.id, {action: 'scrollTop'}, (response) => {}));
-const scrollBottom = () => getCurrentTab().then((tab) => chrome.tabs.sendMessage(tab.id, {action: 'scrollBottom'}, (response) => {}));
-const pageDown = () => getCurrentTab().then((tab) => chrome.tabs.sendMessage(tab.id, {action: 'pageDown'}, (response) => {}));
-const pageUp = () => getCurrentTab().then((tab) => chrome.tabs.sendMessage(tab.id, {action: 'pageUp'}, (response) => {}));
-const keydown = (details) => getCurrentTab().then((tab) => chrome.tabs.sendMessage(tab.id, {action: 'keydown', details: details}, (response) => {}));
+const sendMessage = (tabId, message) => chrome.tabs.sendMessage(tabId, message);
 const moveTab = (index, wid) => getCurrentWindowTabs().then((tabs) => chrome.tabs.highlight({tabs: (tabs.length + index) % tabs.length, windowId: wid}));
-const moveTabRelative = (index) => getCurrentTab().then((tab) => moveTab(tab.index + index, tab.windowId));
-const moveTabAbsolute = (index) => getCurrentTab().then((tab) => moveTab(index, tab.windowId));
-const openTab = (details) => getCurrentTab().then((tab) => chrome.tabs.create({...details, index: tab.index + 1, openerTabId: tab.id}));
-const openWindow = (details) => chrome.windows.create({...details});
+const updateWindow = (wid, updateInfo) => chrome.windows.update(wid, updateInfo);
 
 chrome.runtime.onMessage.addListener(
     (request, sender, sendResponse) => {
+        const gesture = request.gesture;
+        const details = request.details;
+
+        const tabId = sender.tab.id;
+        const tabIndex = sender.tab.index;
+        const windowId = sender.tab.windowId;
+
         var result_promise;
-        switch(request.gesture) {
+        switch(gesture) {
             case 'restore':
-                result_promise = restore();
+                result_promise = chrome.sessions.restore();
                 break;
             case 'closeTab':
-                result_promise = closeTab();
+                result_promise =  chrome.tabs.remove(tabId);
                 break;
             case 'goBack':
-                result_promise = goBack();
+                result_promise = chrome.tabs.goBack(tabId).then(() => true).catch(() => false);
                 break;
             case 'reload':
-                result_promise = reload();
+                result_promise = chrome.tabs.reload().then(() => true).catch(() => false);
                 break;
             case 'scrollTop':
-                result_promise = scrollTop();
+                result_promise = sendMessage(tabId, {action: 'scrollTop'});
                 break;
             case 'scrollBottom':
-                result_promise = scrollBottom();
+                result_promise = sendMessage(tabId, {action: 'scrollBottom'});
                 break;
             case 'pageDown':
-                result_promise = pageDown();
+                result_promise = sendMessage(tabId, {action: 'pageDown'});
                 break;
             case 'pageUp':
-                result_promise = pageUp();
+                result_promise = sendMessage(tabId, {action: 'pageUp'});
                 break;
             case 'keydown':
-                result_promise = keydown(request.details);
+                result_promise = sendMessage(tabId, {action: 'keydown', details: details});
                 break;
             case 'moveTabRelative':
-                result_promise = moveTabRelative(request.details.index);
+                result_promise = moveTab(tabIndex + details.index, windowId);
                 break;
             case 'moveTabAbsolute':
-                result_promise = moveTabAbsolute(request.details.index);
+                result_promise = moveTab(details.index, windowId);
                 break;
             case 'openTab':
-                result_promise = openTab(request.details);
+                result_promise = chrome.tabs.create({...details, index: tabIndex + 1, openerTabId: tabId});
                 break;
             case 'openWindow':
-                result_promise = openWindow(request.details);
+                result_promise = chrome.windows.create({...details});
+                break;
+            case 'normalizeWindow':
+                result_promise = updateWindow(windowId, {'state': 'normal'});
+                break;
+            case 'minimizeWindow':
+                result_promise = updateWindow(windowId, {'state': 'minimized'});
+                break;
+            case 'maximizeWindow':
+                result_promise = updateWindow(windowId, {'state': 'maximized'});
+                break;
+            case 'fullscreenWindow':
+                result_promise = updateWindow(windowId, {'state': 'fullscreen'});
                 break;
             default:
-                console.error('unknown gesture:', request.gesture);
+                console.error('unknown gesture:', gesture);
                 return false;
         }
         result_promise.then(sendResponse);
