@@ -4,7 +4,7 @@ const getCurrentWindowTabs = () => chrome.tabs.query({lastFocusedWindow: true});
 const openOptions = () => chrome.runtime.openOptionsPage();
 const sendMessage = (tabId, message) => chrome.tabs.sendMessage(tabId, message);
 const moveTab = (index, wid) => getCurrentWindowTabs().then((tabs) => chrome.tabs.highlight({tabs: (tabs.length + index) % tabs.length, windowId: wid}));
-const updateWindow = (windowId, updateInfo) => chrome.windows.update(windowId, updateInfo);
+const updateWindow = (wid, updateInfo) => chrome.windows.update(wid, updateInfo);
 
 chrome.runtime.onMessage.addListener(
     (request, sender, sendResponse) => {
