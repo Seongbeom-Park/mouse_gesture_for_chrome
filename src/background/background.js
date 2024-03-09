@@ -4,7 +4,9 @@ const getCurrentWindowTabs = () => chrome.tabs.query({lastFocusedWindow: true});
 const openOptions = () => chrome.runtime.openOptionsPage();
 const sendMessage = (tabId, message) => chrome.tabs.sendMessage(tabId, message);
 const moveTab = (index, wid) => getCurrentWindowTabs().then((tabs) => chrome.tabs.highlight({tabs: (tabs.length + index) % tabs.length, windowId: wid}));
+const getWindow = (wid) => chrome.windows.get(wid);
 const updateWindow = (wid, updateInfo) => chrome.windows.update(wid, updateInfo);
+const updateWindowSize = (wid, next_state) => getWindow(wid).then(({state}) => updateWindow(wid, {state: (state === next_state) ? 'normal' : next_state}));
 
 chrome.runtime.onMessage.addListener(
     (request, sender, sendResponse) => {
@@ -57,16 +59,16 @@ chrome.runtime.onMessage.addListener(
                 result_promise = chrome.windows.create({...details});
                 break;
             case 'normalizeWindow':
-                result_promise = updateWindow(windowId, {'state': 'normal'});
+                result_promise = updateWindowSize(windowId, 'normal');
                 break;
             case 'minimizeWindow':
-                result_promise = updateWindow(windowId, {'state': 'minimized'});
+                result_promise = updateWindowSize(windowId, 'minimized');
                 break;
             case 'maximizeWindow':
-                result_promise = updateWindow(windowId, {'state': 'maximized'});
+                result_promise = updateWindowSize(windowId, 'maximized');
                 break;
             case 'fullscreenWindow':
-                result_promise = updateWindow(windowId, {'state': 'fullscreen'});
+                result_promise = updateWindowSize(windowId, 'fullscreen');
                 break;
             default:
                 console.error('unknown gesture:', gesture);
