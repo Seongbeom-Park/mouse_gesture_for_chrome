@@ -28,9 +28,9 @@ const word_map = {
     action_preview_y_offset: '액션 미리보기 세로 위치',
 
     // actions
-    closeTab: '창 닫기',
+    closeTab: '탭 닫기',
     goBack: '이전 페이지로',
-    goBackOrCloseTab: '이전 페이지로 가거나 창 닫기',
+    goBackOrCloseTab: '이전 페이지로 가거나 탭 닫기',
     goForward: '다음 페이지로',
     scrollTop: '맨 위로',
     scrollBottom: '맨 아래로',
@@ -45,6 +45,10 @@ const word_map = {
     moveTabLast: '가장 오른쪽 탭으로 이동',
     openTab: '새탭 열기',
     openWindow: '새창 열기',
+    normalizeWindow: '이전 크기로',
+    minimizeWindow: '창 최소화',
+    maximizeWindow: '창 최대화',
+    fullscreenWindow: '전체화면',
     nothing: '아무 작업하지 않음',
 
     // rules

@@ -14,6 +14,7 @@ chrome.runtime.onMessage.addListener(
         const tabId = sender.tab.id;
         const tabIndex = sender.tab.index;
         const windowId = sender.tab.windowId;
+
         var result_promise;
         switch(gesture) {
             case 'restore':
