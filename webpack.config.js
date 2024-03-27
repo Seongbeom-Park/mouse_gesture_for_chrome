@@ -22,6 +22,7 @@ module.exports = {
   },
   resolve: {
     alias: {
+        "@background": path.resolve(__dirname, 'src/background'),
         "@common": path.resolve(__dirname, 'src/common'),
         "@content_scripts": path.resolve(__dirname, 'src/content_scripts'),
         "@options": path.resolve(__dirname, 'src/options'),
