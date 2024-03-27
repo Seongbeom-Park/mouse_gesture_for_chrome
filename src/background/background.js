@@ -1,4 +1,4 @@
-import '@background/install';
+import { openOptions } from '@background/install';
 import { updateWindowSize, WindowState } from '@background/update_window';
 
 const getCurrentWindowTabs = () => chrome.tabs.query({lastFocusedWindow: true});
@@ -66,6 +66,9 @@ chrome.runtime.onMessage.addListener(
                 break;
             case 'fullscreenWindow':
                 result_promise = updateWindowSize(window_id, WindowState.FULLSCREEN);
+                break;
+            case 'openOptions':
+                result_promise = openOptions();
                 break;
             default:
                 console.error('unknown gesture:', gesture);

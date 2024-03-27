@@ -1,6 +1,6 @@
 import { default_options } from '@common/default_options';
 
-const openOptions = () => chrome.runtime.openOptionsPage();
+export const openOptions = () => chrome.runtime.openOptionsPage();
 
 chrome.runtime.onInstalled.addListener((details) => {
     switch (details.reason) {

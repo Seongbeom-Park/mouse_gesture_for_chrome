@@ -49,6 +49,7 @@ const word_map = {
     minimizeWindow: '창 최소화',
     maximizeWindow: '창 최대화',
     fullscreenWindow: '창 전체화면',
+    openOptions: '옵션 열기',
     nothing: '아무 작업하지 않음',
 
     // rules
