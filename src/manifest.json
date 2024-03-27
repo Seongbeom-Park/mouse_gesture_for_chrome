@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "마우스 제스처 크롬 확장 프로그램",
-    "version": "0.0.14",
+    "version": "0.0.15",
 
     "description": "크롬 브라우저 용 마우스 제스처 확장 프로그램",
 

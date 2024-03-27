@@ -21,6 +21,7 @@ const moveTabFirst = () => moveTabAbsolute({index: 0});
 const moveTabLast = () => moveTabAbsolute({index: -1});
 const openTab = (details) => sendMessage({gesture: 'openTab', details: details});
 const openWindow = (details) => sendMessage({gesture: 'openWindow', details: details});
+const openOptions = () => sendMessage({gesture: 'openOptions'});
 const normalizeWindow = () => sendMessage({gesture: 'normalizeWindow'});
 const minimizeWindow = () => sendMessage({gesture: 'minimizeWindow'});
 const maximizeWindow = () => sendMessage({gesture: 'maximizeWindow'});
@@ -90,6 +91,7 @@ export const action_map = {
     'minimizeWindow': minimizeWindow,
     'maximizeWindow': maximizeWindow,
     'fullscreenWindow': fullscreenWindow,
+    'openOptions': openOptions,
     'nothing': nothing,
 };
 
@@ -115,5 +117,6 @@ export const action_list = [
     'minimizeWindow',
     'maximizeWindow',
     'fullscreenWindow',
+    'openOptions',
     'nothing',
 ];
