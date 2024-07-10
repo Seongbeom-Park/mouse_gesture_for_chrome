@@ -5,16 +5,25 @@ const line_class_name = 'mouse_gesture_for_chrome_line';
 
 const createLineElement = (x, y, length, angle) => {
     var line = document.createElement("div");
-    var styles = 'border: 1px solid black; '
-               + 'width: ' + length + 'px; '
-               + 'height: 0px; '
+    var styles = 'width: ' + length + 'px; '
+               + 'height: 4px; '
                + '-moz-transform: rotate(' + angle + 'rad); '
                + '-webkit-transform: rotate(' + angle + 'rad); '
                + '-o-transform: rotate(' + angle + 'rad); '
                + '-ms-transform: rotate(' + angle + 'rad); '
                + 'position: absolute; '
                + 'top: ' + y + 'px; '
-               + 'left: ' + x + 'px; ';
+               + 'left: ' + x + 'px; '
+               + 'border-top-width: 1px; '
+               + 'border-right-width: 0px; '
+               + 'border-bottom-width: 1px; '
+               + 'border-left-width: 0px; '
+               + 'border-style: solid; '
+               + 'border-top-color: white; '
+               + 'border-right-color: black; '
+               + 'border-bottom-color: white; '
+               + 'border-left-color: black; '
+               + 'background: black; ';
     line.setAttribute('style', styles);
     line.classList.add(line_class_name);
     return line;
