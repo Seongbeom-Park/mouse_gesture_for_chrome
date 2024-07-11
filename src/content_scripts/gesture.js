@@ -137,10 +137,6 @@ const disableGesture = () => {
     enableContextMenu();
 }
 
-switch(navigator.userAgentData.platform) {
-    case 'Windows':
-        enableGesture();
-        break;
-    default:
-        break;
+if (navigator.platform === 'Win32' || navigator.userAgentData.platform === 'Windows') {
+    enableGesture();
 }

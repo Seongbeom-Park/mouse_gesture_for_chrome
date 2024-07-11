@@ -28,6 +28,7 @@ const createLineElement = (x, y, length, angle) => {
                + 'position: absolute; '
                + 'top: ' + y + 'px; '
                + 'left: ' + x + 'px; '
+               + 'z-index: 2147483647; '
                + 'background: ' + line_main_color + '; '
                + 'width: ' + length + 'px; '
                + 'border-style: solid; '
