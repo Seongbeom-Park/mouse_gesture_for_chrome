@@ -2,11 +2,20 @@ import { store } from '@common/store';
 import { translate } from '@common/translate';
 
 const line_class_name = 'mouse_gesture_for_chrome_line';
+const line_main_color = '#000000';
+const line_width = 2;
+const line_top_color = '#FFFFFF';
+const line_right_color = '#FFFFFF';
+const line_bottom_color = '#FFFFFF';
+const line_left_color = '#FFFFFF';
+const line_top_border_width = 1;
+const line_right_border_width = 0;
+const line_bottom_border_width = 0;
+const line_left_border_width = 0;
 
 const createLineElement = (x, y, length, angle) => {
     var line = document.createElement("div");
-    var styles = 'width: ' + length + 'px; '
-               + 'height: 4px; '
+    var styles = 'height: ' + line_width + 'px; '
                + '-moz-transform: rotate(' + angle + 'rad); '
                + '-webkit-transform: rotate(' + angle + 'rad); '
                + '-o-transform: rotate(' + angle + 'rad); '
@@ -14,16 +23,18 @@ const createLineElement = (x, y, length, angle) => {
                + 'position: absolute; '
                + 'top: ' + y + 'px; '
                + 'left: ' + x + 'px; '
-               + 'border-top-width: 1px; '
-               + 'border-right-width: 0px; '
-               + 'border-bottom-width: 1px; '
-               + 'border-left-width: 0px; '
+               + 'background: ' + line_main_color + '; '
+               + 'width: ' + length + 'px; '
                + 'border-style: solid; '
-               + 'border-top-color: white; '
-               + 'border-right-color: black; '
-               + 'border-bottom-color: white; '
-               + 'border-left-color: black; '
-               + 'background: black; ';
+               + 'border-top-color: ' + line_top_color + '; '
+               + 'border-right-color: ' + line_right_color + '; '
+               + 'border-bottom-color: ' + line_bottom_color + '; '
+               + 'border-left-color: ' + line_left_color + '; '
+               + 'border-top-width: ' + line_top_border_width + 'px; '
+               + 'border-right-width: ' + line_right_border_width +  'px; '
+               + 'border-bottom-width: ' + line_bottom_border_width + 'px; '
+               + 'border-left-width: ' + line_left_border_width + 'px; '
+               ;
     line.setAttribute('style', styles);
     line.classList.add(line_class_name);
     return line;
