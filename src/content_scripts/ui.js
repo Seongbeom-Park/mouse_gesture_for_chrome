@@ -2,19 +2,44 @@ import { store } from '@common/store';
 import { translate } from '@common/translate';
 
 const line_class_name = 'mouse_gesture_for_chrome_line';
+var line_main_color = '#FFFFFF';
+var line_width = store['line_width_1'];
+var line_top_color = '#000000';
+var line_right_color = '#000000';
+var line_bottom_color = '#000000';
+var line_left_color = '#000000';
+var line_top_border_width = store['line_width_2'];
+var line_right_border_width = 0;
+var line_bottom_border_width = 0;
+var line_left_border_width = 0;
+
+store.addEventListener('Store:changed', () => {
+    line_width = store['line_width_1'];
+    line_top_border_width = store['line_width_2'];
+});
 
 const createLineElement = (x, y, length, angle) => {
     var line = document.createElement("div");
-    var styles = 'border: 1px solid black; '
-               + 'width: ' + length + 'px; '
-               + 'height: 0px; '
+    var styles = 'height: ' + line_width + 'px; '
                + '-moz-transform: rotate(' + angle + 'rad); '
                + '-webkit-transform: rotate(' + angle + 'rad); '
                + '-o-transform: rotate(' + angle + 'rad); '
                + '-ms-transform: rotate(' + angle + 'rad); '
                + 'position: absolute; '
                + 'top: ' + y + 'px; '
-               + 'left: ' + x + 'px; ';
+               + 'left: ' + x + 'px; '
+               + 'background: ' + line_main_color + '; '
+               + 'width: ' + length + 'px; '
+               + 'border-style: solid; '
+               + 'border-top-color: ' + line_top_color + '; '
+               + 'border-right-color: ' + line_right_color + '; '
+               + 'border-bottom-color: ' + line_bottom_color + '; '
+               + 'border-left-color: ' + line_left_color + '; '
+               + 'border-top-width: ' + line_top_border_width + 'px; '
+               + 'border-right-width: ' + line_right_border_width +  'px; '
+               + 'border-bottom-width: ' + line_bottom_border_width + 'px; '
+               + 'border-left-width: ' + line_left_border_width + 'px; '
+               ;
     line.setAttribute('style', styles);
     line.classList.add(line_class_name);
     return line;

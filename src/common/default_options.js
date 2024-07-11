@@ -25,6 +25,12 @@ const default_use_action_preview = true;
 const default_action_preview_x_offset = 20;
 const default_action_preview_y_offset = 0;
 
+const default_line_width_1 = 4;
+const default_line_width_2 = 2;
+const default_line_width_3 = 0;
+const default_line_width_4 = 0;
+const default_line_width_5 = 0;
+
 export const default_options = {
     'domains': default_domains,
     'threshold_angle': default_threshold_angle,
@@ -35,6 +41,11 @@ export const default_options = {
     'use_action_preview': default_use_action_preview,
     'action_preview_x_offset': default_action_preview_x_offset,
     'action_preview_y_offset': default_action_preview_y_offset,
+    'line_width_1': default_line_width_1,
+    'line_width_2': default_line_width_2,
+    'line_width_3': default_line_width_3,
+    'line_width_4': default_line_width_4,
+    'line_width_5': default_line_width_5,
     'version': chrome.runtime.getManifest().version,
 };
 
@@ -87,8 +98,19 @@ export const option_categories = [
                 options: [
                     {
                         option: 'use_draw_line',
-                        type: 'boolean'
-                    }
+                        type: 'boolean',
+                        spec: { children: ['line_width_1', 'line_width_2'] }
+                    },
+                    {
+                        option: 'line_width_1',
+                        type: 'number',
+                        spec: { min: 0, max: 10, step: 0.1, unit: 'px', dependency: 'use_draw_line' }
+                    },
+                    {
+                        option: 'line_width_2',
+                        type: 'number',
+                        spec: { min: 0, max: 10, step: 0.1, unit: 'px', dependency: 'use_draw_line' }
+                    },
                 ]
             },
             {

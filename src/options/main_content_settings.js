@@ -27,8 +27,8 @@ export class MainContentSettings extends LitElement {
                     </div>
                 </div>
                 ${map(options, ({ option, type, spec }) => html`
-                    <label class="number mdc-layout-grid__inner">
-                        <div class="mdc-layout-grid__cell">
+                    <label class="number mdc-layout-grid__inner mdc-layout-grid--align-middle">
+                        <div class="mdc-layout-grid__cell mdc-layout-grid__cell--align-middle">
                             <span>${translate(option)}</span>
                             ${when(spec?.unit, () => html`<span class="mdc-typography mdc-typography--body2">(단위: ${spec.unit})</span>`)}
                         </div>
