@@ -21,6 +21,7 @@ store.addEventListener('Store:changed', () => {
 const createLineElement = (x, y, length, angle) => {
     var line = document.createElement("div");
     const total_width = line_width + line_top_border_width + line_bottom_border_width;
+    const total_length = length + line_right_border_width + line_left_border_width;
     var styles = 'height: ' + total_width + 'px; '
                + '-moz-transform: rotate(' + angle + 'rad); '
                + '-webkit-transform: rotate(' + angle + 'rad); '
@@ -31,7 +32,7 @@ const createLineElement = (x, y, length, angle) => {
                + 'left: ' + x + 'px; '
                + 'z-index: 2147483647; '
                + 'background: ' + line_main_color + '; '
-               + 'width: ' + length + 'px; '
+               + 'width: ' + total_length + 'px; '
                + 'border-style: solid; '
                + 'border-top-color: ' + line_top_color + '; '
                + 'border-right-color: ' + line_right_color + '; '
