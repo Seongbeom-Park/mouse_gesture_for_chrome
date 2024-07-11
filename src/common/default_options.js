@@ -25,7 +25,7 @@ const default_use_action_preview = true;
 const default_action_preview_x_offset = 20;
 const default_action_preview_y_offset = 0;
 
-const default_line_width_1 = 4;
+const default_line_width_1 = 2;
 const default_line_width_2 = 2;
 const default_line_width_3 = 0;
 const default_line_width_4 = 0;

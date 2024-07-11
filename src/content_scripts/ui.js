@@ -20,7 +20,8 @@ store.addEventListener('Store:changed', () => {
 
 const createLineElement = (x, y, length, angle) => {
     var line = document.createElement("div");
-    var styles = 'height: ' + line_width + 'px; '
+    const total_width = line_width + line_top_border_width + line_bottom_border_width;
+    var styles = 'height: ' + total_width + 'px; '
                + '-moz-transform: rotate(' + angle + 'rad); '
                + '-webkit-transform: rotate(' + angle + 'rad); '
                + '-o-transform: rotate(' + angle + 'rad); '
