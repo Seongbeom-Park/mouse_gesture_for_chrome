@@ -26,6 +26,8 @@ const word_map = {
     use_action_preview: '액션 미리보기 표시 여부',
     action_preview_x_offset: '액션 미리보기 가로 위치',
     action_preview_y_offset: '액션 미리보기 세로 위치',
+    line_width_1: '검은색 두께',
+    line_width_2: '흰색 두께',
 
     // actions
     closeTab: '탭 닫기',

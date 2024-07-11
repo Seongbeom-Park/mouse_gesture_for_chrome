@@ -2,16 +2,21 @@ import { store } from '@common/store';
 import { translate } from '@common/translate';
 
 const line_class_name = 'mouse_gesture_for_chrome_line';
-const line_main_color = '#000000';
-const line_width = 2;
-const line_top_color = '#FFFFFF';
-const line_right_color = '#FFFFFF';
-const line_bottom_color = '#FFFFFF';
-const line_left_color = '#FFFFFF';
-const line_top_border_width = 1;
-const line_right_border_width = 0;
-const line_bottom_border_width = 0;
-const line_left_border_width = 0;
+var line_main_color = '#000000';
+var line_width = store['line_width_1'];
+var line_top_color = '#FFFFFF';
+var line_right_color = '#FFFFFF';
+var line_bottom_color = '#FFFFFF';
+var line_left_color = '#FFFFFF';
+var line_top_border_width = store['line_width_2'];
+var line_right_border_width = 0;
+var line_bottom_border_width = 0;
+var line_left_border_width = 0;
+
+store.addEventListener('Store:changed', () => {
+    line_width = store['line_width_1'];
+    line_top_border_width = store['line_width_2'];
+});
 
 const createLineElement = (x, y, length, angle) => {
     var line = document.createElement("div");
