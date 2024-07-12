@@ -52,6 +52,9 @@ chrome.runtime.onMessage.addListener(
             case 'openTab':
                 result_promise = chrome.tabs.create({...details, index: tab_index + 1, openerTabId: tab_id});
                 break;
+            case 'copyTab':
+                result_promise = chrome.tabs.duplicate(tab_id);
+                break;
             case 'openWindow':
                 result_promise = chrome.windows.create({...details});
                 break;

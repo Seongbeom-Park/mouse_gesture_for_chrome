@@ -20,6 +20,7 @@ const moveTabAbsolute = (details) => sendMessage({gesture: 'moveTabAbsolute', de
 const moveTabFirst = () => moveTabAbsolute({index: 0});
 const moveTabLast = () => moveTabAbsolute({index: -1});
 const openTab = (details) => sendMessage({gesture: 'openTab', details: details});
+const copyTab = () => sendMessage({gesture: 'copyTab'});
 const openWindow = (details) => sendMessage({gesture: 'openWindow', details: details});
 const openOptions = () => sendMessage({gesture: 'openOptions'});
 const normalizeWindow = () => sendMessage({gesture: 'normalizeWindow'});
@@ -86,6 +87,7 @@ export const action_map = {
     'moveTabFirst': moveTabFirst,
     'moveTabLast': moveTabLast,
     'openTab': openTab,
+    'copyTab': copyTab,
     'openWindow': openWindow,
     'normalizeWindow': normalizeWindow,
     'minimizeWindow': minimizeWindow,
@@ -112,6 +114,7 @@ export const action_list = [
     'moveTabFirst',
     'moveTabLast',
     'openTab',
+    'copyTab',
     'openWindow',
     'normalizeWindow',
     'minimizeWindow',
