@@ -79,8 +79,10 @@ export class MainContentSettings extends LitElement {
                                 text_field.pattern = '#([0-9A-Fa-f]{6})|#([0-9A-Fa-f]{8})';
                                 text_field.default_value = store[option];
                                 text_field.onchange = (e) => {
-                                    store.set({[option]: e.target.value});
-                                    color_box.container_color = e.target.value;
+                                    if (e.target.validity.valid) {
+                                        store.set({[option]: e.target.value});
+                                        color_box.container_color = e.target.value;
+                                    }
                                 }
                                 store.addEventListener('Store:set', ({target}) => {
                                     text_field.value = target[option];

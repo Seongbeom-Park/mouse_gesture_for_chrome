@@ -26,7 +26,7 @@ class Button extends LitElement {
         }
     }
     render () {
-        if (this.icon)  this.classList.add('mdc-button--icon-leading');
+        if (this.icon) this.classList.add('mdc-button--icon-leading');
 
         return html`
             <span class="mdc-button__ripple"></span>
