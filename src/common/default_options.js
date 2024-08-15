@@ -31,6 +31,12 @@ const default_line_width_3 = 0;
 const default_line_width_4 = 0;
 const default_line_width_5 = 0;
 
+const default_line_color_1 = '#FFFFFFFF';
+const default_line_color_2 = '#000000FF';
+const default_line_color_3 = '#000000FF';
+const default_line_color_4 = '#000000FF';
+const default_line_color_5 = '#000000FF';
+
 export const default_options = {
     'domains': default_domains,
     'threshold_angle': default_threshold_angle,
@@ -46,6 +52,11 @@ export const default_options = {
     'line_width_3': default_line_width_3,
     'line_width_4': default_line_width_4,
     'line_width_5': default_line_width_5,
+    'line_color_1': default_line_color_1,
+    'line_color_2': default_line_color_2,
+    'line_color_3': default_line_color_3,
+    'line_color_4': default_line_color_4,
+    'line_color_5': default_line_color_5,
     'version': chrome.runtime.getManifest().version,
 };
 
@@ -102,9 +113,19 @@ export const option_categories = [
                         spec: { children: ['line_width_1', 'line_width_2'] }
                     },
                     {
+                        option: 'line_color_1',
+                        type: 'color',
+                        spec: {dependency: 'use_draw_line'}
+                    },
+                    {
                         option: 'line_width_1',
                         type: 'number',
                         spec: { min: 0, max: 10, step: 0.1, unit: 'px', dependency: 'use_draw_line' }
+                    },
+                    {
+                        option: 'line_color_2',
+                        type: 'color',
+                        spec: {dependency: 'use_draw_line'}
                     },
                     {
                         option: 'line_width_2',

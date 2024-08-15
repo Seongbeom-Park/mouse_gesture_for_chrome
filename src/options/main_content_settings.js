@@ -9,6 +9,8 @@ import { option_categories } from '@common/default_options';
 import '@options/main_content_footer';
 import { Slider } from '@component/slider';
 import { Switch } from '@component/switch';
+import { TextField } from '@component/text_field';
+import { ColorBox } from '@component/color_box';
 
 export class MainContentSettings extends LitElement {
     constructor () {
@@ -64,6 +66,35 @@ export class MainContentSettings extends LitElement {
                                 this.options.push(toggle);
                                 this.options_map[option] = toggle;
                                 return html`${toggle}`;
+                            }],
+                            ['color', () => { // text + color box
+                                const text_field = new TextField();
+                                const color_box = new ColorBox();
+
+                                text_field.classList.add('mdc-layout-grid__cell');
+                                text_field.id = option;
+                                text_field.label = translate('color_code');
+                                text_field.placeholder = '#RRGGBB or #RRGGBBAA'
+                                text_field.required = true;
+                                text_field.pattern = '#([0-9A-Fa-f]{6})|#([0-9A-Fa-f]{8})';
+                                text_field.default_value = store[option];
+                                text_field.onchange = (e) => {
+                                    if (e.target.validity.valid) {
+                                        store.set({[option]: e.target.value});
+                                        color_box.container_color = e.target.value;
+                                    }
+                                }
+                                store.addEventListener('Store:set', ({target}) => {
+                                    text_field.value = target[option];
+                                    color_box.container_color = target[option];
+                                });
+                                this.options.push(text_field);
+                                this.options_map[option] = text_field;
+
+                                color_box.classList.add('mdc-layout-grid__cell');
+                                color_box.id = 'color_box-' + option;
+                                color_box.container_color = store[option];
+                                return html`${text_field}${color_box}`;
                             }],
                         ])}
                     </label>

@@ -2,27 +2,28 @@ import { store } from '@common/store';
 import { translate } from '@common/translate';
 
 const line_class_name = 'mouse_gesture_for_chrome_line';
-var line_main_color = '#FFFFFF';
-var line_width = store['line_width_1'];
-var line_top_color = '#000000';
-var line_right_color = '#000000';
-var line_bottom_color = '#000000';
-var line_left_color = '#000000';
+var line_main_color = store['line_color_1'];
+var line_main_width = store['line_width_1'];
+var line_top_border_color = store['line_color_2'];
 var line_top_border_width = store['line_width_2'];
+var line_right_border_color = '#000000';
 var line_right_border_width = 0;
+var line_bottom_border_color = '#000000';
 var line_bottom_border_width = 0;
+var line_left_border_color = '#000000';
 var line_left_border_width = 0;
 
 store.addEventListener('Store:changed', () => {
-    line_width = store['line_width_1'];
+    line_main_color = store['line_color_1'];
+    line_main_width = store['line_width_1'];
+    line_top_border_color = store['line_color_2'];
     line_top_border_width = store['line_width_2'];
 });
 
 const createLineElement = (x, y, length, angle) => {
     var line = document.createElement("div");
-    const total_width = line_width + line_top_border_width + line_bottom_border_width;
     const total_length = length + line_right_border_width + line_left_border_width;
-    var styles = 'height: ' + total_width + 'px; '
+    var styles = 'height: ' + line_main_width + 'px; '
                + '-moz-transform: rotate(' + angle + 'rad); '
                + '-webkit-transform: rotate(' + angle + 'rad); '
                + '-o-transform: rotate(' + angle + 'rad); '
@@ -34,13 +35,13 @@ const createLineElement = (x, y, length, angle) => {
                + 'background: ' + line_main_color + '; '
                + 'width: ' + total_length + 'px; '
                + 'border-style: solid; '
-               + 'border-top-color: ' + line_top_color + '; '
-               + 'border-right-color: ' + line_right_color + '; '
-               + 'border-bottom-color: ' + line_bottom_color + '; '
-               + 'border-left-color: ' + line_left_color + '; '
+               + 'border-top-color: ' + line_top_border_color + '; '
                + 'border-top-width: ' + line_top_border_width + 'px; '
+               + 'border-right-color: ' + line_right_border_color + '; '
                + 'border-right-width: ' + line_right_border_width +  'px; '
+               + 'border-bottom-color: ' + line_bottom_border_color + '; '
                + 'border-bottom-width: ' + line_bottom_border_width + 'px; '
+               + 'border-left-color: ' + line_left_border_color + '; '
                + 'border-left-width: ' + line_left_border_width + 'px; '
                ;
     line.setAttribute('style', styles);
