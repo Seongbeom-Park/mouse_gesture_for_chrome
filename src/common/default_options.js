@@ -113,9 +113,19 @@ export const option_categories = [
                         spec: { children: ['line_width_1', 'line_width_2'] }
                     },
                     {
+                        option: 'line_color_1',
+                        type: 'color',
+                        spec: {dependency: 'use_draw_line'}
+                    },
+                    {
                         option: 'line_width_1',
                         type: 'number',
                         spec: { min: 0, max: 10, step: 0.1, unit: 'px', dependency: 'use_draw_line' }
+                    },
+                    {
+                        option: 'line_color_2',
+                        type: 'color',
+                        spec: {dependency: 'use_draw_line'}
                     },
                     {
                         option: 'line_width_2',
