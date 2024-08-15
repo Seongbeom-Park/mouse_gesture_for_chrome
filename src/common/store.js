@@ -84,6 +84,8 @@ class Store extends EventTarget {
             action_preview_y_offset: this.action_preview_y_offset,
             line_width_1: this.line_width_1,
             line_width_2: this.line_width_2,
+            line_color_1: this.line_color_1,
+            line_color_2: this.line_color_2,
         });
         this.changed = false;
         this.dispatchEvent(new Event('Store:changed'));
