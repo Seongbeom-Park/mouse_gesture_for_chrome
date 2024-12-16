@@ -22,6 +22,9 @@ const default_scroll_smooth = true;
 
 const default_use_draw_line = true;
 const default_use_action_preview = true;
+const default_action_preview_font_size = 20;
+const default_action_preview_font_color = '#000000FF';
+const default_action_preview_background_color = '#FFFFFFFF';
 const default_action_preview_x_offset = 20;
 const default_action_preview_y_offset = 0;
 
@@ -45,6 +48,9 @@ export const default_options = {
     'scroll_smooth': default_scroll_smooth,
     'use_draw_line': default_use_draw_line,
     'use_action_preview': default_use_action_preview,
+    'action_preview_font_size': default_action_preview_font_size,
+    'action_preview_font_color': default_action_preview_font_color,
+    'action_preview_background_color': default_action_preview_background_color,
     'action_preview_x_offset': default_action_preview_x_offset,
     'action_preview_y_offset': default_action_preview_y_offset,
     'line_width_1': default_line_width_1,
@@ -115,7 +121,7 @@ export const option_categories = [
                     {
                         option: 'line_color_1',
                         type: 'color',
-                        spec: {dependency: 'use_draw_line'}
+                        spec: { dependency: 'use_draw_line' }
                     },
                     {
                         option: 'line_width_1',
@@ -125,7 +131,7 @@ export const option_categories = [
                     {
                         option: 'line_color_2',
                         type: 'color',
-                        spec: {dependency: 'use_draw_line'}
+                        spec: { dependency: 'use_draw_line' }
                     },
                     {
                         option: 'line_width_2',
@@ -140,7 +146,28 @@ export const option_categories = [
                     {
                         option: 'use_action_preview',
                         type: 'boolean',
-                        spec: { children: ['action_preview_x_offset', 'action_preview_y_offset'] }
+                        spec: { children: [
+                            'action_preview_font_size',
+                            'action_preview_font_color',
+                            'action_preview_background_color',
+                            'action_preview_x_offset',
+                            'action_preview_y_offset'
+                        ] }
+                    },
+                    {
+                        option: 'action_preview_font_size',
+                        type: 'number',
+                        spec: { min: 1, max: 100, step: 1, unit: 'px', dependency: 'use_action_preview' }
+                    },
+                    {
+                        option: 'action_preview_font_color',
+                        type: 'color',
+                        spec: { dependency: 'use_action_preview' }
+                    },
+                    {
+                        option: 'action_preview_background_color',
+                        type: 'color',
+                        spec: { dependency: 'use_action_preview' }
                     },
                     {
                         option: 'action_preview_x_offset',

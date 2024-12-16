@@ -1,6 +1,6 @@
 import { store } from '@common/store';
 import { action_map } from '@content_scripts/actions';
-import { createLine, removeLines, setTextActionPreview, setPositionActionPreview, hideActionPreview } from '@content_scripts/ui';
+import { createLine, removeLines, setActionPreviewText, setActionPreviewPosition, hideActionPreview } from '@content_scripts/ui';
 
 var prevX, prevY;
 var menu_enabled = true;
@@ -55,7 +55,7 @@ const onMouseDown = (event) => {
 }
 
 const onMouseMove = (event) => {
-    if (store.use_action_preview) setPositionActionPreview(event.pageX, event.pageY);
+    if (store.use_action_preview) setActionPreviewPosition(event.pageX, event.pageY);
 
     move_event_count += 1;
     if (move_event_count < store.sampling_period) {
@@ -70,7 +70,7 @@ const onMouseMove = (event) => {
     const token = createToken(event.pageX, event.pageY);
     if (token !== prev_token) {
         gesture += token;
-        if (store.use_action_preview) setTextActionPreview(store.gestures[gesture]?.action, event.pageX, event.pageY);
+        if (store.use_action_preview) setActionPreviewText(store.gestures[gesture]?.action, event.pageX, event.pageY);
     }
 
     prevX = event.pageX;
