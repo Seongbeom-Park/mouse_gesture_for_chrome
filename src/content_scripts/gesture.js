@@ -7,9 +7,6 @@ var menu_enabled = true;
 var move_event_count = 0;
 var gesture = '';
 var prev_token;
-var prev_pointer_events;
-
-var action_element = document.createElement('div');
 
 const reset = (initX, initY) => {
     prevX = initX;
@@ -18,15 +15,6 @@ const reset = (initX, initY) => {
     move_event_count = 0;
     gesture = '';
     prev_token = undefined;
-}
-
-const disablePointerEvents = () => {
-    prev_pointer_events = document.body.style.pointerEvents;
-    document.body.style.pointerEvents = 'none';
-}
-
-const enablePointerEvents = () => {
-    document.body.style.pointerEvents = prev_pointer_events;
 }
 
 const preventDefault = (event) => {
@@ -47,7 +35,6 @@ const onMouseDown = (event) => {
     switch (event.button) {
         case 2: // mouse right button
             reset(event.pageX, event.pageY);
-            disablePointerEvents();
             enableContextMenu();
             document.addEventListener('mousemove', onMouseMove);
             break;
@@ -85,7 +72,6 @@ const onMouseUp = (event) => {
             if (store.use_action_preview) hideActionPreview();
             executeGesture(gesture);
             document.removeEventListener('mousemove', onMouseMove);
-            enablePointerEvents();
             break;
     }
 }
