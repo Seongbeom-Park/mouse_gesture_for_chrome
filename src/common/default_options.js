@@ -146,13 +146,15 @@ export const option_categories = [
                     {
                         option: 'use_action_preview',
                         type: 'boolean',
-                        spec: { children: [
-                            'action_preview_font_size',
-                            'action_preview_font_color',
-                            'action_preview_background_color',
-                            'action_preview_x_offset',
-                            'action_preview_y_offset'
-                        ] }
+                        spec: {
+                            children: [
+                                'action_preview_font_size',
+                                'action_preview_font_color',
+                                'action_preview_background_color',
+                                'action_preview_x_offset',
+                                'action_preview_y_offset'
+                            ]
+                        }
                     },
                     {
                         option: 'action_preview_font_size',
