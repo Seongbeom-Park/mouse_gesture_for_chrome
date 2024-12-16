@@ -31,7 +31,7 @@ const createLineElement = (x, y, length, angle) => {
                + 'position: absolute; '
                + 'top: ' + y + 'px; '
                + 'left: ' + x + 'px; '
-               + 'z-index: 2147483647; '
+               + 'z-index: 2147483646; '
                + 'background: ' + line_main_color + '; '
                + 'width: ' + total_length + 'px; '
                + 'border-style: solid; '
@@ -72,23 +72,24 @@ export const removeLines = () => {
 
 var action_preview;
 
-export const setTextActionPreview = (action_text, x, y) => {
+export const setActionPreviewText = (action_text, x, y) => {
     if (action_preview) {
         action_preview.innerHTML = translate(action_text) ?? "";
     } else {
-        action_preview = document.createElement('p');
+        action_preview = document.createElement('div');
         action_preview.innerHTML = translate(action_text) ?? "";
+        action_preview.style.fontSize = store.action_preview_font_size + 'px';
+        action_preview.style.color = store.action_preview_font_color;
+        action_preview.style.backgroundColor = store.action_preview_background_color;
         action_preview.style.position = 'absolute';
-        action_preview.style.zIndex = 1000;
-        action_preview.style.color = 'black';
-        action_preview.style.backgroundColor = 'white';
+        action_preview.style.zIndex = 2147483647;
         action_preview.style.left = x + store.action_preview_x_offset + 'px';
         action_preview.style.top = y + store.action_preview_y_offset + 'px';
         document.body.appendChild(action_preview);
     }
 }
 
-export const setPositionActionPreview = (x, y) => {
+export const setActionPreviewPosition = (x, y) => {
     if (action_preview) {
         action_preview.style.left = x + store.action_preview_x_offset + 'px';
         action_preview.style.top = y + store.action_preview_y_offset + 'px';
