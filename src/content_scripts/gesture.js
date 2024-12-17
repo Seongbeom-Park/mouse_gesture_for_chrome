@@ -4,6 +4,8 @@ import { createLine, removeLines, setActionPreviewText, setActionPreviewPosition
 
 var prevX, prevY;
 var menu_enabled = true;
+var pointer_events_enabled = true;
+var prev_pointer_events;
 var move_event_count = 0;
 var gesture = '';
 var prev_token;
@@ -31,11 +33,30 @@ const enableContextMenu = () => {
     menu_enabled = true;
 }
 
+const savePointerEvents = () => {
+    prev_pointer_events = document.body.style.pointerEvents;
+}
+
+const disablePointerEvents = () => {
+    if (pointer_events_enabled) {
+        pointer_events_enabled = false;
+        document.body.style.pointerEvents = 'none';
+    }
+}
+
+const enablePointerEvents = () => {
+    if (!pointer_events_enabled) {
+        document.body.style.pointerEvents = prev_pointer_events;
+        pointer_events_enabled = true;
+    }
+}
+
 const onMouseDown = (event) => {
     switch (event.button) {
         case 2: // mouse right button
             reset(event.pageX, event.pageY);
             enableContextMenu();
+            savePointerEvents();
             document.addEventListener('mousemove', onMouseMove);
             break;
     }
@@ -43,6 +64,8 @@ const onMouseDown = (event) => {
 
 const onMouseMove = (event) => {
     if (store.use_action_preview) setActionPreviewPosition(event.pageX, event.pageY);
+
+    disablePointerEvents();
 
     move_event_count += 1;
     if (move_event_count < store.sampling_period) {
@@ -72,6 +95,7 @@ const onMouseUp = (event) => {
             if (store.use_action_preview) hideActionPreview();
             executeGesture(gesture);
             document.removeEventListener('mousemove', onMouseMove);
+            enablePointerEvents();
             break;
     }
 }
