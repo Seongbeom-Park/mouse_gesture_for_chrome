@@ -36,7 +36,8 @@ const word_map = {
     color_code: '색상 코드',
 
     // actions
-    closeTab: '탭 닫기',
+    closeTab: '현재 탭 닫기',
+    closeWindow: '현재 창 닫기',
     goBack: '이전 페이지로',
     goBackOrCloseTab: '이전 페이지로 가거나 탭 닫기',
     goForward: '다음 페이지로',

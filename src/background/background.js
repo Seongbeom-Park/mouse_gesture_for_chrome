@@ -20,7 +20,10 @@ chrome.runtime.onMessage.addListener(
                 result_promise = chrome.sessions.restore();
                 break;
             case 'closeTab':
-                result_promise =  chrome.tabs.remove(tab_id);
+                result_promise = chrome.tabs.remove(tab_id);
+                break;
+            case 'closeWindow':
+                result_promise = chrome.windows.remove(window_id);
                 break;
             case 'goBack':
                 result_promise = chrome.tabs.goBack(tab_id).then(() => true).catch(() => false);

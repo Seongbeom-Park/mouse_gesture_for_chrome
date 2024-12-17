@@ -3,6 +3,7 @@ import { store } from '@common/store';
 // send a message from frame to background service
 const sendMessage = (message) => chrome.runtime.sendMessage(message);
 const closeTab = () => sendMessage({gesture: 'closeTab'});
+const closeWindow = () => sendMessage({gesture: 'closeWindow'});
 const goBack = () => sendMessage({gesture: 'goBack'});
 const goBackOrCloseTab = () => goBack().then((moved) => moved || closeTab());
 const goForward = () => history.forward();
@@ -72,6 +73,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
 export const action_map = {
     'closeTab': closeTab,
+    'closeWindow': closeWindow,
     'goBack': goBack,
     'goBackOrCloseTab': goBackOrCloseTab,
     'goForward': goForward,
@@ -99,6 +101,7 @@ export const action_map = {
 
 export const action_list = [
     'closeTab',
+    'closeWindow',
     'goBack',
     'goBackOrCloseTab',
     'goForward',
