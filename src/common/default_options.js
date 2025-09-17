@@ -185,4 +185,28 @@ export const option_categories = [
             },
         ]
     },
+    {
+        category: 'about',
+        groups: [
+            {
+                group: 'version',
+                type: 'version',
+            },
+            {
+                group: 'license',
+                type: 'link',
+                link: 'https://github.com/Seongbeom-Park/mouse_gesture_for_chrome/blob/main/MIT-LICENSE.txt',
+            },
+            {
+                group: 'privacy',
+                type: 'link',
+                link: 'https://github.com/Seongbeom-Park/mouse_gesture_for_chrome/blob/main/PRIVACY.txt',
+            },
+            {
+                group: 'permissions',
+                type: 'link',
+                link: 'https://github.com/Seongbeom-Park/mouse_gesture_for_chrome/blob/main/PERMISSIONS.txt',
+            },
+        ]
+    },
 ];
