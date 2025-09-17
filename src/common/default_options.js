@@ -200,12 +200,12 @@ export const option_categories = [
             {
                 group: 'privacy',
                 type: 'link',
-                link: 'https://github.com/Seongbeom-Park/mouse_gesture_for_chrome/blob/main/PRIVACY.txt',
+                link: 'https://github.com/Seongbeom-Park/mouse_gesture_for_chrome/blob/main/PRIVACY.md',
             },
             {
                 group: 'permissions',
                 type: 'link',
-                link: 'https://github.com/Seongbeom-Park/mouse_gesture_for_chrome/blob/main/PERMISSIONS.txt',
+                link: 'https://github.com/Seongbeom-Park/mouse_gesture_for_chrome/blob/main/PERMISSIONS.md',
             },
         ]
     },
