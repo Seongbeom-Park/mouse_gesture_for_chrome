@@ -14,7 +14,7 @@ export class MainContentAbout extends LitElement {
     }
     render () {
         const createVersion = (group) => html`<span>${translate(group)} ${this.version}</span>`;
-        const createLink = (group, link) => html`<a href=${link}>${translate(group)}</a>`;
+        const createLink = (group, link) => html`<a href='${link}' target='_blank'>${translate(group)}</a>`;
         return html`
             <div class="mdc-layout-grid">
                 <div class="mdc-layout-grid__inner">
