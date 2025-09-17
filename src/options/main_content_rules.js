@@ -18,7 +18,6 @@ export class MainContentRules extends LitElement {
     }
     constructor () {
         super();
-        this.id = 'main-content-rules';
         this.page = 'rules';
         this.columns = ['domain', 'gesture', 'action', 'action_details'];
     }

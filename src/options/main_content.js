@@ -3,6 +3,7 @@ import {choose} from 'lit/directives/choose.js';
 
 import '@options/main_content_rules';
 import '@options/main_content_settings';
+import '@options/main_content_about';
 
 class MainContentNotFound extends LitElement {
     render () {
@@ -25,6 +26,7 @@ class MainContentRouter extends LitElement {
                 ${choose(this.page, [
                     ['rules', () => html`<main-content-rules></main-content-rules>`],
                     ['settings', () => html`<main-content-settings></main-content-settings>`],
+                    ['about', () => html`<main-content-about></main-content-about>`],
                 ],
                 () => html`<main-content-not-found></main-content-not-found>`)}
             </main>

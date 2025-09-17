@@ -2,6 +2,7 @@ const word_map = {
     // category
     settings: '설정',
     rules: '규칙',
+    about: '정보',
 
     // options
     domain: '도메인',
@@ -63,7 +64,13 @@ const word_map = {
     nothing: '아무 작업하지 않음',
 
     // rules
-    open_options: '옵션 열기'
+    open_options: '옵션 열기',
+
+    // about
+    version: '버전',
+    license: '라이선스',
+    privacy: '개인정보처리방침',
+    permissions: '권한',
 }
 
 export const translate = (text) => {
